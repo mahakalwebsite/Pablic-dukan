@@ -2,98 +2,40 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>ShopOS — Apni Dukan, Apna System</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800;900&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#080810;
-  --card:#0f0f1c;
-  --card2:#14142a;
-  --border:#1f1f38;
-  --gold:#f0a500;
-  --gold2:#ffcc5c;
-  --amber:#e8630a;
-  --text:#ede8d8;
-  --muted:#7878a0;
-  --success:#22c55e;
-  --danger:#ef4444;
-  --info:#3b82f6;
-  --purple:#a855f7;
+  --bg:#080810;--card:#0f0f1c;--card2:#14142a;--border:#1f1f38;
+  --gold:#f0a500;--amber:#e8630a;--text:#ede8d8;--muted:#7878a0;
+  --success:#22c55e;--danger:#ef4444;--info:#3b82f6;--purple:#a855f7;
   --radius:14px;
 }
 html,body{width:100%;height:100%;overflow:hidden}
-body{
-  background:var(--bg);
-  color:var(--text);
-  font-family:'DM Sans',sans-serif;
-  font-size:14px;
-  display:flex;
-  flex-direction:column;
-}
-h1,h2,h3,.brand{font-family:'Syne',sans-serif}
-
-/* ── SCROLLBARS ── */
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;display:flex;flex-direction:column}
 ::-webkit-scrollbar{width:4px;height:4px}
-::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:99px}
-
-/* ── CANVAS BG ── */
-#bgCanvas{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.35}
-
-/* ── SCREEN WRAPPER ── */
+#bgCanvas{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.3}
 #app{position:relative;z-index:1;width:100vw;height:100vh;display:flex;flex-direction:column;overflow:hidden}
 
-/* ── AUTH SCREEN ── */
-#authScreen{
-  display:flex;align-items:center;justify-content:center;
-  width:100vw;height:100vh;
-  background:radial-gradient(ellipse 80% 60% at 50% 0%,#1a1230 0%,var(--bg) 70%);
-}
-.auth-box{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:20px;
-  padding:40px;
-  width:100%;max-width:480px;
-  box-shadow:0 0 80px #f0a50010,0 30px 60px #00000060;
-  animation:fadeUp .5s ease;
-}
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
-.auth-logo{text-align:center;margin-bottom:28px}
-.auth-logo .icon{font-size:56px;display:block;margin-bottom:8px}
-.brand-name{
-  font-family:'Syne',sans-serif;
-  font-size:34px;font-weight:900;
-  background:linear-gradient(135deg,var(--gold),var(--amber));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  letter-spacing:-1px;
-}
+/* AUTH */
+#authScreen{display:flex;align-items:center;justify-content:center;width:100vw;height:100vh}
+.auth-box{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:38px;width:100%;max-width:480px;box-shadow:0 0 80px #f0a50010,0 30px 60px #00000060;animation:fadeUp .45s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.auth-logo{text-align:center;margin-bottom:26px}
+.auth-logo .icon{font-size:52px;display:block;margin-bottom:6px}
+.brand-name{font-family:'Syne',sans-serif;font-size:32px;font-weight:900;background:linear-gradient(135deg,var(--gold),var(--amber));-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-1px}
 .brand-sub{color:var(--muted);font-size:13px;margin-top:4px}
-.tabs{display:flex;background:#0a0a16;border-radius:12px;padding:4px;margin-bottom:24px}
-.tab-btn{
-  flex:1;padding:10px;border-radius:9px;border:none;
-  cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600;font-size:13px;
-  transition:all .2s;background:transparent;color:var(--muted);
-}
-.tab-btn.active{
-  background:linear-gradient(135deg,var(--gold),var(--amber));
-  color:#000;
-}
+.tabs{display:flex;background:#0a0a16;border-radius:12px;padding:4px;margin-bottom:22px}
+.tab-btn{flex:1;padding:10px;border-radius:9px;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600;font-size:13px;transition:all .2s;background:transparent;color:var(--muted)}
+.tab-btn.active{background:linear-gradient(135deg,var(--gold),var(--amber));color:#000}
 
-/* ── FORM ELEMENTS ── */
-.field{margin-bottom:15px}
-.field label{
-  display:block;font-size:11px;color:var(--muted);
-  letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px;font-weight:600;
-}
-.field input,.field select,.field textarea{
-  width:100%;background:#080814;border:1px solid var(--border);
-  border-radius:10px;padding:11px 14px;color:var(--text);
-  font-family:'DM Sans',sans-serif;font-size:13px;outline:none;
-  transition:border-color .2s;
-}
+/* FIELDS */
+.field{margin-bottom:14px}
+.field label{display:block;font-size:11px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:5px;font-weight:600}
+.field input,.field select,.field textarea{width:100%;background:#080814;border:1px solid var(--border);border-radius:10px;padding:11px 14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;transition:border-color .2s}
 .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--gold)}
 .field select{appearance:none;cursor:pointer}
 .field textarea{resize:vertical;min-height:80px}
@@ -101,7 +43,318 @@ h1,h2,h3,.brand{font-family:'Syne',sans-serif}
 .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
 
-/* ── BUTTONS ── */
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 18px;border-radius:10px;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600;font-size:13px;transition:all .18s}
+.btn:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.btn:active{transform:translateY(0)}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--amber));color:#000}
+.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--text)}
+.btn-danger{background:var(--danger);color:#fff}
+.btn-success{background:var(--success);color:#fff}
+.btn-info{background:var(--info);color:#fff}
+.btn-purple{background:var(--purple);color:#fff}
+.btn-sm{padding:6px 12px;font-size:12px;border-radius:8px}
+.btn-xs{padding:4px 9px;font-size:11px;border-radius:7px}
+.btn-full{width:100%;padding:13px}
+.btn-icon{padding:8px 14px}
+
+/* BADGES */
+.badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600}
+.tag{padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600;display:inline-block}
+
+/* LAYOUT */
+#mainScreen{display:none;flex-direction:column;width:100vw;height:100vh;overflow:hidden}
+#mainScreen.show{display:flex}
+.app-header{background:linear-gradient(90deg,var(--card),#15152e);border-bottom:1px solid var(--border);padding:13px 20px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;z-index:50;box-shadow:0 2px 20px #00000040}
+.header-brand{display:flex;align-items:center;gap:12px}
+.shop-name{font-family:'Syne',sans-serif;font-weight:800;font-size:16px;color:var(--gold)}
+.shop-sub{font-size:11px;color:var(--muted)}
+.header-right{display:flex;align-items:center;gap:10px}
+.nav-tabs{display:flex;align-items:center;gap:6px;padding:10px 18px;border-bottom:1px solid var(--border);flex-shrink:0;background:var(--card);overflow-x:auto}
+.nav-tabs::-webkit-scrollbar{height:2px}
+.nav-tab{padding:7px 14px;border-radius:9px;border:1px solid transparent;cursor:pointer;font-weight:600;font-size:12px;color:var(--muted);background:transparent;font-family:'DM Sans',sans-serif;white-space:nowrap;transition:all .18s}
+.nav-tab:hover{color:var(--text);border-color:var(--border)}
+.nav-tab.active{background:linear-gradient(135deg,var(--gold),var(--amber));color:#000;border-color:transparent}
+.content{flex:1;overflow-y:auto;padding:20px}
+
+/* CARDS */
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;transition:border-color .2s}
+.card:hover{border-color:#2a2a4a}
+.card-title{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;margin-bottom:14px}
+.stat-card{border-radius:var(--radius);padding:18px;text-align:center}
+.stat-icon{font-size:24px;margin-bottom:5px}
+.stat-value{font-family:'Syne',sans-serif;font-size:28px;font-weight:900}
+.stat-label{font-size:11px;color:var(--muted);margin-top:3px}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:#000000bb;z-index:200;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.show{display:flex}
+.modal-box{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:24px;width:100%;max-width:540px;max-height:88vh;overflow-y:auto;animation:fadeUp .22s ease}
+.modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.modal-title{font-family:'Syne',sans-serif;font-size:17px;font-weight:800}
+.table-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);gap:10px}
+.table-row:last-child{border-bottom:none}
+.flex{display:flex;align-items:center;gap:10px}
+.flex-between{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.flex-wrap{flex-wrap:wrap}
+
+/* MESSAGES */
+.error-msg{color:var(--danger);font-size:13px;margin-bottom:10px;padding:8px 12px;background:#ef444415;border-radius:8px}
+.success-msg{color:var(--success);font-size:13px;margin-bottom:10px;padding:8px 12px;background:#22c55e15;border-radius:8px}
+
+/* CHAT */
+.chat-box{background:#0a0a16;border:1px solid var(--border);border-radius:14px;padding:16px;min-height:300px;max-height:380px;overflow-y:auto;display:flex;flex-direction:column;gap:12px;margin-bottom:12px}
+.chat-msg{display:flex}
+.chat-msg.user{justify-content:flex-end}
+.chat-bubble{max-width:78%;padding:11px 15px;border-radius:18px;line-height:1.55;font-size:13px;white-space:pre-wrap}
+.chat-msg.ai .chat-bubble{background:var(--card2);border:1px solid var(--border);border-radius:18px 18px 18px 4px}
+.chat-msg.user .chat-bubble{background:linear-gradient(135deg,var(--gold),var(--amber));color:#000;font-weight:500;border-radius:18px 18px 4px 18px}
+.chat-input-row{display:flex;gap:8px}
+.chat-input-row input{flex:1;background:#080814;border:1px solid var(--border);border-radius:10px;padding:11px 14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none}
+.chat-input-row input:focus{border-color:var(--gold)}
+.quick-btns{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+
+/* PRODUCT / STAFF CARDS */
+.product-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:15px;display:flex;flex-direction:column;gap:8px;transition:border-color .2s}
+.product-card:hover{border-color:#3a3a6a}
+.product-price{font-family:'Syne',sans-serif;font-size:22px;font-weight:900;color:var(--gold)}
+.staff-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;text-align:center}
+.order-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px}
+.role-card{background:#0a0a16;border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center}
+.search-bar{background:#0a0a16;border:1px solid var(--border);border-radius:10px;padding:9px 14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;width:240px}
+.search-bar:focus{border-color:var(--gold)}
+.empty-state{text-align:center;padding:50px 20px;color:var(--muted)}
+.empty-icon{font-size:48px;margin-bottom:10px;display:block}
+
+/* API KEY BOX */
+.api-key-box{background:#0a0a16;border:2px dashed var(--border);border-radius:14px;padding:24px;text-align:center;margin-bottom:16px}
+
+/* TOAST */
+#toast{position:fixed;bottom:22px;right:22px;z-index:999;background:var(--card);border:1px solid var(--border);padding:11px 18px;border-radius:12px;font-size:13px;font-weight:600;transform:translateY(100px);opacity:0;transition:all .3s;box-shadow:0 8px 30px #00000050}
+#toast.show{transform:none;opacity:1}
+
+/* SUSPENDED */
+.suspended-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:14px;text-align:center}
+
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.loading{animation:pulse 1s infinite}
+
+@media(max-width:680px){
+  .grid-4{grid-template-columns:1fr 1fr}
+  .grid-3{grid-template-columns:1fr 1fr}
+  .grid-2{grid-template-columns:1fr}
+  .auth-box{padding:22px}
+  .content{padding:14px}
+}
+</style>
+</head>
+<body>
+<canvas id="bgCanvas"></canvas>
+<div id="toast"></div>
+
+<!-- ═══ AUTH ═══ -->
+<div id="authScreen">
+  <div class="auth-box">
+    <div class="auth-logo">
+      <span class="icon">🏪</span>
+      <div class="brand-name">ShopOS</div>
+      <div class="brand-sub">Apni dukan, apna system — fully yours</div>
+    </div>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchAuthTab('login')">🔑 Login</button>
+      <button class="tab-btn" onclick="switchAuthTab('register')">🆕 Naya Register</button>
+    </div>
+    <div id="loginForm">
+      <div class="field"><label>Username</label><input type="text" id="loginUser" placeholder="username daalo" onkeydown="if(event.key==='Enter')doLogin()"/></div>
+      <div class="field"><label>Password</label><input type="password" id="loginPass" placeholder="••••••" onkeydown="if(event.key==='Enter')doLogin()"/></div>
+      <div id="loginErr"></div>
+      <button class="btn btn-gold btn-full" onclick="doLogin()">🚀 Login Karo</button>
+      <p style="text-align:center;margin-top:14px;color:var(--muted);font-size:12px">Super Admin: <b>superadmin</b> / <b>super@123</b></p>
+    </div>
+    <div id="registerForm" style="display:none">
+      <div class="grid-2">
+        <div class="field"><label>Dukan ka Naam *</label><input type="text" id="rShopName" placeholder="Sharma Store"/></div>
+        <div class="field"><label>Malik ka Naam *</label><input type="text" id="rOwner" placeholder="Ramesh Sharma"/></div>
+        <div class="field"><label>Username *</label><input type="text" id="rUser" placeholder="sharma123"/></div>
+        <div class="field"><label>Category</label>
+          <select id="rCategory">
+            <option>General Store</option><option>Grocery</option><option>Clothing</option>
+            <option>Electronics</option><option>Pharmacy</option><option>Restaurant</option>
+            <option>Hardware</option><option>Stationery</option><option>Jewellery</option><option>Other</option>
+          </select>
+        </div>
+        <div class="field"><label>Phone</label><input type="tel" id="rPhone" placeholder="9876543210"/></div>
+        <div class="field"><label>Email</label><input type="email" id="rEmail" placeholder="shop@gmail.com"/></div>
+        <div class="field"><label>Password *</label><input type="password" id="rPass" placeholder="••••••"/></div>
+        <div class="field"><label>Confirm Password *</label><input type="password" id="rPass2" placeholder="••••••"/></div>
+      </div>
+      <div class="field"><label>Address</label><input type="text" id="rAddress" placeholder="Gali No. 5, Bazar..."/></div>
+      <div id="regErr"></div>
+      <button class="btn btn-gold btn-full" onclick="doRegister()">🏪 Dukan Kholo!</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MAIN ═══ -->
+<div id="mainScreen">
+  <div class="app-header">
+    <div class="header-brand">
+      <span style="font-size:26px">🏪</span>
+      <div>
+        <div class="shop-name" id="headerShopName">ShopOS</div>
+        <div class="shop-sub" id="headerShopSub"></div>
+      </div>
+    </div>
+    <div class="header-right">
+      <span id="headerBadge" class="badge" style="background:#f0a50022;color:var(--gold);border:1px solid #f0a50044"></span>
+      <button class="btn btn-danger btn-sm" onclick="doLogout()">🚪 Logout</button>
+    </div>
+  </div>
+  <div class="nav-tabs" id="navTabs"></div>
+  <div class="content" id="mainContent"></div>
+</div>
+
+<!-- ═══ MODAL ═══ -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-header">
+      <div class="modal-title" id="modalTitle"></div>
+      <button class="btn btn-ghost btn-sm" onclick="closeModal()">✕</button>
+    </div>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+// ═══ CANVAS BG ═══
+(function(){
+  const c=document.getElementById('bgCanvas'),ctx=c.getContext('2d');
+  let W,H;
+  const ps=Array.from({length:50},()=>({x:Math.random()*2000,y:Math.random()*2000,r:Math.random()*1.4+.3,vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.25,a:Math.random()*Math.PI*2}));
+  function resize(){W=c.width=window.innerWidth;H=c.height=window.innerHeight}
+  resize();window.addEventListener('resize',resize);
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    ps.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;p.a+=.004;
+      if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(240,165,0,${.35+.25*Math.sin(p.a)})`;ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ═══ CONSTANTS ═══
+const SUPER={username:'superadmin',password:'super@123',role:'superadmin'};
+const DEF_ROLES=['Manager','Employee','Distributor','Agent','Worker','Accountant','Delivery Boy'];
+let CU=null,CS=null,activeTab='dashboard';
+
+// ═══ STORAGE (localStorage — no expiry) ═══
+const LS={
+  get(k){try{return JSON.parse(localStorage.getItem(k))}catch{return null}},
+  set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){console.error(e)}},
+  del(k){localStorage.removeItem(k)},
+  keys(p){return Object.keys(localStorage).filter(k=>k.startsWith(p))}
+};
+const uid=()=>Math.random().toString(36).slice(2,9);
+const now=()=>new Date().toLocaleString('en-IN');
+const esc=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+
+// ═══ TOAST ═══
+function toast(msg,t='ok'){
+  const el=document.getElementById('toast');
+  el.textContent=msg;
+  el.style.color=t==='err'?'#ef4444':'#22c55e';
+  el.style.borderColor=t==='err'?'#ef444433':'#22c55e33';
+  el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2500);
+}
+
+// ═══ MODAL ═══
+function openModal(title,html){
+  document.getElementById('modalTitle').textContent=title;
+  document.getElementById('modalBody').innerHTML=html;
+  document.getElementById('modalOverlay').classList.add('show');
+}
+function closeModal(){document.getElementById('modalOverlay').classList.remove('show')}
+document.getElementById('modalOverlay').addEventListener('click',e=>{if(e.target.id==='modalOverlay')closeModal()});
+
+// ═══ AUTH ═══
+function switchAuthTab(t){
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',i===(t==='login'?0:1)));
+  document.getElementById('loginForm').style.display=t==='login'?'block':'none';
+  document.getElementById('registerForm').style.display=t==='register'?'block':'none';
+}
+function doLogin(){
+  const u=document.getElementById('loginUser').value.trim();
+  const p=document.getElementById('loginPass').value;
+  const err=document.getElementById('loginErr');
+  if(!u||!p){err.innerHTML='<div class="error-msg">❌ Username aur password daalo!</div>';return}
+  if(u===SUPER.username&&p===SUPER.password){CU={...SUPER};err.innerHTML='';startMain();return}
+  for(const k of LS.keys('shop:')){
+    const s=LS.get(k);if(!s)continue;
+    if(s.username===u&&s.password===p){CU={...s,role:'owner'};CS=s;err.innerHTML='';startMain();return}
+    const m=(s.staff||[]).find(x=>x.username===u&&x.password===p);
+    if(m){CU={...m,shopId:s.id,role:'staff'};CS=s;err.innerHTML='';startMain();return}
+  }
+  err.innerHTML='<div class="error-msg">❌ Galat username ya password!</div>';
+}
+function doRegister(){
+  const sn=document.getElementById('rShopName').value.trim();
+  const on=document.getElementById('rOwner').value.trim();
+  const un=document.getElementById('rUser').value.trim();
+  const pw=document.getElementById('rPass').value;
+  const pw2=document.getElementById('rPass2').value;
+  const err=document.getElementById('regErr');
+  if(!sn||!on||!un||!pw){err.innerHTML='<div class="error-msg">❌ Zaroori fields (*) bharo!</div>';return}
+  if(pw!==pw2){err.innerHTML='<div class="error-msg">❌ Password match nahi hua!</div>';return}
+  if(pw.length<6){err.innerHTML='<div class="error-msg">❌ Password 6+ characters ka hona chahiye!</div>';return}
+  for(const k of LS.keys('shop:')){const s=LS.get(k);if(s?.username===un){err.innerHTML='<div class="error-msg">❌ Username pehle se le liya gaya hai!</div>';return}}
+  const shop={
+    id:uid(),shopName:sn,ownerName:on,
+    phone:document.getElementById('rPhone').value,email:document.getElementById('rEmail').value,
+    username:un,password:pw,address:document.getElementById('rAddress').value,
+    category:document.getElementById('rCategory').value,
+    role:'owner',createdAt:now(),status:'active',
+    staff:[],products:[],orders:[],roles:[...DEF_ROLES],
+    settings:{currency:'₹',gst:'18',invoicePrefix:'INV'}
+  };
+  LS.set('shop:'+shop.id,shop);
+  CU={...shop,role:'owner'};CS=shop;err.innerHTML='';startMain();
+}
+function doLogout(){
+  CU=null;CS=null;activeTab='dashboard';
+  document.getElementById('mainScreen').className='';
+  document.getElementById('authScreen').style.display='flex';
+  document.getElementById('loginUser').value='';
+  document.getElementById('loginPass').value='';
+  document.getElementById('loginErr').innerHTML='';
+}
+function startMain(){
+  document.getElementById('authScreen').style.display='none';
+  document.getElementById('mainScreen').className='show';
+  initMain();
+}
+function reloadCS(){
+  if(!CU)return;
+  const id=CU.role==='staff'?CU.shopId:CU.id;
+  CS=LS.get('shop:'+id)||CS;
+}
+
+// ═══ INIT MAIN ═══
+function initMain(){
+  if(CU.role==='superadmin'){
+    document.getElementById('headerShopName').textContent='ShopOS Control';
+    document.getElementById('headerShopSub').textContent='Super Admin Panel';
+    document.getElementById('headerBadge').textContent='👑 Super Admin';
+    buildSuperTabs();
+  } else {
+    reloadCS();
+    document.getElementById('headerShopName').textContent=CS.shopName;
+    document.getElementById('headerShopSub').textContent=(CU.role==='owner'?'Malik: '+CS.ownerName:'Staff: '+CU.name)+' · '+CS.category;
+    document.getElementById('headerBadge').textContent=CU.role==='owner'?'👑 Owner':'🏷️ '+(CU.jobRole||'Staff');
+    do/* ── BUTTONS ── */
 .btn{
   display:inline-flex;align-items:center;justify-content:center;gap:6px;
   padding:10px 18px;border-radius:10px;border:none;cursor:pointer;
