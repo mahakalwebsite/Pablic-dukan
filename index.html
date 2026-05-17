@@ -2,227 +2,521 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
-<title>ShopOS — Apni Dukan</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>ShopOS</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-:root{--bg:#080810;--card:#0f0f1c;--card2:#14142a;--border:#1f1f38;--gold:#f0a500;--amber:#e8630a;--text:#ede8d8;--muted:#7878a0;--ok:#22c55e;--err:#ef4444;--info:#3b82f6;--purple:#a855f7;--r:14px}
-html{background:var(--bg)}
-body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px}
-::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:var(--border);border-radius:9px}
-#bgc{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.28}
-#auth{position:relative;z-index:10;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
-#main{display:none;position:relative;z-index:10;min-height:100vh;flex-direction:column}
-#main.on{display:flex}
-.abox{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:30px 26px;width:100%;max-width:460px;box-shadow:0 0 60px #f0a50012,0 20px 50px #00000055;animation:up .4s ease}
-@keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
-.alogo{text-align:center;margin-bottom:22px}
-.alogo .ico{font-size:50px;display:block;margin-bottom:6px}
-.brand{font-family:'Syne',sans-serif;font-size:30px;font-weight:900;background:linear-gradient(135deg,var(--gold),var(--amber));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.bsub{color:var(--muted);font-size:13px;margin-top:4px}
-.tabs{display:flex;background:#06060e;border-radius:12px;padding:4px;margin-bottom:20px}
-.tb{flex:1;padding:10px;border-radius:9px;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600;font-size:13px;transition:all .2s;background:transparent;color:var(--muted);touch-action:manipulation}
-.tb.on{background:linear-gradient(135deg,var(--gold),var(--amber));color:#000}
-.f{margin-bottom:13px}
-.f label{display:block;font-size:11px;color:var(--muted);letter-spacing:.07em;text-transform:uppercase;margin-bottom:5px;font-weight:600}
-.f input,.f select,.f textarea{width:100%;background:#06060e;border:1px solid var(--border);border-radius:10px;padding:12px 13px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;-webkit-appearance:none;appearance:none}
-.f input:focus,.f select:focus{border-color:var(--gold)}
-.f textarea{resize:vertical;min-height:80px}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:11px}
-.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}
-.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:11px}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:5px;padding:10px 17px;border-radius:10px;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600;font-size:13px;transition:opacity .15s,transform .1s;touch-action:manipulation;user-select:none;-webkit-user-select:none}
-.btn:active{opacity:.75;transform:scale(.96)}
-.bg{background:linear-gradient(135deg,var(--gold),var(--amber));color:#000}
-.bgh{background:transparent;border:1px solid var(--border);color:var(--text)}
-.bd{background:var(--err);color:#fff}
-.bs{background:var(--ok);color:#fff}
-.bi{background:var(--info);color:#fff}
-.bp{background:var(--purple);color:#fff}
-.bsm{padding:7px 12px;font-size:12px;border-radius:8px}
-.bxs{padding:4px 8px;font-size:11px;border-radius:7px}
-.bfw{width:100%;padding:13px}
-.bx{display:inline-flex;align-items:center;padding:3px 9px;border-radius:20px;font-size:12px;font-weight:600}
-.hdr{background:linear-gradient(90deg,var(--card),#13132c);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;box-shadow:0 2px 14px #00000040}
-.hb{display:flex;align-items:center;gap:10px}
-.hn{font-family:'Syne',sans-serif;font-weight:800;font-size:15px;color:var(--gold)}
-.hs{font-size:11px;color:var(--muted);margin-top:1px}
-.hr{display:flex;align-items:center;gap:7px}
-.nav{display:flex;align-items:center;gap:5px;padding:9px 14px;border-bottom:1px solid var(--border);background:var(--card);overflow-x:auto;flex-shrink:0}
-.nav::-webkit-scrollbar{height:2px}
-.nt{padding:7px 12px;border-radius:9px;border:1px solid transparent;cursor:pointer;font-weight:600;font-size:12px;color:var(--muted);background:transparent;font-family:'DM Sans',sans-serif;white-space:nowrap;transition:all .15s;touch-action:manipulation}
-.nt.on{background:linear-gradient(135deg,var(--gold),var(--amber));color:#000}
-.cnt{flex:1;overflow-y:auto;padding:16px;-webkit-overflow-scrolling:touch}
-.cd{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:15px}
-.cdt{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;margin-bottom:11px}
-.sc{border-radius:var(--r);padding:15px;text-align:center}
-.sv{font-family:'Syne',sans-serif;font-size:24px;font-weight:900}
-.sl{font-size:11px;color:var(--muted);margin-top:2px}
-.mov{display:none;position:fixed;inset:0;background:#000000bb;z-index:200;align-items:center;justify-content:center;padding:16px}
-.mov.on{display:flex}
-.mbox{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;-webkit-overflow-scrolling:touch;animation:up .22s ease}
-.mhdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}
-.mt{font-family:'Syne',sans-serif;font-size:16px;font-weight:800}
-.tr{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border);gap:8px}
-.tr:last-child{border-bottom:none}
-.row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.rjb{display:flex;align-items:center;justify-content:space-between;gap:8px}
-.em{color:var(--err);font-size:13px;margin-bottom:10px;padding:8px 12px;background:#ef444415;border-radius:8px}
-.cbox{background:#06060e;border:1px solid var(--border);border-radius:12px;padding:13px;min-height:280px;max-height:340px;overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;gap:10px;margin-bottom:11px}
-.cm{display:flex}.cm.u{justify-content:flex-end}
-.cb{max-width:80%;padding:10px 14px;border-radius:18px;line-height:1.55;font-size:13px;white-space:pre-wrap}
-.cm.a .cb{background:var(--card2);border:1px solid var(--border);border-radius:18px 18px 18px 4px}
-.cm.u .cb{background:linear-gradient(135deg,var(--gold),var(--amber));color:#000;font-weight:500;border-radius:18px 18px 4px 18px}
-.ci{display:flex;gap:7px}
-.ci input{flex:1;background:#06060e;border:1px solid var(--border);border-radius:10px;padding:11px 13px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none}
-.ci input:focus{border-color:var(--gold)}
-.qb{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px}
-.pc{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:13px;display:flex;flex-direction:column;gap:7px}
-.pp{font-family:'Syne',sans-serif;font-size:20px;font-weight:900;color:var(--gold)}
-.stfc{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center}
-.oc{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:12px;margin-bottom:9px}
-.rc{background:#06060e;border:1px solid var(--border);border-radius:11px;padding:12px;text-align:center}
-.sr{background:#06060e;border:1px solid var(--border);border-radius:10px;padding:9px 12px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;width:200px;-webkit-appearance:none}
-.sr:focus{border-color:var(--gold)}
-.es{text-align:center;padding:50px 20px;color:var(--muted)}
-.ei{font-size:44px;margin-bottom:10px;display:block}
-.akb{background:#06060e;border:2px dashed var(--border);border-radius:12px;padding:20px;text-align:center;margin-bottom:13px}
-.sus{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;gap:13px;text-align:center}
-#tst{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(100px);z-index:999;background:var(--card);border:1px solid var(--border);padding:10px 20px;border-radius:12px;font-size:13px;font-weight:600;opacity:0;transition:all .3s;box-shadow:0 6px 24px #00000050;white-space:nowrap;max-width:90vw}
-#tst.on{transform:translateX(-50%) translateY(0);opacity:1}
-@media(max-width:580px){.g4{grid-template-columns:1fr 1fr}.g3{grid-template-columns:1fr 1fr}.g2{grid-template-columns:1fr}}
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#09090f;--card:#111120;--border:#1e1e35;
+  --gold:#f0a500;--amber:#e06b00;--text:#eee8d5;--muted:#7070a0;
+  --ok:#22c55e;--err:#ef4444;--blue:#3b82f6;--purple:#a855f7;
+}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:'DM Sans',sans-serif;font-size:14px;
+  min-height:100vh;
+}
+button{cursor:pointer;font-family:'DM Sans',sans-serif;border:none;outline:none}
+input,select,textarea{font-family:'DM Sans',sans-serif;outline:none;border:none}
+a{color:var(--gold)}
+
+/* SCREENS */
+.screen{display:none}
+.screen.active{display:block}
+
+/* ── AUTH ── */
+#authScreen{
+  min-height:100vh;
+  background:radial-gradient(ellipse at top,#1a1030 0%,var(--bg) 60%);
+  display:flex;align-items:center;justify-content:center;padding:20px;
+}
+.auth-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:18px;padding:28px 24px;width:100%;max-width:440px;
+}
+.logo{text-align:center;margin-bottom:22px}
+.logo-icon{font-size:48px;display:block;margin-bottom:6px}
+.logo-name{
+  font-family:'Syne',sans-serif;font-size:28px;font-weight:900;
+  background:linear-gradient(135deg,var(--gold),var(--amber));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.logo-sub{color:var(--muted);font-size:12px;margin-top:3px}
+
+/* TAB SWITCHER */
+.tab-row{display:flex;background:#07070e;border-radius:10px;padding:3px;margin-bottom:18px}
+.tab-btn{
+  flex:1;padding:9px;border-radius:8px;font-weight:600;font-size:13px;
+  background:transparent;color:var(--muted);transition:all .2s;
+}
+.tab-btn.active{background:linear-gradient(135deg,var(--gold),var(--amber));color:#000}
+
+/* FORM */
+.field{margin-bottom:13px}
+.field-label{
+  display:block;font-size:11px;color:var(--muted);
+  letter-spacing:.06em;text-transform:uppercase;margin-bottom:5px;font-weight:600;
+}
+.field-input,.field-select{
+  display:block;width:100%;background:#07070e;
+  border:1px solid var(--border);border-radius:9px;
+  padding:11px 13px;color:var(--text);font-size:14px;
+  -webkit-appearance:none;appearance:none;
+}
+.field-input:focus,.field-select:focus{border-color:var(--gold)}
+textarea.field-input{resize:vertical;min-height:80px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px}
+.grid4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:11px}
+
+/* BUTTONS */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:5px;
+  padding:10px 16px;border-radius:9px;font-weight:600;font-size:13px;
+}
+.btn:active{opacity:.75}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--amber));color:#000}
+.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--text)}
+.btn-red{background:var(--err);color:#fff}
+.btn-green{background:var(--ok);color:#fff}
+.btn-blue{background:var(--blue);color:#fff}
+.btn-purple{background:var(--purple);color:#fff}
+.btn-sm{padding:6px 12px;font-size:12px;border-radius:7px}
+.btn-xs{padding:4px 8px;font-size:11px;border-radius:6px}
+.btn-block{width:100%;padding:13px}
+
+/* ALERTS */
+.alert-err{background:#ef444415;color:var(--err);border-radius:8px;padding:8px 12px;font-size:13px;margin-bottom:10px}
+.alert-ok{background:#22c55e15;color:var(--ok);border-radius:8px;padding:8px 12px;font-size:13px;margin-bottom:10px}
+
+/* BADGE */
+.badge{
+  display:inline-flex;align-items:center;
+  padding:2px 9px;border-radius:20px;font-size:11px;font-weight:600;
+}
+
+/* ── MAIN APP ── */
+#appScreen{min-height:100vh;display:flex;flex-direction:column}
+.app-header{
+  background:var(--card);border-bottom:1px solid var(--border);
+  padding:12px 16px;display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;
+}
+.header-left{display:flex;align-items:center;gap:10px}
+.header-shop-name{font-family:'Syne',sans-serif;font-weight:800;font-size:15px;color:var(--gold)}
+.header-shop-sub{font-size:11px;color:var(--muted)}
+.header-right{display:flex;align-items:center;gap:8px}
+
+/* NAV */
+.app-nav{
+  background:var(--card);border-bottom:1px solid var(--border);
+  padding:8px 14px;display:flex;gap:5px;overflow-x:auto;
+}
+.app-nav::-webkit-scrollbar{height:0}
+.nav-btn{
+  padding:7px 13px;border-radius:8px;font-weight:600;font-size:12px;
+  color:var(--muted);background:transparent;border:1px solid transparent;
+  white-space:nowrap;flex-shrink:0;
+}
+.nav-btn.active{background:linear-gradient(135deg,var(--gold),var(--amber));color:#000}
+
+/* CONTENT */
+.app-content{flex:1;padding:16px;overflow-y:auto}
+
+/* CARD */
+.card{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:15px;margin-bottom:12px}
+.card-title{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;margin-bottom:12px}
+
+/* STAT */
+.stat-box{border-radius:12px;padding:14px;text-align:center}
+.stat-num{font-family:'Syne',sans-serif;font-size:24px;font-weight:900}
+.stat-lbl{font-size:11px;color:var(--muted);margin-top:2px}
+
+/* ROW */
+.list-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:9px 0;border-bottom:1px solid var(--border);gap:8px;
+}
+.list-row:last-child{border-bottom:none}
+.flex{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.flex-between{display:flex;align-items:center;justify-content:space-between;gap:8px}
+
+/* MODAL */
+.modal-bg{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);
+  z-index:500;align-items:center;justify-content:center;padding:16px;
+}
+.modal-bg.open{display:flex}
+.modal-box{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:16px;padding:20px;width:100%;max-width:500px;
+  max-height:88vh;overflow-y:auto;
+}
+.modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.modal-title{font-family:'Syne',sans-serif;font-weight:800;font-size:15px}
+
+/* CHAT */
+.chat-area{
+  background:#07070e;border:1px solid var(--border);border-radius:11px;
+  padding:12px;min-height:260px;max-height:340px;overflow-y:auto;
+  display:flex;flex-direction:column;gap:10px;margin-bottom:11px;
+}
+.msg{display:flex}
+.msg.me{justify-content:flex-end}
+.bubble{
+  max-width:80%;padding:10px 13px;border-radius:16px;
+  line-height:1.55;font-size:13px;white-space:pre-wrap;
+}
+.msg.ai .bubble{background:#1a1a2e;border:1px solid var(--border);border-radius:16px 16px 16px 3px}
+.msg.me .bubble{background:linear-gradient(135deg,var(--gold),var(--amber));color:#000;font-weight:500;border-radius:16px 16px 3px 16px}
+.chat-inp{display:flex;gap:7px}
+.chat-inp input{
+  flex:1;background:#07070e;border:1px solid var(--border);
+  border-radius:9px;padding:11px 12px;color:var(--text);font-size:13px;
+}
+.chat-inp input:focus{border-color:var(--gold)}
+
+/* PRODUCT/STAFF CARDS */
+.prod-card,.staff-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:13px}
+.prod-price{font-family:'Syne',sans-serif;font-size:20px;font-weight:900;color:var(--gold)}
+
+/* SEARCH */
+.search-box{
+  background:#07070e;border:1px solid var(--border);border-radius:9px;
+  padding:9px 12px;color:var(--text);font-size:13px;width:100%;max-width:220px;
+  -webkit-appearance:none;
+}
+.search-box:focus{border-color:var(--gold)}
+
+/* EMPTY */
+.empty{text-align:center;padding:40px 20px;color:var(--muted)}
+.empty-icon{font-size:40px;display:block;margin-bottom:8px}
+
+/* TOAST */
+#toast-msg{
+  position:fixed;bottom:18px;left:50%;
+  transform:translateX(-50%) translateY(80px);
+  background:var(--card);border:1px solid var(--border);
+  padding:9px 18px;border-radius:10px;font-size:13px;font-weight:600;
+  opacity:0;transition:all .28s;z-index:9999;
+  box-shadow:0 4px 20px rgba(0,0,0,.5);white-space:nowrap;max-width:90vw;
+}
+#toast-msg.show{transform:translateX(-50%) translateY(0);opacity:1}
+
+.sus-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:50vh;gap:12px;text-align:center}
+.key-box{background:#07070e;border:2px dashed var(--border);border-radius:12px;padding:20px;text-align:center;margin-bottom:12px}
+
+@media(max-width:560px){
+  .grid4{grid-template-columns:1fr 1fr}
+  .grid3{grid-template-columns:1fr 1fr}
+  .grid2{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
-<canvas id="bgc"></canvas>
-<div id="tst"></div>
 
-<div id="auth">
-  <div class="abox">
-    <div class="alogo">
-      <span class="ico">🏪</span>
-      <div class="brand">ShopOS</div>
-      <div class="bsub">Apni dukan, apna system</div>
+<div id="toast-msg"></div>
+
+<!-- ═══════ AUTH ═══════ -->
+<div id="authScreen">
+  <div class="auth-card">
+    <div class="logo">
+      <span class="logo-icon">🏪</span>
+      <div class="logo-name">ShopOS</div>
+      <div class="logo-sub">Apni dukan, apna system</div>
     </div>
-    <div class="tabs">
-      <button class="tb on" id="t1" onclick="swTab('login')">🔑 Login</button>
-      <button class="tb" id="t2" onclick="swTab('reg')">🆕 Register</button>
+
+    <div class="tab-row">
+      <button class="tab-btn active" id="tabLogin" onclick="showTab('login')">🔑 Login</button>
+      <button class="tab-btn" id="tabReg" onclick="showTab('reg')">🆕 Register</button>
     </div>
-    <div id="lf">
-      <div class="f"><label>Username</label><input type="text" id="lu" placeholder="username daalo" autocomplete="username"/></div>
-      <div class="f"><label>Password</label><input type="password" id="lp" placeholder="••••••" autocomplete="current-password"/></div>
-      <div id="le"></div>
-      <button class="btn bg bfw" onclick="doLogin()">🚀 Login Karo</button>
-      <p style="text-align:center;margin-top:13px;color:var(--muted);font-size:12px">Super Admin: <b style="color:var(--gold)">superadmin</b> / <b style="color:var(--gold)">super@123</b></p>
-    </div>
-    <div id="rf" style="display:none">
-      <div class="g2">
-        <div class="f"><label>Dukan Naam *</label><input type="text" id="rn" placeholder="Sharma Store"/></div>
-        <div class="f"><label>Malik Naam *</label><input type="text" id="ro" placeholder="Ramesh"/></div>
-        <div class="f"><label>Username *</label><input type="text" id="ru" placeholder="sharma123" autocomplete="username"/></div>
-        <div class="f"><label>Category</label><select id="rcat"><option>General Store</option><option>Grocery</option><option>Clothing</option><option>Electronics</option><option>Pharmacy</option><option>Restaurant</option><option>Hardware</option><option>Stationery</option><option>Jewellery</option><option>Other</option></select></div>
-        <div class="f"><label>Phone</label><input type="tel" id="rph" placeholder="9876543210"/></div>
-        <div class="f"><label>Email</label><input type="email" id="rem" placeholder="shop@gmail.com"/></div>
-        <div class="f"><label>Password *</label><input type="password" id="rp" placeholder="6+ chars" autocomplete="new-password"/></div>
-        <div class="f"><label>Confirm Pass *</label><input type="password" id="rp2" placeholder="••••••" autocomplete="new-password"/></div>
+
+    <!-- LOGIN -->
+    <div id="loginForm">
+      <div class="field">
+        <label class="field-label">Username</label>
+        <input class="field-input" type="text" id="L_user" placeholder="username daalo" autocomplete="username"/>
       </div>
-      <div class="f"><label>Address</label><input type="text" id="rad" placeholder="Gali No. 5, Bazar..."/></div>
-      <div id="re"></div>
-      <button class="btn bg bfw" onclick="doReg()">🏪 Dukan Kholo!</button>
+      <div class="field">
+        <label class="field-label">Password</label>
+        <input class="field-input" type="password" id="L_pass" placeholder="••••••" autocomplete="current-password"/>
+      </div>
+      <div id="L_err"></div>
+      <button class="btn btn-gold btn-block" onclick="login()">🚀 Login Karo</button>
+      <p style="text-align:center;margin-top:12px;color:var(--muted);font-size:12px">
+        Super Admin: <b style="color:var(--gold)">superadmin</b> / <b style="color:var(--gold)">super@123</b>
+      </p>
+    </div>
+
+    <!-- REGISTER -->
+    <div id="regForm" style="display:none">
+      <div class="grid2">
+        <div class="field">
+          <label class="field-label">Dukan Naam *</label>
+          <input class="field-input" type="text" id="R_shop" placeholder="Sharma Store"/>
+        </div>
+        <div class="field">
+          <label class="field-label">Malik Naam *</label>
+          <input class="field-input" type="text" id="R_owner" placeholder="Ramesh"/>
+        </div>
+        <div class="field">
+          <label class="field-label">Username *</label>
+          <input class="field-input" type="text" id="R_user" placeholder="sharma123" autocomplete="username"/>
+        </div>
+        <div class="field">
+          <label class="field-label">Category</label>
+          <select class="field-select" id="R_cat">
+            <option>General Store</option><option>Grocery</option><option>Clothing</option>
+            <option>Electronics</option><option>Pharmacy</option><option>Restaurant</option>
+            <option>Hardware</option><option>Stationery</option><option>Jewellery</option><option>Other</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="field-label">Phone</label>
+          <input class="field-input" type="tel" id="R_phone" placeholder="9876543210"/>
+        </div>
+        <div class="field">
+          <label class="field-label">Email</label>
+          <input class="field-input" type="email" id="R_email" placeholder="abc@gmail.com"/>
+        </div>
+        <div class="field">
+          <label class="field-label">Password *</label>
+          <input class="field-input" type="password" id="R_pass" placeholder="6+ chars" autocomplete="new-password"/>
+        </div>
+        <div class="field">
+          <label class="field-label">Confirm Pass *</label>
+          <input class="field-input" type="password" id="R_pass2" placeholder="••••••" autocomplete="new-password"/>
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-label">Address</label>
+        <input class="field-input" type="text" id="R_addr" placeholder="Gali No. 5, Bazar..."/>
+      </div>
+      <div id="R_err"></div>
+      <button class="btn btn-gold btn-block" onclick="register()">🏪 Dukan Kholo!</button>
     </div>
   </div>
 </div>
 
-<div id="main">
-  <div class="hdr">
-    <div class="hb"><span style="font-size:24px">🏪</span><div><div class="hn" id="hn">ShopOS</div><div class="hs" id="hs"></div></div></div>
-    <div class="hr"><span id="hbdg" class="bx" style="background:#f0a50022;color:var(--gold);border:1px solid #f0a50044;font-size:12px"></span><button class="btn bd bsm" onclick="doLogout()">🚪</button></div>
+<!-- ═══════ MAIN APP ═══════ -->
+<div id="appScreen" style="display:none">
+  <div class="app-header">
+    <div class="header-left">
+      <span style="font-size:22px">🏪</span>
+      <div>
+        <div class="header-shop-name" id="H_name">ShopOS</div>
+        <div class="header-shop-sub" id="H_sub"></div>
+      </div>
+    </div>
+    <div class="header-right">
+      <span class="badge" id="H_badge" style="background:#f0a50020;color:var(--gold);border:1px solid #f0a50040;font-size:11px"></span>
+      <button class="btn btn-red btn-sm" onclick="logout()">🚪 Logout</button>
+    </div>
   </div>
-  <div class="nav" id="nv"></div>
-  <div class="cnt" id="ct"></div>
+  <div class="app-nav" id="appNav"></div>
+  <div class="app-content" id="appContent">Loading...</div>
 </div>
 
-<div class="mov" id="mo">
-  <div class="mbox">
-    <div class="mhdr"><div class="mt" id="mtl"></div><button class="btn bgh bsm" onclick="cMo()">✕</button></div>
-    <div id="mb"></div>
+<!-- ═══════ MODAL ═══════ -->
+<div class="modal-bg" id="modalBg">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div class="modal-title" id="modalTitle"></div>
+      <button class="btn btn-ghost btn-sm" onclick="closeModal()">✕</button>
+    </div>
+    <div id="modalBody"></div>
   </div>
 </div>
 
 <script>
-(function(){
-  const c=document.getElementById('bgc'),x=c.getContext('2d');let W,H;
-  const p=Array.from({length:40},()=>({x:Math.random()*2000,y:Math.random()*2000,r:Math.random()*1.2+.3,vx:(Math.random()-.5)*.18,vy:(Math.random()-.5)*.18,a:Math.random()*6}));
-  function rs(){W=c.width=window.innerWidth;H=c.height=window.innerHeight}rs();window.addEventListener('resize',rs);
-  (function loop(){x.clearRect(0,0,W,H);p.forEach(d=>{d.x+=d.vx;d.y+=d.vy;d.a+=.004;if(d.x<0)d.x=W;if(d.x>W)d.x=0;if(d.y<0)d.y=H;if(d.y>H)d.y=0;x.beginPath();x.arc(d.x,d.y,d.r,0,Math.PI*2);x.fillStyle='rgba(240,165,0,'+(0.28+0.2*Math.sin(d.a))+')';x.fill()});requestAnimationFrame(loop)})();
-})();
+// ════ HELPERS ════
+const $ = id => document.getElementById(id);
+const uid = () => Math.random().toString(36).slice(2,9);
+const now = () => new Date().toLocaleString('en-IN');
+const esc = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
-const SA={u:'superadmin',p:'super@123'};
-const DR=['Manager','Employee','Distributor','Agent','Worker','Accountant','Delivery Boy'];
-let CU=null,CS=null,AT='dashboard';
-const uid=()=>Math.random().toString(36).slice(2,9);
-const now=()=>new Date().toLocaleString('en-IN');
-const esc=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-const LS={g(k){try{return JSON.parse(localStorage.getItem(k))}catch{return null}},s(k,v){localStorage.setItem(k,JSON.stringify(v))},d(k){localStorage.removeItem(k)},ks(p){return Object.keys(localStorage).filter(k=>k.startsWith(p))}};
+// Storage
+const DB = {
+  get: k => { try { return JSON.parse(localStorage.getItem(k)) } catch { return null } },
+  set: (k,v) => localStorage.setItem(k, JSON.stringify(v)),
+  del: k => localStorage.removeItem(k),
+  keys: p => Object.keys(localStorage).filter(k => k.startsWith(p))
+};
 
-let _tt;
-function toast(msg,t){const el=document.getElementById('tst');el.textContent=msg;el.style.color=t==='err'?'#ef4444':'#22c55e';el.style.borderColor=t==='err'?'#ef444433':'#22c55e33';el.classList.add('on');clearTimeout(_tt);_tt=setTimeout(()=>el.classList.remove('on'),2500)}
-function oMo(tl,html){document.getElementById('mtl').textContent=tl;document.getElementById('mb').innerHTML=html;document.getElementById('mo').classList.add('on')}
-function cMo(){document.getElementById('mo').classList.remove('on')}
-document.getElementById('mo').addEventListener('click',ev=>{if(ev.target===document.getElementById('mo'))cMo()});
-
-function swTab(t){
-  document.getElementById('t1').classList.toggle('on',t==='login');
-  document.getElementById('t2').classList.toggle('on',t==='reg');
-  document.getElementById('lf').style.display=t==='login'?'':'none';
-  document.getElementById('rf').style.display=t==='reg'?'':'none';
+// Toast
+let _toastTimer;
+function toast(msg, type) {
+  const el = $('toast-msg');
+  el.textContent = msg;
+  el.style.color = type === 'err' ? '#ef4444' : '#22c55e';
+  el.classList.add('show');
+  clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(() => el.classList.remove('show'), 2500);
 }
-function doLogin(){
-  const u=document.getElementById('lu').value.trim(),p=document.getElementById('lp').value,err=document.getElementById('le');
-  if(!u||!p){err.innerHTML='<div class="em">❌ Username aur password daalo!</div>';return}
-  if(u===SA.u&&p===SA.p){CU={username:u,role:'superadmin'};err.innerHTML='';goMain();return}
-  for(const k of LS.ks('shop:')){
-    const s=LS.g(k);if(!s)continue;
-    if(s.username===u&&s.password===p){CU={...s,role:'owner'};CS=s;err.innerHTML='';goMain();return}
-    const m=(s.staff||[]).find(x=>x.username===u&&x.password===p);
-    if(m){CU={...m,shopId:s.id,role:'staff'};CS=s;err.innerHTML='';goMain();return}
+
+// Modal
+function openModal(title, html) {
+  $('modalTitle').textContent = title;
+  $('modalBody').innerHTML = html;
+  $('modalBg').classList.add('open');
+}
+function closeModal() { $('modalBg').classList.remove('open') }
+$('modalBg').addEventListener('click', e => { if (e.target === $('modalBg')) closeModal() });
+
+// ════ CONSTANTS ════
+const SUPER = { u: 'superadmin', p: 'super@123' };
+const DEF_ROLES = ['Manager','Employee','Distributor','Agent','Worker','Accountant','Delivery Boy'];
+
+// ════ STATE ════
+let CU = null; // current user
+let CS = null; // current shop
+let TAB = 'dashboard';
+
+// ════ AUTH TAB ════
+function showTab(t) {
+  $('tabLogin').className = 'tab-btn' + (t === 'login' ? ' active' : '');
+  $('tabReg').className = 'tab-btn' + (t === 'reg' ? ' active' : '');
+  $('loginForm').style.display = t === 'login' ? '' : 'none';
+  $('regForm').style.display = t === 'reg' ? '' : 'none';
+}
+
+// ════ LOGIN ════
+function login() {
+  const u = $('L_user').value.trim();
+  const p = $('L_pass').value;
+  const errEl = $('L_err');
+  if (!u || !p) { errEl.innerHTML = '<div class="alert-err">❌ Username aur password daalo!</div>'; return }
+
+  // Super admin
+  if (u === SUPER.u && p === SUPER.p) {
+    CU = { role: 'superadmin', username: u };
+    errEl.innerHTML = '';
+    startApp();
+    return;
   }
-  err.innerHTML='<div class="em">❌ Galat username ya password!</div>';
+  // Owner / Staff
+  for (const k of DB.keys('shop:')) {
+    const s = DB.get(k);
+    if (!s) continue;
+    if (s.username === u && s.password === p) {
+      CU = { ...s, role: 'owner' }; CS = s;
+      errEl.innerHTML = ''; startApp(); return;
+    }
+    const m = (s.staff || []).find(x => x.username === u && x.password === p);
+    if (m) {
+      CU = { ...m, shopId: s.id, role: 'staff' }; CS = s;
+      errEl.innerHTML = ''; startApp(); return;
+    }
+  }
+  errEl.innerHTML = '<div class="alert-err">❌ Galat username ya password!</div>';
 }
-function doReg(){
-  const sn=document.getElementById('rn').value.trim(),on=document.getElementById('ro').value.trim(),un=document.getElementById('ru').value.trim(),pw=document.getElementById('rp').value,pw2=document.getElementById('rp2').value,err=document.getElementById('re');
-  if(!sn||!on||!un||!pw){err.innerHTML='<div class="em">❌ Zaroori (*) fields bharo!</div>';return}
-  if(pw!==pw2){err.innerHTML='<div class="em">❌ Password match nahi hua!</div>';return}
-  if(pw.length<6){err.innerHTML='<div class="em">❌ Password 6+ characters!</div>';return}
-  for(const k of LS.ks('shop:')){const s=LS.g(k);if(s&&s.username===un){err.innerHTML='<div class="em">❌ Username pehle se hai!</div>';return}}
-  const shop={id:uid(),shopName:sn,ownerName:on,phone:document.getElementById('rph').value,email:document.getElementById('rem').value,username:un,password:pw,address:document.getElementById('rad').value,category:document.getElementById('rcat').value,role:'owner',createdAt:now(),status:'active',staff:[],products:[],orders:[],roles:[...DR],settings:{currency:'₹',gst:'18',invoicePrefix:'INV'}};
-  LS.s('shop:'+shop.id,shop);CU={...shop,role:'owner'};CS=shop;err.innerHTML='';goMain();
+
+// ════ REGISTER ════
+function register() {
+  const sn = $('R_shop').value.trim();
+  const on = $('R_owner').value.trim();
+  const un = $('R_user').value.trim();
+  const pw = $('R_pass').value;
+  const pw2 = $('R_pass2').value;
+  const errEl = $('R_err');
+
+  if (!sn || !on || !un || !pw) { errEl.innerHTML = '<div class="alert-err">❌ Zaroori (*) fields bharo!</div>'; return }
+  if (pw !== pw2) { errEl.innerHTML = '<div class="alert-err">❌ Password match nahi hua!</div>'; return }
+  if (pw.length < 6) { errEl.innerHTML = '<div class="alert-err">❌ Password 6+ characters!</div>'; return }
+  for (const k of DB.keys('shop:')) {
+    const s = DB.get(k);
+    if (s && s.username === un) { errEl.innerHTML = '<div class="alert-err">❌ Username pehle se hai!</div>'; return }
+  }
+
+  const shop = {
+    id: uid(), shopName: sn, ownerName: on,
+    phone: $('R_phone').value, email: $('R_email').value,
+    username: un, password: pw, address: $('R_addr').value,
+    category: $('R_cat').value, role: 'owner',
+    createdAt: now(), status: 'active',
+    staff: [], products: [], orders: [], roles: [...DEF_ROLES],
+    settings: { currency: '₹', gst: '18', invoicePrefix: 'INV' }
+  };
+  DB.set('shop:' + shop.id, shop);
+  CU = { ...shop, role: 'owner' }; CS = shop;
+  errEl.innerHTML = ''; startApp();
 }
-function doLogout(){CU=null;CS=null;AT='dashboard';document.getElementById('main').className='';document.getElementById('auth').style.display='flex';document.getElementById('lu').value='';document.getElementById('lp').value='';document.getElementById('le').innerHTML=''}
-function goMain(){document.getElementById('auth').style.display='none';document.getElementById('main').className='on';initMain()}
-function rCS(){if(CU){const id=CU.role==='staff'?CU.shopId:CU.id;CS=LS.g('shop:'+id)||CS}}
-function initMain(){
-  if(CU.role==='superadmin'){
-    document.getElementById('hn').textContent='ShopOS Control';document.getElementById('hs').textContent='Super Admin';document.getElementById('hbdg').textContent='👑 Super Admin';bSA();
+
+// ════ LOGOUT ════
+function logout() {
+  CU = null; CS = null; TAB = 'dashboard';
+  $('appScreen').style.display = 'none';
+  $('authScreen').style.display = 'flex';
+  $('L_user').value = ''; $('L_pass').value = '';
+  $('L_err').innerHTML = '';
+}
+
+// ════ START APP ════
+function startApp() {
+  $('authScreen').style.display = 'none';
+  $('appScreen').style.display = 'flex';
+  reloadCS();
+  buildHeader();
+  buildNav();
+  renderTab();
+}
+
+function reloadCS() {
+  if (!CU) return;
+  if (CU.role === 'staff') CS = DB.get('shop:' + CU.shopId) || CS;
+  else if (CU.role === 'owner') CS = DB.get('shop:' + CU.id) || CS;
+}
+
+function buildHeader() {
+  if (CU.role === 'superadmin') {
+    $('H_name').textContent = 'ShopOS Control';
+    $('H_sub').textContent = 'Super Admin Panel';
+    $('H_badge').textContent = '👑 Super Admin';
+    $('H_badge').style.cssText = 'background:#f0a50020;color:var(--gold);border:1px solid #f0a50040;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700';
   } else {
-    rCS();document.getElementById('hn').textContent=CS.shopName;document.getElementById('hs').textContent=(CU.role==='owner'?'Malik: '+CS.ownerName:'Staff: '+CU.name)+' · '+CS.category;
-    document.getElementById('hbdg').textContent=CU.role==='owner'?'👑 Owner':'🏷️ '+(CU.jobRole||'Staff');document.getElementById('hbdg').style.cssText='background:#22c55e22;color:#22c55e;border:1px solid #22c55e44;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:700';bST();
+    $('H_name').textContent = CS.shopName;
+    $('H_sub').textContent = (CU.role === 'owner' ? 'Malik: ' + CS.ownerName : 'Staff: ' + CU.name) + ' · ' + CS.category;
+    $('H_badge').textContent = CU.role === 'owner' ? '👑 Owner' : '🏷️ ' + (CU.jobRole || 'Staff');
+    $('H_badge').style.cssText = 'background:#22c55e20;color:#22c55e;border:1px solid #22c55e40;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700';
   }
 }
-function swT(t){AT=t;CU.role==='superadmin'?bSA():bST()}
 
-// SUPER ADMIN
-function bSA(){
-  const ts=[['dashboard','📊 Dashboard'],['shops','🏪 Dukanein'],['ai','🤖 AI']];
-  document.getElementById('nv').innerHTML=ts.map(([id,l])=>`<button class="nt${AT===id?' on':''}" onclick="swT('${id}')">${l}</button>`).join('');
-  rSA();
+// ════ NAV ════
+function buildNav() {
+  const isOwner = CU.role === 'owner';
+  const isAdmin = CU.role === 'superadmin';
+  const tabs = isAdmin
+    ? [['dashboard','📊 Dashboard'],['shops','🏪 Dukanein'],['ai','🤖 AI']]
+    : isOwner
+      ? [['dashboard','📊'],['staff','👥 Staff'],['products','📦'],['orders','🧾'],['roles','🎭'],['settings','⚙️'],['ai','🤖']]
+      : [['dashboard','📊'],['products','📦'],['orders','🧾'],['ai','🤖']];
+  $('appNav').innerHTML = tabs.map(([id,label]) =>
+    `<button class="nav-btn${TAB===id?' active':''}" onclick="switchTab('${id}')">${label}</button>`
+  ).join('');
 }
-function rSA(){
-  const shops=LS.ks('shop:').map(k=>LS.g(k)).filter(Boolean),act=shops.filter(s=>s.status==='active'),stf=shops.reduce((a,s)=>a+(s.staff||[]).length,0),C=document.getElementById('ct');
-  if(AT==='dashboard'){
-    C.innerHTML=`<div class="g4" style="margin-bottom:14px">${St('Dukanein',shops.length,'#f0a500','🏪')}${St('Active',act.length,'#22c55e','✅')}${St('Suspended',shops.length-act.length,'#ef4444','🚫')}${St('Staff',stf,'#3b82f6','👥')}</div>
-    <div class="cd"><div class="cdt">📋 Haaliya Dukanein</div>${shops.slice(-6).reverse().map(s=>`<div class="tr"><div><div style="font-weight:700">${esc(s.shopName)}</div><div style="font-size:12px;color:var(--muted)">${esc(s.category)} · ${esc(s.ownerName)}</div></div>${Bx(s.status==='active'?'Active':'Suspended',s.status==='active'?'#22c55e':'#ef4444')}</div>`).join('')}${!shops.length?'<div class="es"><span class="ei">🏪</span>Koi dukan nahi</div>':''}</div>`;
-  } else if(AT==='shops'){
-    C.innerHTML=`<h2 style="font-family:Syne,sans-serif;margin-bottom:12px">🏪 Saari Dukanein (${shops.length})</h2>${shops.map(s=>`<div class="cd" style="margin-bottom:9px"><div class="rjb" style="flex-wrap:wrap;gap:8px"><div style="flex:1;min-width:170px"><div class="row" style="gap:5px;margin-bottom:4px"><span style="font-family:Syne,sans-serif;font-weight:800">${esc(s.shopName)}</span>${Bx(s.status==='active'?'Active':'Suspended',s.status==='active'?'#22c55e':'#ef4444')}</div><div style="font-size:12px;color:var(--muted)">👤 ${esc(s.ownerName)} | 🔑 ${esc(s.username)}</div><div style="font-size:12px;color:var(--muted)">👥 ${(s.staff||[]).length} staff | 📦 ${(s.products||[]).length} products</div></div><div style="display:flex;flex-direction:column;gap:5px"><button class="btn bi bsm" onclick="saView('${s.id}')">👁 Details</button><button class="btn bp bsm" onclick="saEdit('${s.id}')">✏️ Edit</button><button class="btn ${s.status==='active'?'bd':'bs'} bsm" onclick="saToggle('${s.id}')">${s.status==='active'?'🚫 Suspend':'✅ Active'}</button><button class="btn bd bsm" onclick="saDel('${s.id}')">🗑 Delete</button></div></div></div>`).join('')}${!shops.length?'<div class="es"><span class="ei">🏪</span>Koi dukan nahi</div>':''}`;
-  } else {C.innerHTML=`<div style="max-width:660px">${aiB('ac','Super Admin AI — platform ke sawale poocho')}</d  } else {C.innerHTML=`<div style="max-width:660px">${aiB('ac','Super Admin AI — platform ke sawale poocho')}</d
+
+function switchTab(t) {
+  TAB = t;
+  buildNav();
+  renderTab();
+}
+
+// ════ RENDER ════
+function renderTab() {
+  reloadCS();
+  if (CU.role === 'superadmin') {
+    if (TAB === 'dashboard') renderAdminDash();
+    else if (TAB === 'shops') renderAdminShops();
+    else renderAI('adminChat', 'Super Admin AI — koi bhi sawal poocho');
+    return;
+  }
+  if (CS && CS.status === 'suspended') {
+    $('appContent').innerHTML = '<div class="sus-screen"><span style="font-size:56px">🚫</span><h2 style="color:var(--err);font-family:Syne,sans-serif">Account Suspended</h2><p style="color:var(--muted)">Super Admin se contact karo.</p></div>';
+    return;
+  }
+  const isOwner = CU.role === 'owner';
+  if (TAB === 'dashboard') renderDash();
+  else if (TAB === 'staff' && isOwner) renderStaff();
+  else if (TAB ===   else if (TAB === 
