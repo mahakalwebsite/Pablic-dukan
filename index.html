@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>ShopOS — Chain System</title>
+<title>ShopOS — Dukan Chain System</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -11,34 +11,42 @@
   --bg:#08080f;--card:#111120;--border:#1e1e35;
   --gold:#f0a500;--amber:#e06b00;--text:#eee8d5;--muted:#7070a0;
   --ok:#22c55e;--err:#ef4444;--blue:#3b82f6;--purple:#a855f7;--teal:#14b8a6;
+  --wa:#25D366;
 }
 body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;min-height:100vh}
 button{cursor:pointer;font-family:'DM Sans',sans-serif;border:none;outline:none}
 input,select,textarea{font-family:'DM Sans',sans-serif;outline:none;border:none}
-a{color:var(--gold)}
-::-webkit-scrollbar{width:3px;height:3px}
-::-webkit-scrollbar-thumb{background:var(--border);border-radius:9px}
+a{color:var(--gold);text-decoration:none}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:var(--border);border-radius:9px}
+
+/* ── SCREENS ── */
+#authScreen{min-height:100vh;background:radial-gradient(ellipse at top,#1a1030,var(--bg) 60%);display:flex;align-items:center;justify-content:center;padding:20px}
+#appScreen{min-height:100vh;display:flex;flex-direction:column;display:none}
 
 /* ── AUTH ── */
-#authScreen{min-height:100vh;background:radial-gradient(ellipse at top,#1a1030,var(--bg) 60%);display:flex;align-items:center;justify-content:center;padding:20px}
 .auth-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:28px 24px;width:100%;max-width:440px}
-.logo{text-align:center;margin-bottom:22px}
-.logo-icon{font-size:48px;display:block;margin-bottom:6px}
-.logo-name{font-family:'Syne',sans-serif;font-size:28px;font-weight:900;background:linear-gradient(135deg,var(--gold),var(--amber));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.logo{text-align:center;margin-bottom:18px}
+.logo-icon{font-size:46px;display:block;margin-bottom:5px}
+.logo-name{font-family:'Syne',sans-serif;font-size:26px;font-weight:900;background:linear-gradient(135deg,var(--gold),var(--amber));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .logo-sub{color:var(--muted);font-size:12px;margin-top:3px}
-.tab-row{display:flex;background:#07070e;border-radius:10px;padding:3px;margin-bottom:18px}
+
+/* REF BANNER on auth */
+.ref-banner{background:linear-gradient(135deg,#f0a50020,#a855f720);border:1px solid #f0a50040;border-radius:12px;padding:12px 14px;margin-bottom:16px;text-align:center}
+.ref-banner-name{font-weight:700;color:var(--gold);font-size:15px}
+.ref-banner-sub{font-size:12px;color:var(--muted);margin-top:2px}
+
+.tab-row{display:flex;background:#07070e;border-radius:10px;padding:3px;margin-bottom:16px}
 .tab-btn{flex:1;padding:9px;border-radius:8px;font-weight:600;font-size:13px;background:transparent;color:var(--muted);transition:all .2s}
 .tab-btn.active{background:linear-gradient(135deg,var(--gold),var(--amber));color:#000}
 
 /* ── FORM ── */
-.field{margin-bottom:13px}
-.field-label{display:block;font-size:11px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:5px;font-weight:600}
+.field{margin-bottom:12px}
+.field-label{display:block;font-size:11px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px;font-weight:600}
 .field-input,.field-select{display:block;width:100%;background:#07070e;border:1px solid var(--border);border-radius:9px;padding:11px 13px;color:var(--text);font-size:14px;-webkit-appearance:none;appearance:none}
 .field-input:focus,.field-select:focus{border-color:var(--gold)}
-textarea.field-input{resize:vertical;min-height:70px}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:11px}
-.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px}
-.g4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:11px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.g4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px}
 
 /* ── BUTTONS ── */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:5px;padding:10px 16px;border-radius:9px;font-weight:600;font-size:13px}
@@ -50,19 +58,22 @@ textarea.field-input{resize:vertical;min-height:70px}
 .btn-blue{background:var(--blue);color:#fff}
 .btn-purple{background:var(--purple);color:#fff}
 .btn-teal{background:var(--teal);color:#fff}
+.btn-wa{background:var(--wa);color:#fff;font-size:13px}
 .btn-sm{padding:6px 12px;font-size:12px;border-radius:7px}
 .btn-xs{padding:4px 8px;font-size:11px;border-radius:6px}
 .btn-block{width:100%;padding:13px}
 .alert-err{background:#ef444415;color:var(--err);border-radius:8px;padding:8px 12px;font-size:13px;margin-bottom:10px}
+.alert-ok{background:#22c55e15;color:var(--ok);border-radius:8px;padding:8px 12px;font-size:13px;margin-bottom:10px}
 
 /* ── BADGE ── */
 .badge{display:inline-flex;align-items:center;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:600}
 
-/* ── MAIN ── */
-#appScreen{min-height:100vh;display:flex;flex-direction:column}
+/* ── HEADER ── */
 .app-header{background:var(--card);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
 .hname{font-family:'Syne',sans-serif;font-weight:800;font-size:15px;color:var(--gold)}
 .hsub{font-size:11px;color:var(--muted)}
+
+/* ── NAV ── */
 .app-nav{background:var(--card);border-bottom:1px solid var(--border);padding:8px 14px;display:flex;gap:5px;overflow-x:auto}
 .app-nav::-webkit-scrollbar{height:0}
 .nav-btn{padding:7px 13px;border-radius:8px;font-weight:600;font-size:12px;color:var(--muted);background:transparent;border:1px solid transparent;white-space:nowrap;flex-shrink:0}
@@ -80,29 +91,34 @@ textarea.field-input{resize:vertical;min-height:70px}
 .flex{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .flex-between{display:flex;align-items:center;justify-content:space-between;gap:8px}
 
-/* ── MODAL ── */
-.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:500;align-items:center;justify-content:center;padding:16px}
-.modal-bg.open{display:flex}
-.modal-box{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;width:100%;max-width:500px;max-height:88vh;overflow-y:auto}
-.modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
-.modal-title{font-family:'Syne',sans-serif;font-weight:800;font-size:15px}
+/* ── REFERRAL SHARE CARD ── */
+.share-card{
+  background:linear-gradient(135deg,#1a1030,#0f1a30);
+  border:1px solid #f0a50033;border-radius:16px;padding:18px;margin-bottom:14px;
+}
+.share-title{font-family:'Syne',sans-serif;font-size:18px;font-weight:900;color:var(--gold);margin-bottom:4px}
+.share-msg-preview{
+  background:#07070e;border:1px solid var(--border);border-radius:10px;
+  padding:12px;margin:12px 0;font-size:13px;line-height:1.7;color:var(--text);
+  white-space:pre-wrap;word-break:break-all;
+}
+.ref-link{color:var(--blue);font-weight:600;word-break:break-all}
+.share-btns{display:flex;gap:8px;flex-wrap:wrap}
 
 /* ── CHAIN TREE ── */
-.tree-node{position:relative;margin-left:0}
-.tree-node-inner{
-  background:var(--card);border:1px solid var(--border);border-radius:12px;
-  padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;
-  justify-content:space-between;gap:8px;flex-wrap:wrap;
-}
-.tree-node-inner:hover{border-color:#3a3a6a}
-.tree-children{margin-left:28px;border-left:2px solid var(--border);padding-left:14px;margin-top:0}
-.tree-badge{font-family:'Syne',sans-serif;font-weight:800;font-size:11px;padding:2px 8px;border-radius:20px}
+.tree-node-inner{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.tree-children{margin-left:22px;border-left:2px solid var(--border);padding-left:12px}
 
-/* ── REFERRAL BOX ── */
-.ref-box{background:#f0a50012;border:1px solid #f0a50033;border-radius:12px;padding:14px;margin-bottom:14px;text-align:center}
-.ref-code{font-family:'Syne',sans-serif;font-size:22px;font-weight:900;color:var(--gold);letter-spacing:3px;margin:6px 0}
-
-/* ── CHAT ── */
+/* ── OTHER ── */
+.prod-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:13px}
+.prod-price{font-family:'Syne',sans-serif;font-size:20px;font-weight:900;color:var(--gold)}
+.staff-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:13px;text-align:center}
+.oc{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:12px;margin-bottom:9px}
+.empty{text-align:center;padding:36px 20px;color:var(--muted)}
+.empty-icon{font-size:38px;display:block;margin-bottom:8px}
+.search-box{background:#07070e;border:1px solid var(--border);border-radius:9px;padding:9px 12px;color:var(--text);font-size:13px;width:100%;max-width:220px;-webkit-appearance:none}
+.search-box:focus{border-color:var(--gold)}
+.sus-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:50vh;gap:12px;text-align:center}
 .chat-area{background:#07070e;border:1px solid var(--border);border-radius:11px;padding:12px;min-height:240px;max-height:320px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;margin-bottom:11px}
 .msg{display:flex}.msg.me{justify-content:flex-end}
 .bubble{max-width:80%;padding:10px 13px;border-radius:16px;line-height:1.55;font-size:13px;white-space:pre-wrap}
@@ -111,15 +127,7 @@ textarea.field-input{resize:vertical;min-height:70px}
 .chat-inp{display:flex;gap:7px}
 .chat-inp input{flex:1;background:#07070e;border:1px solid var(--border);border-radius:9px;padding:11px 12px;color:var(--text);font-size:13px;-webkit-appearance:none}
 .chat-inp input:focus{border-color:var(--gold)}
-.search-box{background:#07070e;border:1px solid var(--border);border-radius:9px;padding:9px 12px;color:var(--text);font-size:13px;width:100%;max-width:220px;-webkit-appearance:none}
-.prod-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:13px}
-.prod-price{font-family:'Syne',sans-serif;font-size:20px;font-weight:900;color:var(--gold)}
-.staff-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:13px;text-align:center}
-.oc{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:12px;margin-bottom:9px}
-.empty{text-align:center;padding:36px 20px;color:var(--muted)}
-.empty-icon{font-size:38px;display:block;margin-bottom:8px}
 .key-box{background:#07070e;border:2px dashed var(--border);border-radius:12px;padding:18px;text-align:center;margin-bottom:12px}
-.sus-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:50vh;gap:12px;text-align:center}
 
 #toast-msg{position:fixed;bottom:18px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--card);border:1px solid var(--border);padding:9px 18px;border-radius:10px;font-size:13px;font-weight:600;opacity:0;transition:all .28s;z-index:9999;box-shadow:0 4px 20px rgba(0,0,0,.5);white-space:nowrap;max-width:90vw}
 #toast-msg.show{transform:translateX(-50%) translateY(0);opacity:1}
@@ -130,18 +138,27 @@ textarea.field-input{resize:vertical;min-height:70px}
 <body>
 <div id="toast-msg"></div>
 
-<!-- ═══ AUTH ═══ -->
+<!-- ═══ AUTH SCREEN ═══ -->
 <div id="authScreen">
   <div class="auth-card">
     <div class="logo">
       <span class="logo-icon">🏪</span>
       <div class="logo-name">ShopOS</div>
-      <div class="logo-sub">Chain System — Dukan se Dukan</div>
+      <div class="logo-sub">Dukan se Dukan — Chain System</div>
     </div>
+
+    <!-- REFERRAL BANNER (shows if ?ref= in URL) -->
+    <div class="ref-banner" id="refBanner" style="display:none">
+      <div style="font-size:12px;color:var(--muted);margin-bottom:4px">🔗 Aapko invite kiya hai</div>
+      <div class="ref-banner-name" id="refBannerName">—</div>
+      <div class="ref-banner-sub" id="refBannerSub">Unki chain mein join karo aur badhao business!</div>
+    </div>
+
     <div class="tab-row">
       <button class="tab-btn active" id="tL" onclick="showTab('login')">🔑 Login</button>
       <button class="tab-btn" id="tR" onclick="showTab('reg')">🆕 Register</button>
     </div>
+
     <!-- LOGIN -->
     <div id="loginForm">
       <div class="field"><label class="field-label">Username</label><input class="field-input" type="text" id="LU" placeholder="username daalo" autocomplete="username"/></div>
@@ -150,26 +167,23 @@ textarea.field-input{resize:vertical;min-height:70px}
       <button class="btn btn-gold btn-block" onclick="login()">🚀 Login Karo</button>
       <p style="text-align:center;margin-top:12px;color:var(--muted);font-size:12px">Super Admin: <b style="color:var(--gold)">superadmin</b> / <b style="color:var(--gold)">super@123</b></p>
     </div>
+
     <!-- REGISTER -->
     <div id="regForm" style="display:none">
       <div class="field">
         <label class="field-label">Referral Code (optional)</label>
-        <input class="field-input" type="text" id="RC" placeholder="Agar kisi ne add kiya ho to unka code" style="letter-spacing:2px;text-transform:uppercase"/>
-        <div id="RC_info" style="font-size:12px;color:var(--muted);margin-top:4px"></div>
+        <input class="field-input" type="text" id="RC" placeholder="Kisi ne diya ho to daalo" style="letter-spacing:2px;text-transform:uppercase" oninput="checkRef()"/>
+        <div id="RC_info" style="font-size:12px;margin-top:4px;color:var(--muted)"></div>
       </div>
       <div class="g2">
         <div class="field"><label class="field-label">Dukan Naam *</label><input class="field-input" type="text" id="RS" placeholder="Sharma Store"/></div>
         <div class="field"><label class="field-label">Malik Naam *</label><input class="field-input" type="text" id="RO" placeholder="Ramesh"/></div>
         <div class="field"><label class="field-label">Username *</label><input class="field-input" type="text" id="RU" placeholder="sharma123" autocomplete="username"/></div>
         <div class="field"><label class="field-label">Category</label>
-          <select class="field-select" id="RCAT">
-            <option>General Store</option><option>Grocery</option><option>Clothing</option>
-            <option>Electronics</option><option>Pharmacy</option><option>Restaurant</option>
-            <option>Hardware</option><option>Stationery</option><option>Jewellery</option><option>Other</option>
-          </select>
+          <select class="field-select" id="RCAT"><option>General Store</option><option>Grocery</option><option>Clothing</option><option>Electronics</option><option>Pharmacy</option><option>Restaurant</option><option>Hardware</option><option>Stationery</option><option>Jewellery</option><option>Other</option></select>
         </div>
         <div class="field"><label class="field-label">Phone</label><input class="field-input" type="tel" id="RPH" placeholder="9876543210"/></div>
-        <div class="field"><label class="field-label">Email</label><input class="field-input" type="email" id="REM" placeholder="shop@gmail.com"/></div>
+        <div class="field"><label class="field-label">Email</label><input class="field-input" type="email" id="REM" placeholder="abc@gmail.com"/></div>
         <div class="field"><label class="field-label">Password *</label><input class="field-input" type="password" id="RP" placeholder="6+ chars" autocomplete="new-password"/></div>
         <div class="field"><label class="field-label">Confirm Pass *</label><input class="field-input" type="password" id="RP2" placeholder="••••••" autocomplete="new-password"/></div>
       </div>
@@ -181,7 +195,7 @@ textarea.field-input{resize:vertical;min-height:70px}
 </div>
 
 <!-- ═══ MAIN APP ═══ -->
-<div id="appScreen" style="display:none">
+<div id="appScreen">
   <div class="app-header">
     <div style="display:flex;align-items:center;gap:10px">
       <span style="font-size:22px">🏪</span>
@@ -200,10 +214,10 @@ textarea.field-input{resize:vertical;min-height:70px}
 </div>
 
 <!-- ═══ MODAL ═══ -->
-<div class="modal-bg" id="modalBg">
-  <div class="modal-box">
-    <div class="modal-head">
-      <div class="modal-title" id="modalTitle"></div>
+<div style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:500;align-items:center;justify-content:center;padding:16px" id="modalBg">
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;width:100%;max-width:500px;max-height:88vh;overflow-y:auto">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <div style="font-family:Syne,sans-serif;font-weight:800;font-size:15px" id="modalTitle"></div>
       <button class="btn btn-ghost btn-sm" onclick="closeMo()">✕</button>
     </div>
     <div id="modalBody"></div>
@@ -213,41 +227,67 @@ textarea.field-input{resize:vertical;min-height:70px}
 <script>
 const $=id=>document.getElementById(id);
 const uid=()=>Math.random().toString(36).slice(2,9);
-const refCode=()=>Math.random().toString(36).slice(2,8).toUpperCase();
+const mkCode=()=>Math.random().toString(36).slice(2,8).toUpperCase();
 const now=()=>new Date().toLocaleString('en-IN');
 const esc=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-const DB={g:k=>{try{return JSON.parse(localStorage.getItem(k))}catch{return null}},s:(k,v)=>localStorage.setItem(k,JSON.stringify(v)),d:k=>localStorage.removeItem(k),ks:p=>Object.keys(localStorage).filter(k=>k.startsWith(p))};
-
-let _tt;
-function toast(msg,t){const el=$('toast-msg');el.textContent=msg;el.style.color=t==='err'?'#ef4444':'#22c55e';el.classList.add('show');clearTimeout(_tt);_tt=setTimeout(()=>el.classList.remove('show'),2500)}
-function openMo(tl,html){$('modalTitle').textContent=tl;$('modalBody').innerHTML=html;$('modalBg').classList.add('open')}
-function closeMo(){$('modalBg').classList.remove('open')}
-$('modalBg').addEventListener('click',e=>{if(e.target===$('modalBg'))closeMo()});
-
-// ════ CONSTANTS ════
-const SUPER={u:'superadmin',p:'super@123'};
+const DB={
+  g:k=>{try{return JSON.parse(localStorage.getItem(k))}catch{return null}},
+  s:(k,v)=>localStorage.setItem(k,JSON.stringify(v)),
+  d:k=>localStorage.removeItem(k),
+  ks:p=>Object.keys(localStorage).filter(k=>k.startsWith(p))
+};
 const DEF_ROLES=['Manager','Employee','Distributor','Agent','Worker','Accountant','Delivery Boy'];
-
-// ════ STATE ════
+const SUPER={u:'superadmin',p:'super@123'};
 let CU=null,CS=null,TAB='dashboard';
 
-// ════ AUTH ════
+// ═══ TOAST ═══
+let _tt;
+function toast(msg,t){const el=$('toast-msg');el.textContent=msg;el.style.color=t==='err'?'#ef4444':'#22c55e';el.classList.add('show');clearTimeout(_tt);_tt=setTimeout(()=>el.classList.remove('show'),2600)}
+
+// ═══ MODAL ═══
+function openMo(tl,html){$('modalTitle').textContent=tl;$('modalBody').innerHTML=html;$('modalBg').style.display='flex'}
+function closeMo(){$('modalBg').style.display='none'}
+$('modalBg').addEventListener('click',e=>{if(e.target===$('modalBg'))closeMo()});
+
+// ═══ URL REFERRAL ═══
+function getPageURL(){return window.location.origin+window.location.pathname}
+function getRefLinkFor(shop){return getPageURL()+'?ref='+shop.refCode}
+
+// Auto-fill referral from URL
+(function(){
+  const params=new URLSearchParams(window.location.search);
+  const ref=params.get('ref');
+  if(!ref)return;
+  // Show register tab
+  setTimeout(()=>{
+    showTab('reg');
+    const inp=$('RC');
+    if(inp){inp.value=ref.toUpperCase();checkRef()}
+  },100);
+})();
+
+function checkRef(){
+  const code=($('RC')||{}).value.trim().toUpperCase();
+  const info=$('RC_info');if(!info)return;
+  if(!code){info.textContent='';return}
+  const shops=DB.ks('shop:').map(k=>DB.g(k)).filter(Boolean);
+  const found=shops.find(s=>s.refCode===code);
+  info.textContent=found?'✅ Dukan mili: '+found.shopName+' ('+found.ownerName+')':'❌ Ye referral code sahi nahi hai';
+  info.style.color=found?'#22c55e':'#ef4444';
+  // Show banner
+  if(found){
+    const b=$('refBanner'),bn=$('refBannerName');
+    if(b&&bn){b.style.display='';bn.textContent=found.shopName+' — '+found.ownerName}
+  }
+}
+
+// ═══ AUTH ═══
 function showTab(t){
   $('tL').className='tab-btn'+(t==='login'?' active':'');
   $('tR').className='tab-btn'+(t==='reg'?' active':'');
   $('loginForm').style.display=t==='login'?'':'none';
   $('regForm').style.display=t==='reg'?'':'none';
 }
-
-// Referral code check
-$('RC').addEventListener('input',function(){
-  const code=this.value.trim().toUpperCase();
-  if(!code){$('RC_info').textContent='';return}
-  const shops=DB.ks('shop:').map(k=>DB.g(k)).filter(Boolean);
-  const found=shops.find(s=>s.refCode===code);
-  $('RC_info').textContent=found?'✅ Dukan mili: '+found.shopName+' ('+found.ownerName+')':'❌ Ye referral code sahi nahi hai';
-  $('RC_info').style.color=found?'#22c55e':'#ef4444';
-});
 
 function login(){
   const u=$('LU').value.trim(),p=$('LP').value,err=$('LE');
@@ -268,476 +308,573 @@ function register(){
   if(pw!==pw2){err.innerHTML='<div class="alert-err">❌ Password match nahi hua!</div>';return}
   if(pw.length<6){err.innerHTML='<div class="alert-err">❌ Password 6+ characters!</div>';return}
   for(const k of DB.ks('shop:')){const s=DB.g(k);if(s&&s.username===un){err.innerHTML='<div class="alert-err">❌ Username pehle se hai!</div>';return}}
-
-  // Check referral code
-  const rc=$('RC').value.trim().toUpperCase();
-  let parentId=null;
+  const rc=($('RC')||{}).value.trim().toUpperCase();
+  let parentId=null,level=1;
   if(rc){
     const shops=DB.ks('shop:').map(k=>DB.g(k)).filter(Boolean);
     const parent=shops.find(s=>s.refCode===rc);
     if(!parent){err.innerHTML='<div class="alert-err">❌ Referral code sahi nahi!</div>';return}
-    parentId=parent.id;
+    parentId=parent.id;level=(parent.level||1)+1;
   }
-
-  const shop={
-    id:uid(),shopName:sn,ownerName:on,phone:$('RPH').value,email:$('REM').value,
-    username:un,password:pw,address:$('RAD').value,category:$('RCAT').value,
-    role:'owner',createdAt:now(),status:'active',parentId:parentId,
-    refCode:refCode(),level:parentId?null:1,
-    staff:[],products:[],orders:[],roles:[...DEF_ROLES],
-    settings:{currency:'₹',gst:'18',invoicePrefix:'INV'}
-  };
-
-  // Set level
-  if(parentId){
-    const parent=DB.g('shop:'+parentId);
-    shop.level=(parent&&parent.level?parent.level:1)+1;
-  }
-
+  const shop={id:uid(),shopName:sn,ownerName:on,phone:$('RPH').value,email:$('REM').value,username:un,password:pw,address:$('RAD').value,category:$('RCAT').value,role:'owner',createdAt:now(),status:'active',parentId:parentId,refCode:mkCode(),level:level,staff:[],products:[],orders:[],roles:[...DEF_ROLES],settings:{currency:'₹',gst:'18',invoicePrefix:'INV'}};
   DB.s('shop:'+shop.id,shop);
   CU={...shop,role:'owner'};CS=shop;err.innerHTML='';startApp();
 }
 
-function logout(){CU=null;CS=null;TAB='dashboard';$('appScreen').style.display='none';$('authScreen').style.display='flex';$('LU').value='';$('LP').value='';$('LE').innerHTML=''}
-function startApp(){$('authScreen').style.display='none';$('appScreen').style.display='flex';reloadCS();buildHeader();buildNav();renderTab()}
-function reloadCS(){if(!CU)return;if(CU.role==='staff')CS=DB.g('shop:'+CU.shopId)||CS;else if(CU.role==='owner')CS=DB.g('shop:'+CU.id)||CS}
+function logout(){CU=null;CS=null;TAB='dashboard';$('appScreen').style.display='none';$('authScreen').style.display='flex';$('LU').value='';$('LP').value='';$('LE').innerHTML='';history.pushState({},'',window.location.pathname)}
+function startApp(){$('authScreen').style.display='none';$('appScreen').style.display='flex';rCS();buildHeader();buildNav();renderTab()}
+function rCS(){if(!CU)return;if(CU.role==='staff')CS=DB.g('shop:'+CU.shopId)||CS;else if(CU.role==='owner')CS=DB.g('shop:'+CU.id)||CS}
 
 function buildHeader(){
-  if(CU.role==='superadmin'){$('HN').textContent='ShopOS Control';$('HS').textContent='Super Admin';$('HB').textContent='👑 Super Admin';$('HB').style.cssText='background:#f0a50020;color:var(--gold);border:1px solid #f0a50040;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700'}
-  else{$('HN').textContent=CS.shopName;$('HS').textContent=(CU.role==='owner'?'Malik: '+CS.ownerName:'Staff: '+CU.name)+' · Level '+(CS.level||1);$('HB').textContent=CU.role==='owner'?'👑 Owner':'🏷️ '+(CU.jobRole||'Staff');$('HB').style.cssText='background:#22c55e20;color:#22c55e;border:1px solid #22c55e40;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700'}
+  if(CU.role==='superadmin'){$('HN').textContent='ShopOS Control';$('HS').textContent='Super Admin';$('HB').textContent='👑 Super Admin';$('HB').style.cssText='background:#f0a50020;color:var(--gold);border:1px solid #f0a50040;padding:3px 10px;border-radiu<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>ShopOS — Dukan Chain System</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#08080f;--card:#111120;--border:#1e1e35;
+  --gold:#f0a500;--amber:#e06b00;--text:#eee8d5;--muted:#7070a0;
+  --ok:#22c55e;--err:#ef4444;--blue:#3b82f6;--purple:#a855f7;--teal:#14b8a6;
+  --wa:#25D366;
 }
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;min-height:100vh}
+button{cursor:pointer;font-family:'DM Sans',sans-serif;border:none;outline:none}
+input,select,textarea{font-family:'DM Sans',sans-serif;outline:none;border:none}
+a{color:var(--gold);text-decoration:none}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:var(--border);border-radius:9px}
 
-// ════ NAV ════
-function buildNav(){
-  const isO=CU.role==='owner',isA=CU.role==='superadmin';
-  const tabs=isA
-    ?[['dashboard','📊'],['shops','🏪 Dukanein'],['chain','🔗 Chain Tree'],['ai','🤖 AI']]
-    :isO
-    ?[['dashboard','📊'],['mychain','🔗 Meri Chain'],['staff','👥 Staff'],['products','📦'],['orders','🧾'],['roles','🎭'],['settings','⚙️'],['ai','🤖']]
-    :[['dashboard','📊'],['products','📦'],['orders','🧾'],['ai','🤖']];
-  $('appNav').innerHTML=tabs.map(([id,label])=>`<button class="nav-btn${TAB===id?' active':''}" onclick="swT('${id}')">${label}</button>`).join('');
-}
-function swT(t){TAB=t;buildNav();renderTab()}
-function renderTab(){
-  reloadCS();
-  if(CS&&CS.status==='suspended'){$('appContent').innerHTML='<div class="sus-screen"><span style="font-size:56px">🚫</span><h2 style="color:var(--err);font-family:Syne,sans-serif">Account Suspended</h2><p style="color:var(--muted)">Super Admin se contact karo.</p></div>';return}
-  if(CU.role==='superadmin'){
-    if(  padding:12px 16px;display:flex;align-items:center;justify-content:space-between;
-  position:sticky;top:0;z-index:100;
-}
-.header-left{display:flex;align-items:center;gap:10px}
-.header-shop-name{font-family:'Syne',sans-serif;font-weight:800;font-size:15px;color:var(--gold)}
-.header-shop-sub{font-size:11px;color:var(--muted)}
-.header-right{display:flex;align-items:center;gap:8px}
+/* ── SCREENS ── */
+#authScreen{min-height:100vh;background:radial-gradient(ellipse at top,#1a1030,var(--bg) 60%);display:flex;align-items:center;justify-content:center;padding:20px}
+#appScreen{min-height:100vh;display:flex;flex-direction:column;display:none}
 
-/* NAV */
-.app-nav{
-  background:var(--card);border-bottom:1px solid var(--border);
-  padding:8px 14px;display:flex;gap:5px;overflow-x:auto;
-}
+/* ── AUTH ── */
+.auth-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:28px 24px;width:100%;max-width:440px}
+.logo{text-align:center;margin-bottom:18px}
+.logo-icon{font-size:46px;display:block;margin-bottom:5px}
+.logo-name{font-family:'Syne',sans-serif;font-size:26px;font-weight:900;background:linear-gradient(135deg,var(--gold),var(--amber));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.logo-sub{color:var(--muted);font-size:12px;margin-top:3px}
+
+/* REF BANNER on auth */
+.ref-banner{background:linear-gradient(135deg,#f0a50020,#a855f720);border:1px solid #f0a50040;border-radius:12px;padding:12px 14px;margin-bottom:16px;text-align:center}
+.ref-banner-name{font-weight:700;color:var(--gold);font-size:15px}
+.ref-banner-sub{font-size:12px;color:var(--muted);margin-top:2px}
+
+.tab-row{display:flex;background:#07070e;border-radius:10px;padding:3px;margin-bottom:16px}
+.tab-btn{flex:1;padding:9px;border-radius:8px;font-weight:600;font-size:13px;background:transparent;color:var(--muted);transition:all .2s}
+.tab-btn.active{background:linear-gradient(135deg,var(--gold),var(--amber));color:#000}
+
+/* ── FORM ── */
+.field{margin-bottom:12px}
+.field-label{display:block;font-size:11px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px;font-weight:600}
+.field-input,.field-select{display:block;width:100%;background:#07070e;border:1px solid var(--border);border-radius:9px;padding:11px 13px;color:var(--text);font-size:14px;-webkit-appearance:none;appearance:none}
+.field-input:focus,.field-select:focus{border-color:var(--gold)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.g4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:5px;padding:10px 16px;border-radius:9px;font-weight:600;font-size:13px}
+.btn:active{opacity:.75}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--amber));color:#000}
+.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--text)}
+.btn-red{background:var(--err);color:#fff}
+.btn-green{background:var(--ok);color:#fff}
+.btn-blue{background:var(--blue);color:#fff}
+.btn-purple{background:var(--purple);color:#fff}
+.btn-teal{background:var(--teal);color:#fff}
+.btn-wa{background:var(--wa);color:#fff;font-size:13px}
+.btn-sm{padding:6px 12px;font-size:12px;border-radius:7px}
+.btn-xs{padding:4px 8px;font-size:11px;border-radius:6px}
+.btn-block{width:100%;padding:13px}
+.alert-err{background:#ef444415;color:var(--err);border-radius:8px;padding:8px 12px;font-size:13px;margin-bottom:10px}
+.alert-ok{background:#22c55e15;color:var(--ok);border-radius:8px;padding:8px 12px;font-size:13px;margin-bottom:10px}
+
+/* ── BADGE ── */
+.badge{display:inline-flex;align-items:center;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:600}
+
+/* ── HEADER ── */
+.app-header{background:var(--card);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.hname{font-family:'Syne',sans-serif;font-weight:800;font-size:15px;color:var(--gold)}
+.hsub{font-size:11px;color:var(--muted)}
+
+/* ── NAV ── */
+.app-nav{background:var(--card);border-bottom:1px solid var(--border);padding:8px 14px;display:flex;gap:5px;overflow-x:auto}
 .app-nav::-webkit-scrollbar{height:0}
-.nav-btn{
-  padding:7px 13px;border-radius:8px;font-weight:600;font-size:12px;
-  color:var(--muted);background:transparent;border:1px solid transparent;
-  white-space:nowrap;flex-shrink:0;
-}
+.nav-btn{padding:7px 13px;border-radius:8px;font-weight:600;font-size:12px;color:var(--muted);background:transparent;border:1px solid transparent;white-space:nowrap;flex-shrink:0}
 .nav-btn.active{background:linear-gradient(135deg,var(--gold),var(--amber));color:#000}
-
-/* CONTENT */
 .app-content{flex:1;padding:16px;overflow-y:auto}
 
-/* CARD */
+/* ── CARD ── */
 .card{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:15px;margin-bottom:12px}
 .card-title{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;margin-bottom:12px}
-
-/* STAT */
 .stat-box{border-radius:12px;padding:14px;text-align:center}
-.stat-num{font-family:'Syne',sans-serif;font-size:24px;font-weight:900}
+.stat-num{font-family:'Syne',sans-serif;font-size:22px;font-weight:900}
 .stat-lbl{font-size:11px;color:var(--muted);margin-top:2px}
-
-/* ROW */
-.list-row{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:9px 0;border-bottom:1px solid var(--border);gap:8px;
-}
+.list-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border);gap:8px}
 .list-row:last-child{border-bottom:none}
 .flex{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .flex-between{display:flex;align-items:center;justify-content:space-between;gap:8px}
 
-/* MODAL */
-.modal-bg{
-  display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);
-  z-index:500;align-items:center;justify-content:center;padding:16px;
+/* ── REFERRAL SHARE CARD ── */
+.share-card{
+  background:linear-gradient(135deg,#1a1030,#0f1a30);
+  border:1px solid #f0a50033;border-radius:16px;padding:18px;margin-bottom:14px;
 }
-.modal-bg.open{display:flex}
-.modal-box{
-  background:var(--card);border:1px solid var(--border);
-  border-radius:16px;padding:20px;width:100%;max-width:500px;
-  max-height:88vh;overflow-y:auto;
+.share-title{font-family:'Syne',sans-serif;font-size:18px;font-weight:900;color:var(--gold);margin-bottom:4px}
+.share-msg-preview{
+  background:#07070e;border:1px solid var(--border);border-radius:10px;
+  padding:12px;margin:12px 0;font-size:13px;line-height:1.7;color:var(--text);
+  white-space:pre-wrap;word-break:break-all;
 }
-.modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
-.modal-title{font-family:'Syne',sans-serif;font-weight:800;font-size:15px}
+.ref-link{color:var(--blue);font-weight:600;word-break:break-all}
+.share-btns{display:flex;gap:8px;flex-wrap:wrap}
 
-/* CHAT */
-.chat-area{
-  background:#07070e;border:1px solid var(--border);border-radius:11px;
-  padding:12px;min-height:260px;max-height:340px;overflow-y:auto;
-  display:flex;flex-direction:column;gap:10px;margin-bottom:11px;
-}
-.msg{display:flex}
-.msg.me{justify-content:flex-end}
-.bubble{
-  max-width:80%;padding:10px 13px;border-radius:16px;
-  line-height:1.55;font-size:13px;white-space:pre-wrap;
-}
+/* ── CHAIN TREE ── */
+.tree-node-inner{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.tree-children{margin-left:22px;border-left:2px solid var(--border);padding-left:12px}
+
+/* ── OTHER ── */
+.prod-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:13px}
+.prod-price{font-family:'Syne',sans-serif;font-size:20px;font-weight:900;color:var(--gold)}
+.staff-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:13px;text-align:center}
+.oc{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:12px;margin-bottom:9px}
+.empty{text-align:center;padding:36px 20px;color:var(--muted)}
+.empty-icon{font-size:38px;display:block;margin-bottom:8px}
+.search-box{background:#07070e;border:1px solid var(--border);border-radius:9px;padding:9px 12px;color:var(--text);font-size:13px;width:100%;max-width:220px;-webkit-appearance:none}
+.search-box:focus{border-color:var(--gold)}
+.sus-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:50vh;gap:12px;text-align:center}
+.chat-area{background:#07070e;border:1px solid var(--border);border-radius:11px;padding:12px;min-height:240px;max-height:320px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;margin-bottom:11px}
+.msg{display:flex}.msg.me{justify-content:flex-end}
+.bubble{max-width:80%;padding:10px 13px;border-radius:16px;line-height:1.55;font-size:13px;white-space:pre-wrap}
 .msg.ai .bubble{background:#1a1a2e;border:1px solid var(--border);border-radius:16px 16px 16px 3px}
 .msg.me .bubble{background:linear-gradient(135deg,var(--gold),var(--amber));color:#000;font-weight:500;border-radius:16px 16px 3px 16px}
 .chat-inp{display:flex;gap:7px}
-.chat-inp input{
-  flex:1;background:#07070e;border:1px solid var(--border);
-  border-radius:9px;padding:11px 12px;color:var(--text);font-size:13px;
-}
+.chat-inp input{flex:1;background:#07070e;border:1px solid var(--border);border-radius:9px;padding:11px 12px;color:var(--text);font-size:13px;-webkit-appearance:none}
 .chat-inp input:focus{border-color:var(--gold)}
+.key-box{background:#07070e;border:2px dashed var(--border);border-radius:12px;padding:18px;text-align:center;margin-bottom:12px}
 
-/* PRODUCT/STAFF CARDS */
-.prod-card,.staff-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:13px}
-.prod-price{font-family:'Syne',sans-serif;font-size:20px;font-weight:900;color:var(--gold)}
-
-/* SEARCH */
-.search-box{
-  background:#07070e;border:1px solid var(--border);border-radius:9px;
-  padding:9px 12px;color:var(--text);font-size:13px;width:100%;max-width:220px;
-  -webkit-appearance:none;
-}
-.search-box:focus{border-color:var(--gold)}
-
-/* EMPTY */
-.empty{text-align:center;padding:40px 20px;color:var(--muted)}
-.empty-icon{font-size:40px;display:block;margin-bottom:8px}
-
-/* TOAST */
-#toast-msg{
-  position:fixed;bottom:18px;left:50%;
-  transform:translateX(-50%) translateY(80px);
-  background:var(--card);border:1px solid var(--border);
-  padding:9px 18px;border-radius:10px;font-size:13px;font-weight:600;
-  opacity:0;transition:all .28s;z-index:9999;
-  box-shadow:0 4px 20px rgba(0,0,0,.5);white-space:nowrap;max-width:90vw;
-}
+#toast-msg{position:fixed;bottom:18px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--card);border:1px solid var(--border);padding:9px 18px;border-radius:10px;font-size:13px;font-weight:600;opacity:0;transition:all .28s;z-index:9999;box-shadow:0 4px 20px rgba(0,0,0,.5);white-space:nowrap;max-width:90vw}
 #toast-msg.show{transform:translateX(-50%) translateY(0);opacity:1}
 
-.sus-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:50vh;gap:12px;text-align:center}
-.key-box{background:#07070e;border:2px dashed var(--border);border-radius:12px;padding:20px;text-align:center;margin-bottom:12px}
-
-@media(max-width:560px){
-  .grid4{grid-template-columns:1fr 1fr}
-  .grid3{grid-template-columns:1fr 1fr}
-  .grid2{grid-template-columns:1fr}
-}
+@media(max-width:560px){.g4{grid-template-columns:1fr 1fr}.g3{grid-template-columns:1fr 1fr}.g2{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-
 <div id="toast-msg"></div>
 
-<!-- ═══════ AUTH ═══════ -->
+<!-- ═══ AUTH SCREEN ═══ -->
 <div id="authScreen">
   <div class="auth-card">
     <div class="logo">
       <span class="logo-icon">🏪</span>
       <div class="logo-name">ShopOS</div>
-      <div class="logo-sub">Apni dukan, apna system</div>
+      <div class="logo-sub">Dukan se Dukan — Chain System</div>
+    </div>
+
+    <!-- REFERRAL BANNER (shows if ?ref= in URL) -->
+    <div class="ref-banner" id="refBanner" style="display:none">
+      <div style="font-size:12px;color:var(--muted);margin-bottom:4px">🔗 Aapko invite kiya hai</div>
+      <div class="ref-banner-name" id="refBannerName">—</div>
+      <div class="ref-banner-sub" id="refBannerSub">Unki chain mein join karo aur badhao business!</div>
     </div>
 
     <div class="tab-row">
-      <button class="tab-btn active" id="tabLogin" onclick="showTab('login')">🔑 Login</button>
-      <button class="tab-btn" id="tabReg" onclick="showTab('reg')">🆕 Register</button>
+      <button class="tab-btn active" id="tL" onclick="showTab('login')">🔑 Login</button>
+      <button class="tab-btn" id="tR" onclick="showTab('reg')">🆕 Register</button>
     </div>
 
     <!-- LOGIN -->
     <div id="loginForm">
-      <div class="field">
-        <label class="field-label">Username</label>
-        <input class="field-input" type="text" id="L_user" placeholder="username daalo" autocomplete="username"/>
-      </div>
-      <div class="field">
-        <label class="field-label">Password</label>
-        <input class="field-input" type="password" id="L_pass" placeholder="••••••" autocomplete="current-password"/>
-      </div>
-      <div id="L_err"></div>
+      <div class="field"><label class="field-label">Username</label><input class="field-input" type="text" id="LU" placeholder="username daalo" autocomplete="username"/></div>
+      <div class="field"><label class="field-label">Password</label><input class="field-input" type="password" id="LP" placeholder="••••••" autocomplete="current-password"/></div>
+      <div id="LE"></div>
       <button class="btn btn-gold btn-block" onclick="login()">🚀 Login Karo</button>
-      <p style="text-align:center;margin-top:12px;color:var(--muted);font-size:12px">
-        Super Admin: <b style="color:var(--gold)">superadmin</b> / <b style="color:var(--gold)">super@123</b>
-      </p>
+      <p style="text-align:center;margin-top:12px;color:var(--muted);font-size:12px">Super Admin: <b style="color:var(--gold)">superadmin</b> / <b style="color:var(--gold)">super@123</b></p>
     </div>
 
     <!-- REGISTER -->
     <div id="regForm" style="display:none">
-      <div class="grid2">
-        <div class="field">
-          <label class="field-label">Dukan Naam *</label>
-          <input class="field-input" type="text" id="R_shop" placeholder="Sharma Store"/>
-        </div>
-        <div class="field">
-          <label class="field-label">Malik Naam *</label>
-          <input class="field-input" type="text" id="R_owner" placeholder="Ramesh"/>
-        </div>
-        <div class="field">
-          <label class="field-label">Username *</label>
-          <input class="field-input" type="text" id="R_user" placeholder="sharma123" autocomplete="username"/>
-        </div>
-        <div class="field">
-          <label class="field-label">Category</label>
-          <select class="field-select" id="R_cat">
-            <option>General Store</option><option>Grocery</option><option>Clothing</option>
-            <option>Electronics</option><option>Pharmacy</option><option>Restaurant</option>
-            <option>Hardware</option><option>Stationery</option><option>Jewellery</option><option>Other</option>
-          </select>
-        </div>
-        <div class="field">
-          <label class="field-label">Phone</label>
-          <input class="field-input" type="tel" id="R_phone" placeholder="9876543210"/>
-        </div>
-        <div class="field">
-          <label class="field-label">Email</label>
-          <input class="field-input" type="email" id="R_email" placeholder="abc@gmail.com"/>
-        </div>
-        <div class="field">
-          <label class="field-label">Password *</label>
-          <input class="field-input" type="password" id="R_pass" placeholder="6+ chars" autocomplete="new-password"/>
-        </div>
-        <div class="field">
-          <label class="field-label">Confirm Pass *</label>
-          <input class="field-input" type="password" id="R_pass2" placeholder="••••••" autocomplete="new-password"/>
-        </div>
-      </div>
       <div class="field">
-        <label class="field-label">Address</label>
-        <input class="field-input" type="text" id="R_addr" placeholder="Gali No. 5, Bazar..."/>
+        <label class="field-label">Referral Code (optional)</label>
+        <input class="field-input" type="text" id="RC" placeholder="Kisi ne diya ho to daalo" style="letter-spacing:2px;text-transform:uppercase" oninput="checkRef()"/>
+        <div id="RC_info" style="font-size:12px;margin-top:4px;color:var(--muted)"></div>
       </div>
-      <div id="R_err"></div>
+      <div class="g2">
+        <div class="field"><label class="field-label">Dukan Naam *</label><input class="field-input" type="text" id="RS" placeholder="Sharma Store"/></div>
+        <div class="field"><label class="field-label">Malik Naam *</label><input class="field-input" type="text" id="RO" placeholder="Ramesh"/></div>
+        <div class="field"><label class="field-label">Username *</label><input class="field-input" type="text" id="RU" placeholder="sharma123" autocomplete="username"/></div>
+        <div class="field"><label class="field-label">Category</label>
+          <select class="field-select" id="RCAT"><option>General Store</option><option>Grocery</option><option>Clothing</option><option>Electronics</option><option>Pharmacy</option><option>Restaurant</option><option>Hardware</option><option>Stationery</option><option>Jewellery</option><option>Other</option></select>
+        </div>
+        <div class="field"><label class="field-label">Phone</label><input class="field-input" type="tel" id="RPH" placeholder="9876543210"/></div>
+        <div class="field"><label class="field-label">Email</label><input class="field-input" type="email" id="REM" placeholder="abc@gmail.com"/></div>
+        <div class="field"><label class="field-label">Password *</label><input class="field-input" type="password" id="RP" placeholder="6+ chars" autocomplete="new-password"/></div>
+        <div class="field"><label class="field-label">Confirm Pass *</label><input class="field-input" type="password" id="RP2" placeholder="••••••" autocomplete="new-password"/></div>
+      </div>
+      <div class="field"><label class="field-label">Address</label><input class="field-input" type="text" id="RAD" placeholder="Gali No. 5, Bazar..."/></div>
+      <div id="RE"></div>
       <button class="btn btn-gold btn-block" onclick="register()">🏪 Dukan Kholo!</button>
     </div>
   </div>
 </div>
 
-<!-- ═══════ MAIN APP ═══════ -->
-<div id="appScreen" style="display:none">
+<!-- ═══ MAIN APP ═══ -->
+<div id="appScreen">
   <div class="app-header">
-    <div class="header-left">
+    <div style="display:flex;align-items:center;gap:10px">
       <span style="font-size:22px">🏪</span>
       <div>
-        <div class="header-shop-name" id="H_name">ShopOS</div>
-        <div class="header-shop-sub" id="H_sub"></div>
+        <div class="hname" id="HN">ShopOS</div>
+        <div class="hsub" id="HS"></div>
       </div>
     </div>
-    <div class="header-right">
-      <span class="badge" id="H_badge" style="background:#f0a50020;color:var(--gold);border:1px solid #f0a50040;font-size:11px"></span>
-      <button class="btn btn-red btn-sm" onclick="logout()">🚪 Logout</button>
+    <div style="display:flex;align-items:center;gap:8px">
+      <span class="badge" id="HB" style="background:#f0a50020;color:var(--gold);border:1px solid #f0a50040;font-size:11px"></span>
+      <button class="btn btn-red btn-sm" onclick="logout()">🚪</button>
     </div>
   </div>
   <div class="app-nav" id="appNav"></div>
-  <div class="app-content" id="appContent">Loading...</div>
+  <div class="app-content" id="appContent"></div>
 </div>
 
-<!-- ═══════ MODAL ═══════ -->
-<div class="modal-bg" id="modalBg">
-  <div class="modal-box">
-    <div class="modal-head">
-      <div class="modal-title" id="modalTitle"></div>
-      <button class="btn btn-ghost btn-sm" onclick="closeModal()">✕</button>
+<!-- ═══ MODAL ═══ -->
+<div style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:500;align-items:center;justify-content:center;padding:16px" id="modalBg">
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;width:100%;max-width:500px;max-height:88vh;overflow-y:auto">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <div style="font-family:Syne,sans-serif;font-weight:800;font-size:15px" id="modalTitle"></div>
+      <button class="btn btn-ghost btn-sm" onclick="closeMo()">✕</button>
     </div>
     <div id="modalBody"></div>
   </div>
 </div>
 
 <script>
-// ════ HELPERS ════
-const $ = id => document.getElementById(id);
-const uid = () => Math.random().toString(36).slice(2,9);
-const now = () => new Date().toLocaleString('en-IN');
-const esc = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-
-// Storage
-const DB = {
-  get: k => { try { return JSON.parse(localStorage.getItem(k)) } catch { return null } },
-  set: (k,v) => localStorage.setItem(k, JSON.stringify(v)),
-  del: k => localStorage.removeItem(k),
-  keys: p => Object.keys(localStorage).filter(k => k.startsWith(p))
+const $=id=>document.getElementById(id);
+const uid=()=>Math.random().toString(36).slice(2,9);
+const mkCode=()=>Math.random().toString(36).slice(2,8).toUpperCase();
+const now=()=>new Date().toLocaleString('en-IN');
+const esc=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const DB={
+  g:k=>{try{return JSON.parse(localStorage.getItem(k))}catch{return null}},
+  s:(k,v)=>localStorage.setItem(k,JSON.stringify(v)),
+  d:k=>localStorage.removeItem(k),
+  ks:p=>Object.keys(localStorage).filter(k=>k.startsWith(p))
 };
+const DEF_ROLES=['Manager','Employee','Distributor','Agent','Worker','Accountant','Delivery Boy'];
+const SUPER={u:'superadmin',p:'super@123'};
+let CU=null,CS=null,TAB='dashboard';
 
-// Toast
-let _toastTimer;
-function toast(msg, type) {
-  const el = $('toast-msg');
-  el.textContent = msg;
-  el.style.color = type === 'err' ? '#ef4444' : '#22c55e';
-  el.classList.add('show');
-  clearTimeout(_toastTimer);
-  _toastTimer = setTimeout(() => el.classList.remove('show'), 2500);
-}
+// ═══ TOAST ═══
+let _tt;
+function toast(msg,t){const el=$('toast-msg');el.textContent=msg;el.style.color=t==='err'?'#ef4444':'#22c55e';el.classList.add('show');clearTimeout(_tt);_tt=setTimeout(()=>el.classList.remove('show'),2600)}
 
-// Modal
-function openModal(title, html) {
-  $('modalTitle').textContent = title;
-  $('modalBody').innerHTML = html;
-  $('modalBg').classList.add('open');
-}
-function closeModal() { $('modalBg').classList.remove('open') }
-$('modalBg').addEventListener('click', e => { if (e.target === $('modalBg')) closeModal() });
+// ═══ MODAL ═══
+function openMo(tl,html){$('modalTitle').textContent=tl;$('modalBody').innerHTML=html;$('modalBg').style.display='flex'}
+function closeMo(){$('modalBg').style.display='none'}
+$('modalBg').addEventListener('click',e=>{if(e.target===$('modalBg'))closeMo()});
 
-// ════ CONSTANTS ════
-const SUPER = { u: 'superadmin', p: 'super@123' };
-const DEF_ROLES = ['Manager','Employee','Distributor','Agent','Worker','Accountant','Delivery Boy'];
+// ═══ URL REFERRAL ═══
+function getPageURL(){return window.location.origin+window.location.pathname}
+function getRefLinkFor(shop){return getPageURL()+'?ref='+shop.refCode}
 
-// ════ STATE ════
-let CU = null; // current user
-let CS = null; // current shop
-let TAB = 'dashboard';
+// Auto-fill referral from URL
+(function(){
+  const params=new URLSearchParams(window.location.search);
+  const ref=params.get('ref');
+  if(!ref)return;
+  // Show register tab
+  setTimeout(()=>{
+    showTab('reg');
+    const inp=$('RC');
+    if(inp){inp.value=ref.toUpperCase();checkRef()}
+  },100);
+})();
 
-// ════ AUTH TAB ════
-function showTab(t) {
-  $('tabLogin').className = 'tab-btn' + (t === 'login' ? ' active' : '');
-  $('tabReg').className = 'tab-btn' + (t === 'reg' ? ' active' : '');
-  $('loginForm').style.display = t === 'login' ? '' : 'none';
-  $('regForm').style.display = t === 'reg' ? '' : 'none';
-}
-
-// ════ LOGIN ════
-function login() {
-  const u = $('L_user').value.trim();
-  const p = $('L_pass').value;
-  const errEl = $('L_err');
-  if (!u || !p) { errEl.innerHTML = '<div class="alert-err">❌ Username aur password daalo!</div>'; return }
-
-  // Super admin
-  if (u === SUPER.u && p === SUPER.p) {
-    CU = { role: 'superadmin', username: u };
-    errEl.innerHTML = '';
-    startApp();
-    return;
-  }
-  // Owner / Staff
-  for (const k of DB.keys('shop:')) {
-    const s = DB.get(k);
-    if (!s) continue;
-    if (s.username === u && s.password === p) {
-      CU = { ...s, role: 'owner' }; CS = s;
-      errEl.innerHTML = ''; startApp(); return;
-    }
-    const m = (s.staff || []).find(x => x.username === u && x.password === p);
-    if (m) {
-      CU = { ...m, shopId: s.id, role: 'staff' }; CS = s;
-      errEl.innerHTML = ''; startApp(); return;
-    }
-  }
-  errEl.innerHTML = '<div class="alert-err">❌ Galat username ya password!</div>';
-}
-
-// ════ REGISTER ════
-function register() {
-  const sn = $('R_shop').value.trim();
-  const on = $('R_owner').value.trim();
-  const un = $('R_user').value.trim();
-  const pw = $('R_pass').value;
-  const pw2 = $('R_pass2').value;
-  const errEl = $('R_err');
-
-  if (!sn || !on || !un || !pw) { errEl.innerHTML = '<div class="alert-err">❌ Zaroori (*) fields bharo!</div>'; return }
-  if (pw !== pw2) { errEl.innerHTML = '<div class="alert-err">❌ Password match nahi hua!</div>'; return }
-  if (pw.length < 6) { errEl.innerHTML = '<div class="alert-err">❌ Password 6+ characters!</div>'; return }
-  for (const k of DB.keys('shop:')) {
-    const s = DB.get(k);
-    if (s && s.username === un) { errEl.innerHTML = '<div class="alert-err">❌ Username pehle se hai!</div>'; return }
-  }
-
-  const shop = {
-    id: uid(), shopName: sn, ownerName: on,
-    phone: $('R_phone').value, email: $('R_email').value,
-    username: un, password: pw, address: $('R_addr').value,
-    category: $('R_cat').value, role: 'owner',
-    createdAt: now(), status: 'active',
-    staff: [], products: [], orders: [], roles: [...DEF_ROLES],
-    settings: { currency: '₹', gst: '18', invoicePrefix: 'INV' }
-  };
-  DB.set('shop:' + shop.id, shop);
-  CU = { ...shop, role: 'owner' }; CS = shop;
-  errEl.innerHTML = ''; startApp();
-}
-
-// ════ LOGOUT ════
-function logout() {
-  CU = null; CS = null; TAB = 'dashboard';
-  $('appScreen').style.display = 'none';
-  $('authScreen').style.display = 'flex';
-  $('L_user').value = ''; $('L_pass').value = '';
-  $('L_err').innerHTML = '';
-}
-
-// ════ START APP ════
-function startApp() {
-  $('authScreen').style.display = 'none';
-  $('appScreen').style.display = 'flex';
-  reloadCS();
-  buildHeader();
-  buildNav();
-  renderTab();
-}
-
-function reloadCS() {
-  if (!CU) return;
-  if (CU.role === 'staff') CS = DB.get('shop:' + CU.shopId) || CS;
-  else if (CU.role === 'owner') CS = DB.get('shop:' + CU.id) || CS;
-}
-
-function buildHeader() {
-  if (CU.role === 'superadmin') {
-    $('H_name').textContent = 'ShopOS Control';
-    $('H_sub').textContent = 'Super Admin Panel';
-    $('H_badge').textContent = '👑 Super Admin';
-    $('H_badge').style.cssText = 'background:#f0a50020;color:var(--gold);border:1px solid #f0a50040;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700';
-  } else {
-    $('H_name').textContent = CS.shopName;
-    $('H_sub').textContent = (CU.role === 'owner' ? 'Malik: ' + CS.ownerName : 'Staff: ' + CU.name) + ' · ' + CS.category;
-    $('H_badge').textContent = CU.role === 'owner' ? '👑 Owner' : '🏷️ ' + (CU.jobRole || 'Staff');
-    $('H_badge').style.cssText = 'background:#22c55e20;color:#22c55e;border:1px solid #22c55e40;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700';
+function checkRef(){
+  const code=($('RC')||{}).value.trim().toUpperCase();
+  const info=$('RC_info');if(!info)return;
+  if(!code){info.textContent='';return}
+  const shops=DB.ks('shop:').map(k=>DB.g(k)).filter(Boolean);
+  const found=shops.find(s=>s.refCode===code);
+  info.textContent=found?'✅ Dukan mili: '+found.shopName+' ('+found.ownerName+')':'❌ Ye referral code sahi nahi hai';
+  info.style.color=found?'#22c55e':'#ef4444';
+  // Show banner
+  if(found){
+    const b=$('refBanner'),bn=$('refBannerName');
+    if(b&&bn){b.style.display='';bn.textContent=found.shopName+' — '+found.ownerName}
   }
 }
 
-// ════ NAV ════
-function buildNav() {
-  const isOwner = CU.role === 'owner';
-  const isAdmin = CU.role === 'superadmin';
-  const tabs = isAdmin
-    ? [['dashboard','📊 Dashboard'],['shops','🏪 Dukanein'],['ai','🤖 AI']]
-    : isOwner
-      ? [['dashboard','📊'],['staff','👥 Staff'],['products','📦'],['orders','🧾'],['roles','🎭'],['settings','⚙️'],['ai','🤖']]
-      : [['dashboard','📊'],['products','📦'],['orders','🧾'],['ai','🤖']];
-  $('appNav').innerHTML = tabs.map(([id,label]) =>
-    `<button class="nav-btn${TAB===id?' active':''}" onclick="switchTab('${id}')">${label}</button>`
-  ).join('');
+// ═══ AUTH ═══
+function showTab(t){
+  $('tL').className='tab-btn'+(t==='login'?' active':'');
+  $('tR').className='tab-btn'+(t==='reg'?' active':'');
+  $('loginForm').style.display=t==='login'?'':'none';
+  $('regForm').style.display=t==='reg'?'':'none';
 }
 
-function switchTab(t) {
-  TAB = t;
-  buildNav();
-  renderTab();
+function login(){
+  const u=$('LU').value.trim(),p=$('LP').value,err=$('LE');
+  if(!u||!p){err.innerHTML='<div class="alert-err">❌ Username aur password daalo!</div>';return}
+  if(u===SUPER.u&&p===SUPER.p){CU={role:'superadmin',username:u};err.innerHTML='';startApp();return}
+  for(const k of DB.ks('shop:')){
+    const s=DB.g(k);if(!s)continue;
+    if(s.username===u&&s.password===p){CU={...s,role:'owner'};CS=s;err.innerHTML='';startApp();return}
+    const m=(s.staff||[]).find(x=>x.username===u&&x.password===p);
+    if(m){CU={...m,shopId:s.id,role:'staff'};CS=s;err.innerHTML='';startApp();return}
+  }
+  err.innerHTML='<div class="alert-err">❌ Galat username ya password!</div>';
 }
 
-// ════ RENDER ════
-function renderTab() {
-  reloadCS();
-  if (CU.role === 'superadmin') {
-    if (TAB === 'dashboard') renderAdminDash();
-    else if (TAB === 'shops') renderAdminShops();
-    else renderAI('adminChat', 'Super Admin AI — koi bhi sawal poocho');
-    return;
+function register(){
+  const sn=$('RS').value.trim(),on=$('RO').value.trim(),un=$('RU').value.trim(),pw=$('RP').value,pw2=$('RP2').value,err=$('RE');
+  if(!sn||!on||!un||!pw){err.innerHTML='<div class="alert-err">❌ Zaroori (*) fields bharo!</div>';return}
+  if(pw!==pw2){err.innerHTML='<div class="alert-err">❌ Password match nahi hua!</div>';return}
+  if(pw.length<6){err.innerHTML='<div class="alert-err">❌ Password 6+ characters!</div>';return}
+  for(const k of DB.ks('shop:')){const s=DB.g(k);if(s&&s.username===un){err.innerHTML='<div class="alert-err">❌ Username pehle se hai!</div>';return}}
+  const rc=($('RC')||{}).value.trim().toUpperCase();
+  let parentId=null,level=1;
+  if(rc){
+    const shops=DB.ks('shop:').map(k=>DB.g(k)).filter(Boolean);
+    const parent=shops.find(s=>s.refCode===rc);
+    if(!parent){err.innerHTML='<div class="alert-err">❌ Referral code sahi nahi!</div>';return}
+    parentId=parent.id;level=(parent.level||1)+1;
   }
-  if (CS && CS.status === 'suspended') {
-    $('appContent').innerHTML = '<div class="sus-screen"><span style="font-size:56px">🚫</span><h2 style="color:var(--err);font-family:Syne,sans-serif">Account Suspended</h2><p style="color:var(--muted)">Super Admin se contact karo.</p></div>';
-    return;
+  const shop={id:uid(),shopName:sn,ownerName:on,phone:$('RPH').value,email:$('REM').value,username:un,password:pw,address:$('RAD').value,category:$('RCAT').value,role:'owner',createdAt:now(),status:'active',parentId:parentId,refCode:mkCode(),level:level,staff:[],products:[],orders:[],roles:[...DEF_ROLES],settings:{currency:'₹',gst:'18',invoicePrefix:'INV'}};
+  DB.s('shop:'+shop.id,shop);
+  CU={...shop,role:'owner'};CS=shop;err.innerHTML='';startApp();
+}
+
+function logout(){CU=null;CS=null;TAB='dashboard';$('appScreen').style.display='none';$('authScreen').style.display='flex';$('LU').value='';$('LP').value='';$('LE').innerHTML='';history.pushState({},'',window.location.pathname)}
+function startApp(){$('authScreen').style.display='none';$('appScreen').style.display='flex';rCS();buildHeader();buildNav();renderTab()}
+function rCS(){if(!CU)return;if(CU.role==='staff')CS=DB.g('shop:'+CU.shopId)||CS;else if(CU.role==='owner')CS=DB.g('shop:'+CU.id)||CS}
+
+function buildHeader(){
+  if(CU.role==='superadmin'){$('HN').textContent='ShopOS Control';$('HS').textContent='Super Admin';$('HB').textContent='👑 Super Admin';$('HB').style.cssText='background:#f0a50020;color:var(--gold);border:1px solid #f0a50040;padding:3px 10px;border-radiu.share-btns{display:flex;gap:8px;flex-wrap:wrap}
+
+/* ── CHAIN TREE ── */
+.tree-node-inner{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.tree-children{margin-left:22px;border-left:2px solid var(--border);padding-left:12px}
+
+/* ── OTHER ── */
+.prod-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:13px}
+.prod-price{font-family:'Syne',sans-serif;font-size:20px;font-weight:900;color:var(--gold)}
+.staff-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:13px;text-align:center}
+.oc{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:12px;margin-bottom:9px}
+.empty{text-align:center;padding:36px 20px;color:var(--muted)}
+.empty-icon{font-size:38px;display:block;margin-bottom:8px}
+.search-box{background:#07070e;border:1px solid var(--border);border-radius:9px;padding:9px 12px;color:var(--text);font-size:13px;width:100%;max-width:220px;-webkit-appearance:none}
+.search-box:focus{border-color:var(--gold)}
+.sus-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:50vh;gap:12px;text-align:center}
+.chat-area{background:#07070e;border:1px solid var(--border);border-radius:11px;padding:12px;min-height:240px;max-height:320px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;margin-bottom:11px}
+.msg{display:flex}.msg.me{justify-content:flex-end}
+.bubble{max-width:80%;padding:10px 13px;border-radius:16px;line-height:1.55;font-size:13px;white-space:pre-wrap}
+.msg.ai .bubble{background:#1a1a2e;border:1px solid var(--border);border-radius:16px 16px 16px 3px}
+.msg.me .bubble{background:linear-gradient(135deg,var(--gold),var(--amber));color:#000;font-weight:500;border-radius:16px 16px 3px 16px}
+.chat-inp{display:flex;gap:7px}
+.chat-inp input{flex:1;background:#07070e;border:1px solid var(--border);border-radius:9px;padding:11px 12px;color:var(--text);font-size:13px;-webkit-appearance:none}
+.chat-inp input:focus{border-color:var(--gold)}
+.key-box{background:#07070e;border:2px dashed var(--border);border-radius:12px;padding:18px;text-align:center;margin-bottom:12px}
+
+#toast-msg{position:fixed;bottom:18px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--card);border:1px solid var(--border);padding:9px 18px;border-radius:10px;font-size:13px;font-weight:600;opacity:0;transition:all .28s;z-index:9999;box-shadow:0 4px 20px rgba(0,0,0,.5);white-space:nowrap;max-width:90vw}
+#toast-msg.show{transform:translateX(-50%) translateY(0);opacity:1}
+
+@media(max-width:560px){.g4{grid-template-columns:1fr 1fr}.g3{grid-template-columns:1fr 1fr}.g2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div id="toast-msg"></div>
+
+<!-- ═══ AUTH SCREEN ═══ -->
+<div id="authScreen">
+  <div class="auth-card">
+    <div class="logo">
+      <span class="logo-icon">🏪</span>
+      <div class="logo-name">ShopOS</div>
+      <div class="logo-sub">Dukan se Dukan — Chain System</div>
+    </div>
+
+    <!-- REFERRAL BANNER (shows if ?ref= in URL) -->
+    <div class="ref-banner" id="refBanner" style="display:none">
+      <div style="font-size:12px;color:var(--muted);margin-bottom:4px">🔗 Aapko invite kiya hai</div>
+      <div class="ref-banner-name" id="refBannerName">—</div>
+      <div class="ref-banner-sub" id="refBannerSub">Unki chain mein join karo aur badhao business!</div>
+    </div>
+
+    <div class="tab-row">
+      <button class="tab-btn active" id="tL" onclick="showTab('login')">🔑 Login</button>
+      <button class="tab-btn" id="tR" onclick="showTab('reg')">🆕 Register</button>
+    </div>
+
+    <!-- LOGIN -->
+    <div id="loginForm">
+      <div class="field"><label class="field-label">Username</label><input class="field-input" type="text" id="LU" placeholder="username daalo" autocomplete="username"/></div>
+      <div class="field"><label class="field-label">Password</label><input class="field-input" type="password" id="LP" placeholder="••••••" autocomplete="current-password"/></div>
+      <div id="LE"></div>
+      <button class="btn btn-gold btn-block" onclick="login()">🚀 Login Karo</button>
+      <p style="text-align:center;margin-top:12px;color:var(--muted);font-size:12px">Super Admin: <b style="color:var(--gold)">superadmin</b> / <b style="color:var(--gold)">super@123</b></p>
+    </div>
+
+    <!-- REGISTER -->
+    <div id="regForm" style="display:none">
+      <div class="field">
+        <label class="field-label">Referral Code (optional)</label>
+        <input class="field-input" type="text" id="RC" placeholder="Kisi ne diya ho to daalo" style="letter-spacing:2px;text-transform:uppercase" oninput="checkRef()"/>
+        <div id="RC_info" style="font-size:12px;margin-top:4px;color:var(--muted)"></div>
+      </div>
+      <div class="g2">
+        <div class="field"><label class="field-label">Dukan Naam *</label><input class="field-input" type="text" id="RS" placeholder="Sharma Store"/></div>
+        <div class="field"><label class="field-label">Malik Naam *</label><input class="field-input" type="text" id="RO" placeholder="Ramesh"/></div>
+        <div class="field"><label class="field-label">Username *</label><input class="field-input" type="text" id="RU" placeholder="sharma123" autocomplete="username"/></div>
+        <div class="field"><label class="field-label">Category</label>
+          <select class="field-select" id="RCAT"><option>General Store</option><option>Grocery</option><option>Clothing</option><option>Electronics</option><option>Pharmacy</option><option>Restaurant</option><option>Hardware</option><option>Stationery</option><option>Jewellery</option><option>Other</option></select>
+        </div>
+        <div class="field"><label class="field-label">Phone</label><input class="field-input" type="tel" id="RPH" placeholder="9876543210"/></div>
+        <div class="field"><label class="field-label">Email</label><input class="field-input" type="email" id="REM" placeholder="abc@gmail.com"/></div>
+        <div class="field"><label class="field-label">Password *</label><input class="field-input" type="password" id="RP" placeholder="6+ chars" autocomplete="new-password"/></div>
+        <div class="field"><label class="field-label">Confirm Pass *</label><input class="field-input" type="password" id="RP2" placeholder="••••••" autocomplete="new-password"/></div>
+      </div>
+      <div class="field"><label class="field-label">Address</label><input class="field-input" type="text" id="RAD" placeholder="Gali No. 5, Bazar..."/></div>
+      <div id="RE"></div>
+      <button class="btn btn-gold btn-block" onclick="register()">🏪 Dukan Kholo!</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MAIN APP ═══ -->
+<div id="appScreen">
+  <div class="app-header">
+    <div style="display:flex;align-items:center;gap:10px">
+      <span style="font-size:22px">🏪</span>
+      <div>
+        <div class="hname" id="HN">ShopOS</div>
+        <div class="hsub" id="HS"></div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <span class="badge" id="HB" style="background:#f0a50020;color:var(--gold);border:1px solid #f0a50040;font-size:11px"></span>
+      <button class="btn btn-red btn-sm" onclick="logout()">🚪</button>
+    </div>
+  </div>
+  <div class="app-nav" id="appNav"></div>
+  <div class="app-content" id="appContent"></div>
+</div>
+
+<!-- ═══ MODAL ═══ -->
+<div style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:500;align-items:center;justify-content:center;padding:16px" id="modalBg">
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;width:100%;max-width:500px;max-height:88vh;overflow-y:auto">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <div style="font-family:Syne,sans-serif;font-weight:800;font-size:15px" id="modalTitle"></div>
+      <button class="btn btn-ghost btn-sm" onclick="closeMo()">✕</button>
+    </div>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const uid=()=>Math.random().toString(36).slice(2,9);
+const mkCode=()=>Math.random().toString(36).slice(2,8).toUpperCase();
+const now=()=>new Date().toLocaleString('en-IN');
+const esc=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const DB={
+  g:k=>{try{return JSON.parse(localStorage.getItem(k))}catch{return null}},
+  s:(k,v)=>localStorage.setItem(k,JSON.stringify(v)),
+  d:k=>localStorage.removeItem(k),
+  ks:p=>Object.keys(localStorage).filter(k=>k.startsWith(p))
+};
+const DEF_ROLES=['Manager','Employee','Distributor','Agent','Worker','Accountant','Delivery Boy'];
+const SUPER={u:'superadmin',p:'super@123'};
+let CU=null,CS=null,TAB='dashboard';
+
+// ═══ TOAST ═══
+let _tt;
+function toast(msg,t){const el=$('toast-msg');el.textContent=msg;el.style.color=t==='err'?'#ef4444':'#22c55e';el.classList.add('show');clearTimeout(_tt);_tt=setTimeout(()=>el.classList.remove('show'),2600)}
+
+// ═══ MODAL ═══
+function openMo(tl,html){$('modalTitle').textContent=tl;$('modalBody').innerHTML=html;$('modalBg').style.display='flex'}
+function closeMo(){$('modalBg').style.display='none'}
+$('modalBg').addEventListener('click',e=>{if(e.target===$('modalBg'))closeMo()});
+
+// ═══ URL REFERRAL ═══
+function getPageURL(){return window.location.origin+window.location.pathname}
+function getRefLinkFor(shop){return getPageURL()+'?ref='+shop.refCode}
+
+// Auto-fill referral from URL
+(function(){
+  const params=new URLSearchParams(window.location.search);
+  const ref=params.get('ref');
+  if(!ref)return;
+  // Show register tab
+  setTimeout(()=>{
+    showTab('reg');
+    const inp=$('RC');
+    if(inp){inp.value=ref.toUpperCase();checkRef()}
+  },100);
+})();
+
+function checkRef(){
+  const code=($('RC')||{}).value.trim().toUpperCase();
+  const info=$('RC_info');if(!info)return;
+  if(!code){info.textContent='';return}
+  const shops=DB.ks('shop:').map(k=>DB.g(k)).filter(Boolean);
+  const found=shops.find(s=>s.refCode===code);
+  info.textContent=found?'✅ Dukan mili: '+found.shopName+' ('+found.ownerName+')':'❌ Ye referral code sahi nahi hai';
+  info.style.color=found?'#22c55e':'#ef4444';
+  // Show banner
+  if(found){
+    const b=$('refBanner'),bn=$('refBannerName');
+    if(b&&bn){b.style.display='';bn.textContent=found.shopName+' — '+found.ownerName}
   }
-  const isOwner = CU.role === 'owner';
-  if (TAB === 'dashboard') renderDash();
-  else if (TAB === 'staff' && isOwner) renderStaff();
-  else if (TAB ===   else if (TAB === 
+}
+
+// ═══ AUTH ═══
+function showTab(t){
+  $('tL').className='tab-btn'+(t==='login'?' active':'');
+  $('tR').className='tab-btn'+(t==='reg'?' active':'');
+  $('loginForm').style.display=t==='login'?'':'none';
+  $('regForm').style.display=t==='reg'?'':'none';
+}
+
+function login(){
+  const u=$('LU').value.trim(),p=$('LP').value,err=$('LE');
+  if(!u||!p){err.innerHTML='<div class="alert-err">❌ Username aur password daalo!</div>';return}
+  if(u===SUPER.u&&p===SUPER.p){CU={role:'superadmin',username:u};err.innerHTML='';startApp();return}
+  for(const k of DB.ks('shop:')){
+    const s=DB.g(k);if(!s)continue;
+    if(s.username===u&&s.password===p){CU={...s,role:'owner'};CS=s;err.innerHTML='';startApp();return}
+    const m=(s.staff||[]).find(x=>x.username===u&&x.password===p);
+    if(m){CU={...m,shopId:s.id,role:'staff'};CS=s;err.innerHTML='';startApp();return}
+  }
+  err.innerHTML='<div class="alert-err">❌ Galat username ya password!</div>';
+}
+
+function register(){
+  const sn=$('RS').value.trim(),on=$('RO').value.trim(),un=$('RU').value.trim(),pw=$('RP').value,pw2=$('RP2').value,err=$('RE');
+  if(!sn||!on||!un||!pw){err.innerHTML='<div class="alert-err">❌ Zaroori (*) fields bharo!</div>';return}
+  if(pw!==pw2){err.innerHTML='<div class="alert-err">❌ Password match nahi hua!</div>';return}
+  if(pw.length<6){err.innerHTML='<div class="alert-err">❌ Password 6+ characters!</div>';return}
+  for(const k of DB.ks('shop:')){const s=DB.g(k);if(s&&s.username===un){err.innerHTML='<div class="alert-err">❌ Username pehle se hai!</div>';return}}
+  const rc=($('RC')||{}).value.trim().toUpperCase();
+  let parentId=null,level=1;
+  if(rc){
+    const shops=DB.ks('shop:').map(k=>DB.g(k)).filter(Boolean);
+    const parent=shops.find(s=>s.refCode===rc);
+    if(!parent){err.innerHTML='<div class="alert-err">❌ Referral code sahi nahi!</div>';return}
+    parentId=parent.id;level=(parent.level||1)+1;
+  }
+  const shop={id:uid(),shopName:sn,ownerName:on,phone:$('RPH').value,email:$('REM').value,username:un,password:pw,address:$('RAD').value,category:$('RCAT').value,role:'owner',createdAt:now(),status:'active',parentId:parentId,refCode:mkCode(),level:level,staff:[],products:[],orders:[],roles:[...DEF_ROLES],settings:{currency:'₹',gst:'18',invoicePrefix:'INV'}};
+  DB.s('shop:'+shop.id,shop);
+  CU={...shop,role:'owner'};CS=shop;err.innerHTML='';startApp();
+}
+
+function logout(){CU=null;CS=null;TAB='dashboard';$('appScreen').style.display='none';$('authScreen').style.display='flex';$('LU').value='';$('LP').value='';$('LE').innerHTML='';history.pushState({},'',window.location.pathname)}
+function startApp(){$('authScreen').style.display='none';$('appScreen').style.display='flex';rCS();buildHeader();buildNav();renderTab()}
+function rCS(){if(!CU)return;if(CU.role==='staff')CS=DB.g('shop:'+CU.shopId)||CS;else if(CU.role==='owner')CS=DB.g('shop:'+CU.id)||CS}
+
+function buildHeader(){
+  if(CU.role==='superadmin'){$('HN').textContent='ShopOS Control';$('HS').textContent='Super Admin';$('HB').textContent='👑 Super Admin';$('HB').style.cssText='background:#f0a50020;color:var(--gold);border:1px solid #f0a50040;padding:3px 10px;border-radiu
