@@ -3,878 +3,305 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>ShopOS — Dukan Chain System</title>
+<title>ShopOS — Chain + Role System</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#08080f;--card:#111120;--border:#1e1e35;
+  --bg:#08080f;--card:#111120;--card2:#16162a;--border:#1e1e35;
   --gold:#f0a500;--amber:#e06b00;--text:#eee8d5;--muted:#7070a0;
-  --ok:#22c55e;--err:#ef4444;--blue:#3b82f6;--purple:#a855f7;--teal:#14b8a6;
-  --wa:#25D366;
+  --ok:#22c55e;--err:#ef4444;--blue:#3b82f6;--purple:#a855f7;--teal:#14b8a6;--wa:#25D366;
 }
 body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;min-height:100vh}
-button{cursor:pointer;font-family:'DM Sans',sans-serif;border:none;outline:none}
-input,select,textarea{font-family:'DM Sans',sans-serif;outline:none;border:none}
+button{cursor:pointer;font-family:'DM Sans',sans-serif;border:none;outline:none;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+input,select,textarea{font-family:'DM Sans',sans-serif;outline:none;border:none;-webkit-tap-highlight-color:transparent}
 a{color:var(--gold);text-decoration:none}
 ::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:var(--border);border-radius:9px}
 
-/* ── SCREENS ── */
-#authScreen{min-height:100vh;background:radial-gradient(ellipse at top,#1a1030,var(--bg) 60%);display:flex;align-items:center;justify-content:center;padding:20px}
-#appScreen{min-height:100vh;display:flex;flex-direction:column;display:none}
-
-/* ── AUTH ── */
-.auth-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:28px 24px;width:100%;max-width:440px}
-.logo{text-align:center;margin-bottom:18px}
-.logo-icon{font-size:46px;display:block;margin-bottom:5px}
-.logo-name{font-family:'Syne',sans-serif;font-size:26px;font-weight:900;background:linear-gradient(135deg,var(--gold),var(--amber));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+/* ═══ AUTH ═══ */
+#authScreen{min-height:100vh;background:radial-gradient(ellipse 120% 60% at 50% 0%,#1a1030,var(--bg) 70%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;gap:18px;position:relative;z-index:1}
+.auth-logo{text-align:center}
+.logo-name{font-family:'Syne',sans-serif;font-size:30px;font-weight:900;background:linear-gradient(135deg,var(--gold),var(--amber));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .logo-sub{color:var(--muted);font-size:12px;margin-top:3px}
+.panels-row{display:flex;gap:14px;width:100%;max-width:840px;align-items:flex-start}
+.panel{background:var(--card);border-radius:18px;padding:22px 20px;flex:1;min-width:0}
+.panel-login{border:2px solid #f0a50055}
+.panel-reg{border:1px solid var(--border)}
+.panel-header{display:flex;align-items:center;gap:12px;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.ph-icon{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.ph-title{font-family:'Syne',sans-serif;font-weight:800;font-size:16px}
+.ph-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.ref-banner{background:linear-gradient(135deg,#f0a50018,#a855f718);border:1px solid #f0a50040;border-radius:10px;padding:10px 12px;margin-bottom:14px;text-align:center}
 
-/* REF BANNER on auth */
-.ref-banner{background:linear-gradient(135deg,#f0a50020,#a855f720);border:1px solid #f0a50040;border-radius:12px;padding:12px 14px;margin-bottom:16px;text-align:center}
-.ref-banner-name{font-weight:700;color:var(--gold);font-size:15px}
-.ref-banner-sub{font-size:12px;color:var(--muted);margin-top:2px}
-
-.tab-row{display:flex;background:#07070e;border-radius:10px;padding:3px;margin-bottom:16px}
-.tab-btn{flex:1;padding:9px;border-radius:8px;font-weight:600;font-size:13px;background:transparent;color:var(--muted);transition:all .2s}
-.tab-btn.active{background:linear-gradient(135deg,var(--gold),var(--amber));color:#000}
-
-/* ── FORM ── */
-.field{margin-bottom:12px}
-.field-label{display:block;font-size:11px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px;font-weight:600}
-.field-input,.field-select{display:block;width:100%;background:#07070e;border:1px solid var(--border);border-radius:9px;padding:11px 13px;color:var(--text);font-size:14px;-webkit-appearance:none;appearance:none}
-.field-input:focus,.field-select:focus{border-color:var(--gold)}
+/* ═══ FORM ═══ */
+.field{margin-bottom:11px}
+.fl{display:block;font-size:11px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px;font-weight:600}
+.fi,.fs{display:block;width:100%;background:#07070e;border:1px solid var(--border);border-radius:9px;padding:11px 13px;color:var(--text);font-size:14px;-webkit-appearance:none;appearance:none}
+.fi:focus,.fs:focus{border-color:var(--gold)}
+textarea.fi{resize:vertical;min-height:70px}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
 .g4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px}
 
-/* ── BUTTONS ── */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:5px;padding:10px 16px;border-radius:9px;font-weight:600;font-size:13px}
-.btn:active{opacity:.75}
-.btn-gold{background:linear-gradient(135deg,var(--gold),var(--amber));color:#000}
-.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--text)}
-.btn-red{background:var(--err);color:#fff}
-.btn-green{background:var(--ok);color:#fff}
-.btn-blue{background:var(--blue);color:#fff}
-.btn-purple{background:var(--purple);color:#fff}
-.btn-teal{background:var(--teal);color:#fff}
-.btn-wa{background:var(--wa);color:#fff;font-size:13px}
-.btn-sm{padding:6px 12px;font-size:12px;border-radius:7px}
-.btn-xs{padding:4px 8px;font-size:11px;border-radius:6px}
-.btn-block{width:100%;padding:13px}
-.alert-err{background:#ef444415;color:var(--err);border-radius:8px;padding:8px 12px;font-size:13px;margin-bottom:10px}
-.alert-ok{background:#22c55e15;color:var(--ok);border-radius:8px;padding:8px 12px;font-size:13px;margin-bottom:10px}
+/* ═══ BUTTONS ═══ */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:5px;padding:10px 16px;border-radius:9px;font-weight:600;font-size:13px;touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
+.btn:active{opacity:.72;transform:scale(.97)}
+.bg{background:linear-gradient(135deg,var(--gold),var(--amber));color:#000}
+.bgh{background:transparent;border:1px solid var(--border);color:var(--text)}
+.bd{background:var(--err);color:#fff}
+.bk{background:var(--ok);color:#fff}
+.bb{background:var(--blue);color:#fff}
+.bp{background:var(--purple);color:#fff}
+.bt{background:var(--teal);color:#fff}
+.bwa{background:var(--wa);color:#fff}
+.bsm{padding:6px 12px;font-size:12px;border-radius:7px}
+.bxs{padding:4px 8px;font-size:11px;border-radius:6px}
+.bfw{width:100%;padding:13px}
+.ae{background:#ef444415;color:var(--err);border-radius:8px;padding:8px 12px;font-size:13px;margin-bottom:10px}
+.ak{background:#22c55e15;color:var(--ok);border-radius:8px;padding:8px 12px;font-size:13px;margin-bottom:10px}
 
-/* ── BADGE ── */
-.badge{display:inline-flex;align-items:center;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:600}
+/* ═══ BADGES ═══ */
+.bx{display:inline-flex;align-items:center;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:600}
+.role-chip{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700}
 
-/* ── HEADER ── */
-.app-header{background:var(--card);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
-.hname{font-family:'Syne',sans-serif;font-weight:800;font-size:15px;color:var(--gold)}
-.hsub{font-size:11px;color:var(--muted)}
-
-/* ── NAV ── */
+/* ═══ MAIN APP ═══ */
+#appScreen{min-height:100vh;display:flex;flex-direction:column}
+.app-hdr{background:var(--card);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.hn{font-family:'Syne',sans-serif;font-weight:800;font-size:15px;color:var(--gold)}
+.hs{font-size:11px;color:var(--muted)}
 .app-nav{background:var(--card);border-bottom:1px solid var(--border);padding:8px 14px;display:flex;gap:5px;overflow-x:auto}
 .app-nav::-webkit-scrollbar{height:0}
-.nav-btn{padding:7px 13px;border-radius:8px;font-weight:600;font-size:12px;color:var(--muted);background:transparent;border:1px solid transparent;white-space:nowrap;flex-shrink:0}
-.nav-btn.active{background:linear-gradient(135deg,var(--gold),var(--amber));color:#000}
-.app-content{flex:1;padding:16px;overflow-y:auto}
+.nb{padding:7px 13px;border-radius:8px;font-weight:600;font-size:12px;color:var(--muted);background:transparent;border:1px solid transparent;white-space:nowrap;flex-shrink:0;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.nb.on{background:linear-gradient(135deg,var(--gold),var(--amber));color:#000}
+.cnt{flex:1;padding:16px;overflow-y:auto}
 
-/* ── CARD ── */
-.card{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:15px;margin-bottom:12px}
-.card-title{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;margin-bottom:12px}
-.stat-box{border-radius:12px;padding:14px;text-align:center}
-.stat-num{font-family:'Syne',sans-serif;font-size:22px;font-weight:900}
-.stat-lbl{font-size:11px;color:var(--muted);margin-top:2px}
-.list-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border);gap:8px}
-.list-row:last-child{border-bottom:none}
-.flex{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.flex-between{display:flex;align-items:center;justify-content:space-between;gap:8px}
+/* ═══ CARDS ═══ */
+.cd{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:15px;margin-bottom:12px}
+.cdt{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;margin-bottom:12px}
+.sb{border-radius:12px;padding:14px;text-align:center}
+.sv{font-family:'Syne',sans-serif;font-size:22px;font-weight:900}
+.sl{font-size:11px;color:var(--muted);margin-top:2px}
+.lr{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border);gap:8px}
+.lr:last-child{border-bottom:none}
+.row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.jb{display:flex;align-items:center;justify-content:space-between;gap:8px}
 
-/* ── REFERRAL SHARE CARD ── */
-.share-card{
-  background:linear-gradient(135deg,#1a1030,#0f1a30);
-  border:1px solid #f0a50033;border-radius:16px;padding:18px;margin-bottom:14px;
-}
-.share-title{font-family:'Syne',sans-serif;font-size:18px;font-weight:900;color:var(--gold);margin-bottom:4px}
-.share-msg-preview{
-  background:#07070e;border:1px solid var(--border);border-radius:10px;
-  padding:12px;margin:12px 0;font-size:13px;line-height:1.7;color:var(--text);
-  white-space:pre-wrap;word-break:break-all;
-}
-.ref-link{color:var(--blue);font-weight:600;word-break:break-all}
-.share-btns{display:flex;gap:8px;flex-wrap:wrap}
+/* ═══ 3-TIER PRICING ═══ */
+.price-tier-box{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:12px}
+.price-tier-title{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
+.tier-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.tier-inp-wrap{text-align:center}
+.tier-label{font-size:11px;font-weight:700;margin-bottom:5px;display:block}
+.tier-inp{display:block;width:100%;background:#07070e;border:2px solid var(--border);border-radius:9px;padding:10px 8px;color:var(--text);font-size:14px;font-weight:700;text-align:center;-webkit-appearance:none;outline:none}
+.tier-inp:focus{border-color:var(--gold)}
 
-/* ── CHAIN TREE ── */
-.tree-node-inner{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
-.tree-children{margin-left:22px;border-left:2px solid var(--border);padding-left:12px}
+/* PRICE DISPLAY on product card */
+.price-tiers{display:flex;gap:6px;flex-wrap:wrap;margin:5px 0}
+.pt{padding:3px 9px;border-radius:7px;font-size:12px;font-weight:700}
+.pt-r{background:#f0a50022;color:var(--gold);border:1px solid #f0a50044}
+.pt-w{background:#3b82f622;color:#3b82f6;border:1px solid #3b82f644}
+.pt-d{background:#a855f722;color:#a855f7;border:1px solid #a855f744}
 
-/* ── OTHER ── */
-.prod-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:13px}
-.prod-price{font-family:'Syne',sans-serif;font-size:20px;font-weight:900;color:var(--gold)}
-.staff-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:13px;text-align:center}
+/* ROLE PERMISSIONS TABLE */
+.perm-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:10px}
+.perm-table th,.perm-table td{padding:7px 10px;border:1px solid var(--border);text-align:center}
+.perm-table th{background:var(--card2);font-weight:700;font-size:11px;text-transform:uppercase}
+.perm-table td:first-child{text-align:left;font-weight:600}
+
+/* MODAL */
+.mov{visibility:hidden;pointer-events:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:500;display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;transition:opacity .2s}
+.mov.open{visibility:visible;pointer-events:all;opacity:1}
+.mbox{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto}
+.mhd{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.mt{font-family:'Syne',sans-serif;font-weight:800;font-size:15px}
+
+/* MISC */
+.pc{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:13px}
+.stc{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:13px;text-align:center}
 .oc{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:12px;margin-bottom:9px}
-.empty{text-align:center;padding:36px 20px;color:var(--muted)}
-.empty-icon{font-size:38px;display:block;margin-bottom:8px}
-.search-box{background:#07070e;border:1px solid var(--border);border-radius:9px;padding:9px 12px;color:var(--text);font-size:13px;width:100%;max-width:220px;-webkit-appearance:none}
-.search-box:focus{border-color:var(--gold)}
-.sus-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:50vh;gap:12px;text-align:center}
-.chat-area{background:#07070e;border:1px solid var(--border);border-radius:11px;padding:12px;min-height:240px;max-height:320px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;margin-bottom:11px}
-.msg{display:flex}.msg.me{justify-content:flex-end}
-.bubble{max-width:80%;padding:10px 13px;border-radius:16px;line-height:1.55;font-size:13px;white-space:pre-wrap}
-.msg.ai .bubble{background:#1a1a2e;border:1px solid var(--border);border-radius:16px 16px 16px 3px}
-.msg.me .bubble{background:linear-gradient(135deg,var(--gold),var(--amber));color:#000;font-weight:500;border-radius:16px 16px 3px 16px}
-.chat-inp{display:flex;gap:7px}
-.chat-inp input{flex:1;background:#07070e;border:1px solid var(--border);border-radius:9px;padding:11px 12px;color:var(--text);font-size:13px;-webkit-appearance:none}
-.chat-inp input:focus{border-color:var(--gold)}
-.key-box{background:#07070e;border:2px dashed var(--border);border-radius:12px;padding:18px;text-align:center;margin-bottom:12px}
+.emp{text-align:center;padding:36px 20px;color:var(--muted)}
+.eic{font-size:38px;display:block;margin-bottom:8px}
+.sb2{background:#07070e;border:1px solid var(--border);border-radius:9px;padding:9px 12px;color:var(--text);font-size:13px;width:100%;max-width:220px;-webkit-appearance:none}
+.sb2:focus{border-color:var(--gold)}
+.sus{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:50vh;gap:12px;text-align:center}
+.cb2{background:#07070e;border:1px solid var(--border);border-radius:11px;padding:12px;min-height:240px;max-height:320px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;margin-bottom:11px}
+.ms{display:flex}.ms.me{justify-content:flex-end}
+.bu{max-width:80%;padding:10px 13px;border-radius:16px;line-height:1.55;font-size:13px;white-space:pre-wrap}
+.ms.ai .bu{background:#1a1a2e;border:1px solid var(--border);border-radius:16px 16px 16px 3px}
+.ms.me .bu{background:linear-gradient(135deg,var(--gold),var(--amber));color:#000;font-weight:500;border-radius:16px 16px 3px 16px}
+.ci{display:flex;gap:7px}
+.ci input{flex:1;background:#07070e;border:1px solid var(--border);border-radius:9px;padding:11px 12px;color:var(--text);font-size:13px;-webkit-appearance:none}
+.ci input:focus{border-color:var(--gold)}
+.share-card{background:linear-gradient(135deg,#1a1030,#0f1a30);border:1px solid #f0a50033;border-radius:16px;padding:18px;margin-bottom:14px}
+.msg-prev{background:#07070e;border:1px solid var(--border);border-radius:10px;padding:12px;margin:12px 0;font-size:13px;line-height:1.7;white-space:pre-wrap;word-break:break-all}
+.tn{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.tch{margin-left:22px;border-left:2px solid var(--border);padding-left:12px}
+.keybox{background:#07070e;border:2px dashed var(--border);border-radius:12px;padding:18px;text-align:center;margin-bottom:12px}
 
-#toast-msg{position:fixed;bottom:18px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--card);border:1px solid var(--border);padding:9px 18px;border-radius:10px;font-size:13px;font-weight:600;opacity:0;transition:all .28s;z-index:9999;box-shadow:0 4px 20px rgba(0,0,0,.5);white-space:nowrap;max-width:90vw}
-#toast-msg.show{transform:translateX(-50%) translateY(0);opacity:1}
+#tst{position:fixed;bottom:18px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--card);border:1px solid var(--border);padding:9px 18px;border-radius:10px;font-size:13px;font-weight:600;opacity:0;transition:all .28s;z-index:9999;box-shadow:0 4px 20px rgba(0,0,0,.5);white-space:nowrap;max-width:90vw;pointer-events:none}
+#tst.on{transform:translateX(-50%) translateY(0);opacity:1}
 
-@media(max-width:560px){.g4{grid-template-columns:1fr 1fr}.g3{grid-template-columns:1fr 1fr}.g2{grid-template-columns:1fr}}
+@media(max-width:600px){.panels-row{flex-direction:column}.g4{grid-template-columns:1fr 1fr}.g3{grid-template-columns:1fr 1fr}.g2{grid-template-columns:1fr}.tier-row{grid-template-columns:1fr 1fr 1fr}}
 </style>
 </head>
 <body>
-<div id="toast-msg"></div>
+<div id="tst"></div>
 
-<!-- ═══ AUTH SCREEN ═══ -->
+<!-- ═══════════ AUTH ═══════════ -->
 <div id="authScreen">
-  <div class="auth-card">
-    <div class="logo">
-      <span class="logo-icon">🏪</span>
-      <div class="logo-name">ShopOS</div>
-      <div class="logo-sub">Dukan se Dukan — Chain System</div>
-    </div>
+  <div class="auth-logo">
+    <div style="font-size:46px">🏪</div>
+    <div class="logo-name">ShopOS</div>
+    <div class="logo-sub">Chain System · Role-Based Access · 3-Tier Pricing</div>
+  </div>
 
-    <!-- REFERRAL BANNER (shows if ?ref= in URL) -->
-    <div class="ref-banner" id="refBanner" style="display:none">
-      <div style="font-size:12px;color:var(--muted);margin-bottom:4px">🔗 Aapko invite kiya hai</div>
-      <div class="ref-banner-name" id="refBannerName">—</div>
-      <div class="ref-banner-sub" id="refBannerSub">Unki chain mein join karo aur badhao business!</div>
-    </div>
+  <div class="ref-banner" id="refBanner" style="display:none;width:100%;max-width:840px">
+    <div style="font-size:12px;color:var(--muted);margin-bottom:3px">🔗 Aapko invite kiya hai</div>
+    <div style="font-weight:700;color:var(--gold);font-size:14px" id="refBannerName">—</div>
+    <div style="font-size:11px;color:var(--muted);margin-top:2px">Unki chain mein join karo aur badhao business 📈</div>
+  </div>
 
-    <div class="tab-row">
-      <button class="tab-btn active" id="tL" onclick="showTab('login')">🔑 Login</button>
-      <button class="tab-btn" id="tR" onclick="showTab('reg')">🆕 Register</button>
-    </div>
-
-    <!-- LOGIN -->
-    <div id="loginForm">
-      <div class="field"><label class="field-label">Username</label><input class="field-input" type="text" id="LU" placeholder="username daalo" autocomplete="username"/></div>
-      <div class="field"><label class="field-label">Password</label><input class="field-input" type="password" id="LP" placeholder="••••••" autocomplete="current-password"/></div>
+  <div class="panels-row">
+    <!-- LOGIN PANEL -->
+    <div class="panel panel-login">
+      <div class="panel-header">
+        <div class="ph-icon" style="background:#f0a50022">🔑</div>
+        <div><div class="ph-title">Login Karo</div><div class="ph-sub">Pehle se account hai</div></div>
+      </div>
+      <div class="field"><label class="fl">Username</label><input class="fi" type="text" id="LU" placeholder="username daalo" autocomplete="username"/></div>
+      <div class="field"><label class="fl">Password</label><input class="fi" type="password" id="LP" placeholder="••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')login()"/></div>
       <div id="LE"></div>
-      <button class="btn btn-gold btn-block" onclick="login()">🚀 Login Karo</button>
-      <p style="text-align:center;margin-top:12px;color:var(--muted);font-size:12px">Super Admin: <b style="color:var(--gold)">superadmin</b> / <b style="color:var(--gold)">super@123</b></p>
+      <button class="btn bg bfw" onclick="login()">🚀 Login Karo</button>
+      <div style="margin-top:14px;background:var(--card2);border:1px solid var(--border);border-radius:9px;padding:10px 13px">
+        <div style="font-size:11px;color:var(--muted);text-transform:uppercase;font-weight:700;margin-bottom:6px">Super Admin</div>
+        <div style="font-size:13px">User: <b style="color:var(--gold)">superadmin</b> &nbsp;|&nbsp; Pass: <b style="color:var(--gold)">super@123</b></div>
+      </div>
     </div>
 
-    <!-- REGISTER -->
-    <div id="regForm" style="display:none">
+    <!-- REGISTER PANEL -->
+    <div class="panel panel-reg">
+      <div class="panel-header">
+        <div class="ph-icon" style="background:#a855f722">🆕</div>
+        <div><div class="ph-title">Naya Register</div><div class="ph-sub">Apni dukan kholo — free!</div></div>
+      </div>
       <div class="field">
-        <label class="field-label">Referral Code (optional)</label>
-        <input class="field-input" type="text" id="RC" placeholder="Kisi ne diya ho to daalo" style="letter-spacing:2px;text-transform:uppercase" oninput="checkRef()"/>
+        <label class="fl">Referral Code (optional)</label>
+        <input class="fi" type="text" id="RC" placeholder="Kisi ka code ho to daalo" style="letter-spacing:2px;text-transform:uppercase" oninput="chkRef()"/>
         <div id="RC_info" style="font-size:12px;margin-top:4px;color:var(--muted)"></div>
       </div>
       <div class="g2">
-        <div class="field"><label class="field-label">Dukan Naam *</label><input class="field-input" type="text" id="RS" placeholder="Sharma Store"/></div>
-        <div class="field"><label class="field-label">Malik Naam *</label><input class="field-input" type="text" id="RO" placeholder="Ramesh"/></div>
-        <div class="field"><label class="field-label">Username *</label><input class="field-input" type="text" id="RU" placeholder="sharma123" autocomplete="username"/></div>
-        <div class="field"><label class="field-label">Category</label>
-          <select class="field-select" id="RCAT"><option>General Store</option><option>Grocery</option><option>Clothing</option><option>Electronics</option><option>Pharmacy</option><option>Restaurant</option><option>Hardware</option><option>Stationery</option><option>Jewellery</option><option>Other</option></select>
+        <div class="field"><label class="fl">Dukan Naam *</label><input class="fi" type="text" id="RS" placeholder="Sharma Store"/></div>
+        <div class="field"><label class="fl">Malik Naam *</label><input class="fi" type="text" id="RO" placeholder="Ramesh"/></div>
+        <div class="field"><label class="fl">Username *</label><input class="fi" type="text" id="RU" placeholder="sharma123" autocomplete="username"/></div>
+        <div class="field"><label class="fl">Category</label>
+          <select class="fs" id="RCAT"><option>General Store</option><option>Grocery</option><option>Clothing</option><option>Electronics</option><option>Pharmacy</option><option>Restaurant</option><option>Hardware</option><option>Other</option></select>
         </div>
-        <div class="field"><label class="field-label">Phone</label><input class="field-input" type="tel" id="RPH" placeholder="9876543210"/></div>
-        <div class="field"><label class="field-label">Email</label><input class="field-input" type="email" id="REM" placeholder="abc@gmail.com"/></div>
-        <div class="field"><label class="field-label">Password *</label><input class="field-input" type="password" id="RP" placeholder="6+ chars" autocomplete="new-password"/></div>
-        <div class="field"><label class="field-label">Confirm Pass *</label><input class="field-input" type="password" id="RP2" placeholder="••••••" autocomplete="new-password"/></div>
+        <div class="field"><label class="fl">Phone</label><input class="fi" type="tel" id="RPH" placeholder="9876543210"/></div>
+        <div class="field"><label class="fl">Email</label><input class="fi" type="email" id="REM" placeholder="abc@gmail.com"/></div>
+        <div class="field"><label class="fl">Password *</label><input class="fi" type="password" id="RP" placeholder="6+ chars" autocomplete="new-password"/></div>
+        <div class="field"><label class="fl">Confirm *</label><input class="fi" type="password" id="RP2" placeholder="••••••" autocomplete="new-password"/></div>
       </div>
-      <div class="field"><label class="field-label">Address</label><input class="field-input" type="text" id="RAD" placeholder="Gali No. 5, Bazar..."/></div>
+      <div class="field"><label class="fl">Address</label><input class="fi" type="text" id="RAD" placeholder="Gali No. 5, Bazar..."/></div>
       <div id="RE"></div>
-      <button class="btn btn-gold btn-block" onclick="register()">🏪 Dukan Kholo!</button>
+      <button class="btn bg bfw" onclick="register()">🏪 Dukan Kholo!</button>
     </div>
   </div>
 </div>
 
-<!-- ═══ MAIN APP ═══ -->
-<div id="appScreen">
-  <div class="app-header">
+<!-- ═══════════ MAIN APP ═══════════ -->
+<div id="appScreen" style="display:none">
+  <div class="app-hdr">
     <div style="display:flex;align-items:center;gap:10px">
       <span style="font-size:22px">🏪</span>
-      <div>
-        <div class="hname" id="HN">ShopOS</div>
-        <div class="hsub" id="HS"></div>
-      </div>
+      <div><div class="hn" id="HN">ShopOS</div><div class="hs" id="HS"></div></div>
     </div>
     <div style="display:flex;align-items:center;gap:8px">
-      <span class="badge" id="HB" style="background:#f0a50020;color:var(--gold);border:1px solid #f0a50040;font-size:11px"></span>
-      <button class="btn btn-red btn-sm" onclick="logout()">🚪</button>
+      <span id="HB"></span>
+      <button class="btn bd bsm" onclick="logout()">🚪</button>
     </div>
   </div>
   <div class="app-nav" id="appNav"></div>
-  <div class="app-content" id="appContent"></div>
+  <div class="cnt" id="cnt"></div>
 </div>
 
-<!-- ═══ MODAL ═══ -->
-<div style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:500;align-items:center;justify-content:center;padding:16px" id="modalBg">
-  <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;width:100%;max-width:500px;max-height:88vh;overflow-y:auto">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
-      <div style="font-family:Syne,sans-serif;font-weight:800;font-size:15px" id="modalTitle"></div>
-      <button class="btn btn-ghost btn-sm" onclick="closeMo()">✕</button>
-    </div>
-    <div id="modalBody"></div>
+<!-- MODAL -->
+<div class="mov" id="MO">
+  <div class="mbox">
+    <div class="mhd"><div class="mt" id="MT"></div><button class="btn bgh bsm" onclick="cMo()">✕</button></div>
+    <div id="MB"></div>
   </div>
 </div>
 
 <script>
+// ═══ HELPERS ═══
 const $=id=>document.getElementById(id);
 const uid=()=>Math.random().toString(36).slice(2,9);
 const mkCode=()=>Math.random().toString(36).slice(2,8).toUpperCase();
 const now=()=>new Date().toLocaleString('en-IN');
 const esc=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-const DB={
-  g:k=>{try{return JSON.parse(localStorage.getItem(k))}catch{return null}},
-  s:(k,v)=>localStorage.setItem(k,JSON.stringify(v)),
-  d:k=>localStorage.removeItem(k),
-  ks:p=>Object.keys(localStorage).filter(k=>k.startsWith(p))
+const DB={g:k=>{try{return JSON.parse(localStorage.getItem(k))}catch{return null}},s:(k,v)=>localStorage.setItem(k,JSON.stringify(v)),d:k=>localStorage.removeItem(k),ks:p=>Object.keys(localStorage).filter(k=>k.startsWith(p))};
+
+// ═══ ROLE CONFIG ═══
+const ROLES={
+  admin:   {label:'Admin',      icon:'👑', color:'#f0a500', desc:'Sab kuch access'},
+  manager: {label:'Manager',    icon:'🏆', color:'#3b82f6', desc:'Sales, Inventory, Housekeeping'},
+  staff:   {label:'Staff',      icon:'🙋', color:'#22c55e', desc:'Sales record karna'},
+  agent:   {label:'Agent',      icon:'🤝', color:'#a855f7', desc:'Order lena, stock dekhna'},
+  distributor:{label:'Distributor',icon:'🚚',color:'#14b8a6',desc:'Order lena, stock dekhna'},
 };
-const DEF_ROLES=['Manager','Employee','Distributor','Agent','Worker','Accountant','Delivery Boy'];
+
+// PERMISSIONS per role
+const PERMS={
+  admin:      {dashboard:1,share:1,mychain:1,staff:1,products:1,productsEdit:1,orders:1,roles:1,settings:1,ai:1,pricing:'all'},
+  manager:    {dashboard:1,products:1,productsEdit:0,orders:1,ai:1,pricing:'retail'},
+  staff:      {dashboard:1,orders:1,pricing:'retail'},
+  agent:      {dashboard:1,products:1,productsEdit:0,orders:1,pricing:'wholesale'},
+  distributor:{dashboard:1,products:1,productsEdit:0,orders:1,pricing:'distributor'},
+};
+
+// What price tier each role sees for orders
+const ROLE_TIER={admin:'retail',manager:'retail',staff:'retail',agent:'wholesale',distributor:'distributor'};
+const TIER_LABEL={retail:'🏷️ Retail',wholesale:'🔵 Wholesale',distributor:'🟣 Distributor'};
+const TIER_KEY={retail:'price',wholesale:'priceW',distributor:'priceD'};
+
+// ═══ STATE ═══
 const SUPER={u:'superadmin',p:'super@123'};
 let CU=null,CS=null,TAB='dashboard';
 
 // ═══ TOAST ═══
 let _tt;
-function toast(msg,t){const el=$('toast-msg');el.textContent=msg;el.style.color=t==='err'?'#ef4444':'#22c55e';el.classList.add('show');clearTimeout(_tt);_tt=setTimeout(()=>el.classList.remove('show'),2600)}
+function toast(msg,t){const el=$('tst');el.textContent=msg;el.style.color=t==='err'?'#ef4444':'#22c55e';el.classList.add('on');clearTimeout(_tt);_tt=setTimeout(()=>el.classList.remove('on'),2600)}
 
 // ═══ MODAL ═══
-function openMo(tl,html){$('modalTitle').textContent=tl;$('modalBody').innerHTML=html;$('modalBg').style.display='flex'}
-function closeMo(){$('modalBg').style.display='none'}
-$('modalBg').addEventListener('click',e=>{if(e.target===$('modalBg'))closeMo()});
+function oMo(tl,html){$('MT').textContent=tl;$('MB').innerHTML=html;$('MO').classList.add('open')}
+function cMo(){$('MO').classList.remove('open')}
+$('MO').addEventListener('click',e=>{if(e.target===$('MO'))cMo()});
 
-// ═══ URL REFERRAL ═══
-function getPageURL(){return window.location.origin+window.location.pathname}
-function getRefLinkFor(shop){return getPageURL()+'?ref='+shop.refCode}
-
-// Auto-fill referral from URL
+// ═══ URL REF ═══
+function pageURL(){return window.location.origin+window.location.pathname}
+function refLink(shop){return pageURL()+'?ref='+shop.refCode}
 (function(){
-  const params=new URLSearchParams(window.location.search);
-  const ref=params.get('ref');
+  const ref=new URLSearchParams(window.location.search).get('ref');
   if(!ref)return;
-  // Show register tab
-  setTimeout(()=>{
-    showTab('reg');
-    const inp=$('RC');
-    if(inp){inp.value=ref.toUpperCase();checkRef()}
-  },100);
+  setTimeout(()=>{const inp=$('RC');if(inp){inp.value=ref.toUpperCase();chkRef()}const rb=$('refBanner');if(rb)rb.style.display=''},100);
 })();
 
-function checkRef(){
-  const code=($('RC')||{}).value.trim().toUpperCase();
-  const info=$('RC_info');if(!info)return;
+function chkRef(){
+  const code=($('RC')||{}).value.trim().toUpperCase(),info=$('RC_info');if(!info)return;
   if(!code){info.textContent='';return}
-  const shops=DB.ks('shop:').map(k=>DB.g(k)).filter(Boolean);
-  const found=shops.find(s=>s.refCode===code);
-  info.textContent=found?'✅ Dukan mili: '+found.shopName+' ('+found.ownerName+')':'❌ Ye referral code sahi nahi hai';
+  const found=DB.ks('shop:').map(k=>DB.g(k)).filter(Boolean).find(s=>s.refCode===code);
+  info.textContent=found?'✅ Dukan: '+found.shopName+' ('+found.ownerName+')':'❌ Code sahi nahi';
   info.style.color=found?'#22c55e':'#ef4444';
-  // Show banner
-  if(found){
-    const b=$('refBanner'),bn=$('refBannerName');
-    if(b&&bn){b.style.display='';bn.textContent=found.shopName+' — '+found.ownerName}
-  }
+  if(found){const b=$('refBanner'),bn=$('refBannerName');if(b){b.style.display='';if(bn)bn.textContent=found.shopName+' — '+found.ownerName}}
 }
 
-// ═══ AUTH ═══
-function showTab(t){
-  $('tL').className='tab-btn'+(t==='login'?' active':'');
-  $('tR').className='tab-btn'+(t==='reg'?' active':'');
-  $('loginForm').style.display=t==='login'?'':'none';
-  $('regForm').style.display=t==='reg'?'':'none';
-}
-
+// ═══ LOGIN ═══
 function login(){
   const u=$('LU').value.trim(),p=$('LP').value,err=$('LE');
-  if(!u||!p){err.innerHTML='<div class="alert-err">❌ Username aur password daalo!</div>';return}
+  if(!u||!p){err.innerHTML='<div class="ae">❌ Username aur password daalo!</div>';return}
   if(u===SUPER.u&&p===SUPER.p){CU={role:'superadmin',username:u};err.innerHTML='';startApp();return}
   for(const k of DB.ks('shop:')){
     const s=DB.g(k);if(!s)continue;
-    if(s.username===u&&s.password===p){CU={...s,role:'owner'};CS=s;err.innerHTML='';startApp();return}
+    if(s.username===u&&s.password===p){CU={...s,shopRole:'admin',role:'owner'};CS=s;err.innerHTML='';startApp();return}
     const m=(s.staff||[]).find(x=>x.username===u&&x.password===p);
-    if(m){CU={...m,shopId:s.id,role:'staff'};CS=s;err.innerHTML='';startApp();return}
-  }
-  err.innerHTML='<div class="alert-err">❌ Galat username ya password!</div>';
-}
-
-function register(){
-  const sn=$('RS').value.trim(),on=$('RO').value.trim(),un=$('RU').value.trim(),pw=$('RP').value,pw2=$('RP2').value,err=$('RE');
-  if(!sn||!on||!un||!pw){err.innerHTML='<div class="alert-err">❌ Zaroori (*) fields bharo!</div>';return}
-  if(pw!==pw2){err.innerHTML='<div class="alert-err">❌ Password match nahi hua!</div>';return}
-  if(pw.length<6){err.innerHTML='<div class="alert-err">❌ Password 6+ characters!</div>';return}
-  for(const k of DB.ks('shop:')){const s=DB.g(k);if(s&&s.username===un){err.innerHTML='<div class="alert-err">❌ Username pehle se hai!</div>';return}}
-  const rc=($('RC')||{}).value.trim().toUpperCase();
-  let parentId=null,level=1;
-  if(rc){
-    const shops=DB.ks('shop:').map(k=>DB.g(k)).filter(Boolean);
-    const parent=shops.find(s=>s.refCode===rc);
-    if(!parent){err.innerHTML='<div class="alert-err">❌ Referral code sahi nahi!</div>';return}
-    parentId=parent.id;level=(parent.level||1)+1;
-  }
-  const shop={id:uid(),shopName:sn,ownerName:on,phone:$('RPH').value,email:$('REM').value,username:un,password:pw,address:$('RAD').value,category:$('RCAT').value,role:'owner',createdAt:now(),status:'active',parentId:parentId,refCode:mkCode(),level:level,staff:[],products:[],orders:[],roles:[...DEF_ROLES],settings:{currency:'₹',gst:'18',invoicePrefix:'INV'}};
-  DB.s('shop:'+shop.id,shop);
-  CU={...shop,role:'owner'};CS=shop;err.innerHTML='';startApp();
-}
-
-function logout(){CU=null;CS=null;TAB='dashboard';$('appScreen').style.display='none';$('authScreen').style.display='flex';$('LU').value='';$('LP').value='';$('LE').innerHTML='';history.pushState({},'',window.location.pathname)}
-function startApp(){$('authScreen').style.display='none';$('appScreen').style.display='flex';rCS();buildHeader();buildNav();renderTab()}
-function rCS(){if(!CU)return;if(CU.role==='staff')CS=DB.g('shop:'+CU.shopId)||CS;else if(CU.role==='owner')CS=DB.g('shop:'+CU.id)||CS}
-
-function buildHeader(){
-  if(CU.role==='superadmin'){$('HN').textContent='ShopOS Control';$('HS').textContent='Super Admin';$('HB').textContent='👑 Super Admin';$('HB').style.cssText='background:#f0a50020;color:var(--gold);border:1px solid #f0a50040;padding:3px 10px;border-radiu<!DOCTYPE html>
-<html lang="hi">
-<head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>ShopOS — Dukan Chain System</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg:#08080f;--card:#111120;--border:#1e1e35;
-  --gold:#f0a500;--amber:#e06b00;--text:#eee8d5;--muted:#7070a0;
-  --ok:#22c55e;--err:#ef4444;--blue:#3b82f6;--purple:#a855f7;--teal:#14b8a6;
-  --wa:#25D366;
-}
-body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;min-height:100vh}
-button{cursor:pointer;font-family:'DM Sans',sans-serif;border:none;outline:none}
-input,select,textarea{font-family:'DM Sans',sans-serif;outline:none;border:none}
-a{color:var(--gold);text-decoration:none}
-::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:var(--border);border-radius:9px}
-
-/* ── SCREENS ── */
-#authScreen{min-height:100vh;background:radial-gradient(ellipse at top,#1a1030,var(--bg) 60%);display:flex;align-items:center;justify-content:center;padding:20px}
-#appScreen{min-height:100vh;display:flex;flex-direction:column;display:none}
-
-/* ── AUTH ── */
-.auth-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:28px 24px;width:100%;max-width:440px}
-.logo{text-align:center;margin-bottom:18px}
-.logo-icon{font-size:46px;display:block;margin-bottom:5px}
-.logo-name{font-family:'Syne',sans-serif;font-size:26px;font-weight:900;background:linear-gradient(135deg,var(--gold),var(--amber));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.logo-sub{color:var(--muted);font-size:12px;margin-top:3px}
-
-/* REF BANNER on auth */
-.ref-banner{background:linear-gradient(135deg,#f0a50020,#a855f720);border:1px solid #f0a50040;border-radius:12px;padding:12px 14px;margin-bottom:16px;text-align:center}
-.ref-banner-name{font-weight:700;color:var(--gold);font-size:15px}
-.ref-banner-sub{font-size:12px;color:var(--muted);margin-top:2px}
-
-.tab-row{display:flex;background:#07070e;border-radius:10px;padding:3px;margin-bottom:16px}
-.tab-btn{flex:1;padding:9px;border-radius:8px;font-weight:600;font-size:13px;background:transparent;color:var(--muted);transition:all .2s}
-.tab-btn.active{background:linear-gradient(135deg,var(--gold),var(--amber));color:#000}
-
-/* ── FORM ── */
-.field{margin-bottom:12px}
-.field-label{display:block;font-size:11px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px;font-weight:600}
-.field-input,.field-select{display:block;width:100%;background:#07070e;border:1px solid var(--border);border-radius:9px;padding:11px 13px;color:var(--text);font-size:14px;-webkit-appearance:none;appearance:none}
-.field-input:focus,.field-select:focus{border-color:var(--gold)}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-.g4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px}
-
-/* ── BUTTONS ── */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:5px;padding:10px 16px;border-radius:9px;font-weight:600;font-size:13px}
-.btn:active{opacity:.75}
-.btn-gold{background:linear-gradient(135deg,var(--gold),var(--amber));color:#000}
-.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--text)}
-.btn-red{background:var(--err);color:#fff}
-.btn-green{background:var(--ok);color:#fff}
-.btn-blue{background:var(--blue);color:#fff}
-.btn-purple{background:var(--purple);color:#fff}
-.btn-teal{background:var(--teal);color:#fff}
-.btn-wa{background:var(--wa);color:#fff;font-size:13px}
-.btn-sm{padding:6px 12px;font-size:12px;border-radius:7px}
-.btn-xs{padding:4px 8px;font-size:11px;border-radius:6px}
-.btn-block{width:100%;padding:13px}
-.alert-err{background:#ef444415;color:var(--err);border-radius:8px;padding:8px 12px;font-size:13px;margin-bottom:10px}
-.alert-ok{background:#22c55e15;color:var(--ok);border-radius:8px;padding:8px 12px;font-size:13px;margin-bottom:10px}
-
-/* ── BADGE ── */
-.badge{display:inline-flex;align-items:center;padding:2px 9px;border-radius:20px;font-size:11px;font-weight:600}
-
-/* ── HEADER ── */
-.app-header{background:var(--card);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
-.hname{font-family:'Syne',sans-serif;font-weight:800;font-size:15px;color:var(--gold)}
-.hsub{font-size:11px;color:var(--muted)}
-
-/* ── NAV ── */
-.app-nav{background:var(--card);border-bottom:1px solid var(--border);padding:8px 14px;display:flex;gap:5px;overflow-x:auto}
-.app-nav::-webkit-scrollbar{height:0}
-.nav-btn{padding:7px 13px;border-radius:8px;font-weight:600;font-size:12px;color:var(--muted);background:transparent;border:1px solid transparent;white-space:nowrap;flex-shrink:0}
-.nav-btn.active{background:linear-gradient(135deg,var(--gold),var(--amber));color:#000}
-.app-content{flex:1;padding:16px;overflow-y:auto}
-
-/* ── CARD ── */
-.card{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:15px;margin-bottom:12px}
-.card-title{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;margin-bottom:12px}
-.stat-box{border-radius:12px;padding:14px;text-align:center}
-.stat-num{font-family:'Syne',sans-serif;font-size:22px;font-weight:900}
-.stat-lbl{font-size:11px;color:var(--muted);margin-top:2px}
-.list-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border);gap:8px}
-.list-row:last-child{border-bottom:none}
-.flex{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.flex-between{display:flex;align-items:center;justify-content:space-between;gap:8px}
-
-/* ── REFERRAL SHARE CARD ── */
-.share-card{
-  background:linear-gradient(135deg,#1a1030,#0f1a30);
-  border:1px solid #f0a50033;border-radius:16px;padding:18px;margin-bottom:14px;
-}
-.share-title{font-family:'Syne',sans-serif;font-size:18px;font-weight:900;color:var(--gold);margin-bottom:4px}
-.share-msg-preview{
-  background:#07070e;border:1px solid var(--border);border-radius:10px;
-  padding:12px;margin:12px 0;font-size:13px;line-height:1.7;color:var(--text);
-  white-space:pre-wrap;word-break:break-all;
-}
-.ref-link{color:var(--blue);font-weight:600;word-break:break-all}
-.share-btns{display:flex;gap:8px;flex-wrap:wrap}
-
-/* ── CHAIN TREE ── */
-.tree-node-inner{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
-.tree-children{margin-left:22px;border-left:2px solid var(--border);padding-left:12px}
-
-/* ── OTHER ── */
-.prod-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:13px}
-.prod-price{font-family:'Syne',sans-serif;font-size:20px;font-weight:900;color:var(--gold)}
-.staff-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:13px;text-align:center}
-.oc{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:12px;margin-bottom:9px}
-.empty{text-align:center;padding:36px 20px;color:var(--muted)}
-.empty-icon{font-size:38px;display:block;margin-bottom:8px}
-.search-box{background:#07070e;border:1px solid var(--border);border-radius:9px;padding:9px 12px;color:var(--text);font-size:13px;width:100%;max-width:220px;-webkit-appearance:none}
-.search-box:focus{border-color:var(--gold)}
-.sus-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:50vh;gap:12px;text-align:center}
-.chat-area{background:#07070e;border:1px solid var(--border);border-radius:11px;padding:12px;min-height:240px;max-height:320px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;margin-bottom:11px}
-.msg{display:flex}.msg.me{justify-content:flex-end}
-.bubble{max-width:80%;padding:10px 13px;border-radius:16px;line-height:1.55;font-size:13px;white-space:pre-wrap}
-.msg.ai .bubble{background:#1a1a2e;border:1px solid var(--border);border-radius:16px 16px 16px 3px}
-.msg.me .bubble{background:linear-gradient(135deg,var(--gold),var(--amber));color:#000;font-weight:500;border-radius:16px 16px 3px 16px}
-.chat-inp{display:flex;gap:7px}
-.chat-inp input{flex:1;background:#07070e;border:1px solid var(--border);border-radius:9px;padding:11px 12px;color:var(--text);font-size:13px;-webkit-appearance:none}
-.chat-inp input:focus{border-color:var(--gold)}
-.key-box{background:#07070e;border:2px dashed var(--border);border-radius:12px;padding:18px;text-align:center;margin-bottom:12px}
-
-#toast-msg{position:fixed;bottom:18px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--card);border:1px solid var(--border);padding:9px 18px;border-radius:10px;font-size:13px;font-weight:600;opacity:0;transition:all .28s;z-index:9999;box-shadow:0 4px 20px rgba(0,0,0,.5);white-space:nowrap;max-width:90vw}
-#toast-msg.show{transform:translateX(-50%) translateY(0);opacity:1}
-
-@media(max-width:560px){.g4{grid-template-columns:1fr 1fr}.g3{grid-template-columns:1fr 1fr}.g2{grid-template-columns:1fr}}
-</style>
-</head>
-<body>
-<div id="toast-msg"></div>
-
-<!-- ═══ AUTH SCREEN ═══ -->
-<div id="authScreen">
-  <div class="auth-card">
-    <div class="logo">
-      <span class="logo-icon">🏪</span>
-      <div class="logo-name">ShopOS</div>
-      <div class="logo-sub">Dukan se Dukan — Chain System</div>
-    </div>
-
-    <!-- REFERRAL BANNER (shows if ?ref= in URL) -->
-    <div class="ref-banner" id="refBanner" style="display:none">
-      <div style="font-size:12px;color:var(--muted);margin-bottom:4px">🔗 Aapko invite kiya hai</div>
-      <div class="ref-banner-name" id="refBannerName">—</div>
-      <div class="ref-banner-sub" id="refBannerSub">Unki chain mein join karo aur badhao business!</div>
-    </div>
-
-    <div class="tab-row">
-      <button class="tab-btn active" id="tL" onclick="showTab('login')">🔑 Login</button>
-      <button class="tab-btn" id="tR" onclick="showTab('reg')">🆕 Register</button>
-    </div>
-
-    <!-- LOGIN -->
-    <div id="loginForm">
-      <div class="field"><label class="field-label">Username</label><input class="field-input" type="text" id="LU" placeholder="username daalo" autocomplete="username"/></div>
-      <div class="field"><label class="field-label">Password</label><input class="field-input" type="password" id="LP" placeholder="••••••" autocomplete="current-password"/></div>
-      <div id="LE"></div>
-      <button class="btn btn-gold btn-block" onclick="login()">🚀 Login Karo</button>
-      <p style="text-align:center;margin-top:12px;color:var(--muted);font-size:12px">Super Admin: <b style="color:var(--gold)">superadmin</b> / <b style="color:var(--gold)">super@123</b></p>
-    </div>
-
-    <!-- REGISTER -->
-    <div id="regForm" style="display:none">
-      <div class="field">
-        <label class="field-label">Referral Code (optional)</label>
-        <input class="field-input" type="text" id="RC" placeholder="Kisi ne diya ho to daalo" style="letter-spacing:2px;text-transform:uppercase" oninput="checkRef()"/>
-        <div id="RC_info" style="font-size:12px;margin-top:4px;color:var(--muted)"></div>
-      </div>
-      <div class="g2">
-        <div class="field"><label class="field-label">Dukan Naam *</label><input class="field-input" type="text" id="RS" placeholder="Sharma Store"/></div>
-        <div class="field"><label class="field-label">Malik Naam *</label><input class="field-input" type="text" id="RO" placeholder="Ramesh"/></div>
-        <div class="field"><label class="field-label">Username *</label><input class="field-input" type="text" id="RU" placeholder="sharma123" autocomplete="username"/></div>
-        <div class="field"><label class="field-label">Category</label>
-          <select class="field-select" id="RCAT"><option>General Store</option><option>Grocery</option><option>Clothing</option><option>Electronics</option><option>Pharmacy</option><option>Restaurant</option><option>Hardware</option><option>Stationery</option><option>Jewellery</option><option>Other</option></select>
-        </div>
-        <div class="field"><label class="field-label">Phone</label><input class="field-input" type="tel" id="RPH" placeholder="9876543210"/></div>
-        <div class="field"><label class="field-label">Email</label><input class="field-input" type="email" id="REM" placeholder="abc@gmail.com"/></div>
-        <div class="field"><label class="field-label">Password *</label><input class="field-input" type="password" id="RP" placeholder="6+ chars" autocomplete="new-password"/></div>
-        <div class="field"><label class="field-label">Confirm Pass *</label><input class="field-input" type="password" id="RP2" placeholder="••••••" autocomplete="new-password"/></div>
-      </div>
-      <div class="field"><label class="field-label">Address</label><input class="field-input" type="text" id="RAD" placeholder="Gali No. 5, Bazar..."/></div>
-      <div id="RE"></div>
-      <button class="btn btn-gold btn-block" onclick="register()">🏪 Dukan Kholo!</button>
-    </div>
-  </div>
-</div>
-
-<!-- ═══ MAIN APP ═══ -->
-<div id="appScreen">
-  <div class="app-header">
-    <div style="display:flex;align-items:center;gap:10px">
-      <span style="font-size:22px">🏪</span>
-      <div>
-        <div class="hname" id="HN">ShopOS</div>
-        <div class="hsub" id="HS"></div>
-      </div>
-    </div>
-    <div style="display:flex;align-items:center;gap:8px">
-      <span class="badge" id="HB" style="background:#f0a50020;color:var(--gold);border:1px solid #f0a50040;font-size:11px"></span>
-      <button class="btn btn-red btn-sm" onclick="logout()">🚪</button>
-    </div>
-  </div>
-  <div class="app-nav" id="appNav"></div>
-  <div class="app-content" id="appContent"></div>
-</div>
-
-<!-- ═══ MODAL ═══ -->
-<div style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:500;align-items:center;justify-content:center;padding:16px" id="modalBg">
-  <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;width:100%;max-width:500px;max-height:88vh;overflow-y:auto">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
-      <div style="font-family:Syne,sans-serif;font-weight:800;font-size:15px" id="modalTitle"></div>
-      <button class="btn btn-ghost btn-sm" onclick="closeMo()">✕</button>
-    </div>
-    <div id="modalBody"></div>
-  </div>
-</div>
-
-<script>
-const $=id=>document.getElementById(id);
-const uid=()=>Math.random().toString(36).slice(2,9);
-const mkCode=()=>Math.random().toString(36).slice(2,8).toUpperCase();
-const now=()=>new Date().toLocaleString('en-IN');
-const esc=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-const DB={
-  g:k=>{try{return JSON.parse(localStorage.getItem(k))}catch{return null}},
-  s:(k,v)=>localStorage.setItem(k,JSON.stringify(v)),
-  d:k=>localStorage.removeItem(k),
-  ks:p=>Object.keys(localStorage).filter(k=>k.startsWith(p))
-};
-const DEF_ROLES=['Manager','Employee','Distributor','Agent','Worker','Accountant','Delivery Boy'];
-const SUPER={u:'superadmin',p:'super@123'};
-let CU=null,CS=null,TAB='dashboard';
-
-// ═══ TOAST ═══
-let _tt;
-function toast(msg,t){const el=$('toast-msg');el.textContent=msg;el.style.color=t==='err'?'#ef4444':'#22c55e';el.classList.add('show');clearTimeout(_tt);_tt=setTimeout(()=>el.classList.remove('show'),2600)}
-
-// ═══ MODAL ═══
-function openMo(tl,html){$('modalTitle').textContent=tl;$('modalBody').innerHTML=html;$('modalBg').style.display='flex'}
-function closeMo(){$('modalBg').style.display='none'}
-$('modalBg').addEventListener('click',e=>{if(e.target===$('modalBg'))closeMo()});
-
-// ═══ URL REFERRAL ═══
-function getPageURL(){return window.location.origin+window.location.pathname}
-function getRefLinkFor(shop){return getPageURL()+'?ref='+shop.refCode}
-
-// Auto-fill referral from URL
-(function(){
-  const params=new URLSearchParams(window.location.search);
-  const ref=params.get('ref');
-  if(!ref)return;
-  // Show register tab
-  setTimeout(()=>{
-    showTab('reg');
-    const inp=$('RC');
-    if(inp){inp.value=ref.toUpperCase();checkRef()}
-  },100);
-})();
-
-function checkRef(){
-  const code=($('RC')||{}).value.trim().toUpperCase();
-  const info=$('RC_info');if(!info)return;
-  if(!code){info.textContent='';return}
-  const shops=DB.ks('shop:').map(k=>DB.g(k)).filter(Boolean);
-  const found=shops.find(s=>s.refCode===code);
-  info.textContent=found?'✅ Dukan mili: '+found.shopName+' ('+found.ownerName+')':'❌ Ye referral code sahi nahi hai';
-  info.style.color=found?'#22c55e':'#ef4444';
-  // Show banner
-  if(found){
-    const b=$('refBanner'),bn=$('refBannerName');
-    if(b&&bn){b.style.display='';bn.textContent=found.shopName+' — '+found.ownerName}
-  }
-}
-
-// ═══ AUTH ═══
-function showTab(t){
-  $('tL').className='tab-btn'+(t==='login'?' active':'');
-  $('tR').className='tab-btn'+(t==='reg'?' active':'');
-  $('loginForm').style.display=t==='login'?'':'none';
-  $('regForm').style.display=t==='reg'?'':'none';
-}
-
-function login(){
-  const u=$('LU').value.trim(),p=$('LP').value,err=$('LE');
-  if(!u||!p){err.innerHTML='<div class="alert-err">❌ Username aur password daalo!</div>';return}
-  if(u===SUPER.u&&p===SUPER.p){CU={role:'superadmin',username:u};err.innerHTML='';startApp();return}
-  for(const k of DB.ks('shop:')){
-    const s=DB.g(k);if(!s)continue;
-    if(s.username===u&&s.password===p){CU={...s,role:'owner'};CS=s;err.innerHTML='';startApp();return}
-    const m=(s.staff||[]).find(x=>x.username===u&&x.password===p);
-    if(m){CU={...m,shopId:s.id,role:'staff'};CS=s;err.innerHTML='';startApp();return}
-  }
-  err.innerHTML='<div class="alert-err">❌ Galat username ya password!</div>';
-}
-
-function register(){
-  const sn=$('RS').value.trim(),on=$('RO').value.trim(),un=$('RU').value.trim(),pw=$('RP').value,pw2=$('RP2').value,err=$('RE');
-  if(!sn||!on||!un||!pw){err.innerHTML='<div class="alert-err">❌ Zaroori (*) fields bharo!</div>';return}
-  if(pw!==pw2){err.innerHTML='<div class="alert-err">❌ Password match nahi hua!</div>';return}
-  if(pw.length<6){err.innerHTML='<div class="alert-err">❌ Password 6+ characters!</div>';return}
-  for(const k of DB.ks('shop:')){const s=DB.g(k);if(s&&s.username===un){err.innerHTML='<div class="alert-err">❌ Username pehle se hai!</div>';return}}
-  const rc=($('RC')||{}).value.trim().toUpperCase();
-  let parentId=null,level=1;
-  if(rc){
-    const shops=DB.ks('shop:').map(k=>DB.g(k)).filter(Boolean);
-    const parent=shops.find(s=>s.refCode===rc);
-    if(!parent){err.innerHTML='<div class="alert-err">❌ Referral code sahi nahi!</div>';return}
-    parentId=parent.id;level=(parent.level||1)+1;
-  }
-  const shop={id:uid(),shopName:sn,ownerName:on,phone:$('RPH').value,email:$('REM').value,username:un,password:pw,address:$('RAD').value,category:$('RCAT').value,role:'owner',createdAt:now(),status:'active',parentId:parentId,refCode:mkCode(),level:level,staff:[],products:[],orders:[],roles:[...DEF_ROLES],settings:{currency:'₹',gst:'18',invoicePrefix:'INV'}};
-  DB.s('shop:'+shop.id,shop);
-  CU={...shop,role:'owner'};CS=shop;err.innerHTML='';startApp();
-}
-
-function logout(){CU=null;CS=null;TAB='dashboard';$('appScreen').style.display='none';$('authScreen').style.display='flex';$('LU').value='';$('LP').value='';$('LE').innerHTML='';history.pushState({},'',window.location.pathname)}
-function startApp(){$('authScreen').style.display='none';$('appScreen').style.display='flex';rCS();buildHeader();buildNav();renderTab()}
-function rCS(){if(!CU)return;if(CU.role==='staff')CS=DB.g('shop:'+CU.shopId)||CS;else if(CU.role==='owner')CS=DB.g('shop:'+CU.id)||CS}
-
-function buildHeader(){
-  if(CU.role==='superadmin'){$('HN').textContent='ShopOS Control';$('HS').textContent='Super Admin';$('HB').textContent='👑 Super Admin';$('HB').style.cssText='background:#f0a50020;color:var(--gold);border:1px solid #f0a50040;padding:3px 10px;border-radiu.share-btns{display:flex;gap:8px;flex-wrap:wrap}
-
-/* ── CHAIN TREE ── */
-.tree-node-inner{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
-.tree-children{margin-left:22px;border-left:2px solid var(--border);padding-left:12px}
-
-/* ── OTHER ── */
-.prod-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:13px}
-.prod-price{font-family:'Syne',sans-serif;font-size:20px;font-weight:900;color:var(--gold)}
-.staff-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:13px;text-align:center}
-.oc{background:var(--card);border:1px solid var(--border);border-radius:11px;padding:12px;margin-bottom:9px}
-.empty{text-align:center;padding:36px 20px;color:var(--muted)}
-.empty-icon{font-size:38px;display:block;margin-bottom:8px}
-.search-box{background:#07070e;border:1px solid var(--border);border-radius:9px;padding:9px 12px;color:var(--text);font-size:13px;width:100%;max-width:220px;-webkit-appearance:none}
-.search-box:focus{border-color:var(--gold)}
-.sus-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:50vh;gap:12px;text-align:center}
-.chat-area{background:#07070e;border:1px solid var(--border);border-radius:11px;padding:12px;min-height:240px;max-height:320px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;margin-bottom:11px}
-.msg{display:flex}.msg.me{justify-content:flex-end}
-.bubble{max-width:80%;padding:10px 13px;border-radius:16px;line-height:1.55;font-size:13px;white-space:pre-wrap}
-.msg.ai .bubble{background:#1a1a2e;border:1px solid var(--border);border-radius:16px 16px 16px 3px}
-.msg.me .bubble{background:linear-gradient(135deg,var(--gold),var(--amber));color:#000;font-weight:500;border-radius:16px 16px 3px 16px}
-.chat-inp{display:flex;gap:7px}
-.chat-inp input{flex:1;background:#07070e;border:1px solid var(--border);border-radius:9px;padding:11px 12px;color:var(--text);font-size:13px;-webkit-appearance:none}
-.chat-inp input:focus{border-color:var(--gold)}
-.key-box{background:#07070e;border:2px dashed var(--border);border-radius:12px;padding:18px;text-align:center;margin-bottom:12px}
-
-#toast-msg{position:fixed;bottom:18px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--card);border:1px solid var(--border);padding:9px 18px;border-radius:10px;font-size:13px;font-weight:600;opacity:0;transition:all .28s;z-index:9999;box-shadow:0 4px 20px rgba(0,0,0,.5);white-space:nowrap;max-width:90vw}
-#toast-msg.show{transform:translateX(-50%) translateY(0);opacity:1}
-
-@media(max-width:560px){.g4{grid-template-columns:1fr 1fr}.g3{grid-template-columns:1fr 1fr}.g2{grid-template-columns:1fr}}
-</style>
-</head>
-<body>
-<div id="toast-msg"></div>
-
-<!-- ═══ AUTH SCREEN ═══ -->
-<div id="authScreen">
-  <div class="auth-card">
-    <div class="logo">
-      <span class="logo-icon">🏪</span>
-      <div class="logo-name">ShopOS</div>
-      <div class="logo-sub">Dukan se Dukan — Chain System</div>
-    </div>
-
-    <!-- REFERRAL BANNER (shows if ?ref= in URL) -->
-    <div class="ref-banner" id="refBanner" style="display:none">
-      <div style="font-size:12px;color:var(--muted);margin-bottom:4px">🔗 Aapko invite kiya hai</div>
-      <div class="ref-banner-name" id="refBannerName">—</div>
-      <div class="ref-banner-sub" id="refBannerSub">Unki chain mein join karo aur badhao business!</div>
-    </div>
-
-    <div class="tab-row">
-      <button class="tab-btn active" id="tL" onclick="showTab('login')">🔑 Login</button>
-      <button class="tab-btn" id="tR" onclick="showTab('reg')">🆕 Register</button>
-    </div>
-
-    <!-- LOGIN -->
-    <div id="loginForm">
-      <div class="field"><label class="field-label">Username</label><input class="field-input" type="text" id="LU" placeholder="username daalo" autocomplete="username"/></div>
-      <div class="field"><label class="field-label">Password</label><input class="field-input" type="password" id="LP" placeholder="••••••" autocomplete="current-password"/></div>
-      <div id="LE"></div>
-      <button class="btn btn-gold btn-block" onclick="login()">🚀 Login Karo</button>
-      <p style="text-align:center;margin-top:12px;color:var(--muted);font-size:12px">Super Admin: <b style="color:var(--gold)">superadmin</b> / <b style="color:var(--gold)">super@123</b></p>
-    </div>
-
-    <!-- REGISTER -->
-    <div id="regForm" style="display:none">
-      <div class="field">
-        <label class="field-label">Referral Code (optional)</label>
-        <input class="field-input" type="text" id="RC" placeholder="Kisi ne diya ho to daalo" style="letter-spacing:2px;text-transform:uppercase" oninput="checkRef()"/>
-        <div id="RC_info" style="font-size:12px;margin-top:4px;color:var(--muted)"></div>
-      </div>
-      <div class="g2">
-        <div class="field"><label class="field-label">Dukan Naam *</label><input class="field-input" type="text" id="RS" placeholder="Sharma Store"/></div>
-        <div class="field"><label class="field-label">Malik Naam *</label><input class="field-input" type="text" id="RO" placeholder="Ramesh"/></div>
-        <div class="field"><label class="field-label">Username *</label><input class="field-input" type="text" id="RU" placeholder="sharma123" autocomplete="username"/></div>
-        <div class="field"><label class="field-label">Category</label>
-          <select class="field-select" id="RCAT"><option>General Store</option><option>Grocery</option><option>Clothing</option><option>Electronics</option><option>Pharmacy</option><option>Restaurant</option><option>Hardware</option><option>Stationery</option><option>Jewellery</option><option>Other</option></select>
-        </div>
-        <div class="field"><label class="field-label">Phone</label><input class="field-input" type="tel" id="RPH" placeholder="9876543210"/></div>
-        <div class="field"><label class="field-label">Email</label><input class="field-input" type="email" id="REM" placeholder="abc@gmail.com"/></div>
-        <div class="field"><label class="field-label">Password *</label><input class="field-input" type="password" id="RP" placeholder="6+ chars" autocomplete="new-password"/></div>
-        <div class="field"><label class="field-label">Confirm Pass *</label><input class="field-input" type="password" id="RP2" placeholder="••••••" autocomplete="new-password"/></div>
-      </div>
-      <div class="field"><label class="field-label">Address</label><input class="field-input" type="text" id="RAD" placeholder="Gali No. 5, Bazar..."/></div>
-      <div id="RE"></div>
-      <button class="btn btn-gold btn-block" onclick="register()">🏪 Dukan Kholo!</button>
-    </div>
-  </div>
-</div>
-
-<!-- ═══ MAIN APP ═══ -->
-<div id="appScreen">
-  <div class="app-header">
-    <div style="display:flex;align-items:center;gap:10px">
-      <span style="font-size:22px">🏪</span>
-      <div>
-        <div class="hname" id="HN">ShopOS</div>
-        <div class="hsub" id="HS"></div>
-      </div>
-    </div>
-    <div style="display:flex;align-items:center;gap:8px">
-      <span class="badge" id="HB" style="background:#f0a50020;color:var(--gold);border:1px solid #f0a50040;font-size:11px"></span>
-      <button class="btn btn-red btn-sm" onclick="logout()">🚪</button>
-    </div>
-  </div>
-  <div class="app-nav" id="appNav"></div>
-  <div class="app-content" id="appContent"></div>
-</div>
-
-<!-- ═══ MODAL ═══ -->
-<div style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:500;align-items:center;justify-content:center;padding:16px" id="modalBg">
-  <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;width:100%;max-width:500px;max-height:88vh;overflow-y:auto">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
-      <div style="font-family:Syne,sans-serif;font-weight:800;font-size:15px" id="modalTitle"></div>
-      <button class="btn btn-ghost btn-sm" onclick="closeMo()">✕</button>
-    </div>
-    <div id="modalBody"></div>
-  </div>
-</div>
-
-<script>
-const $=id=>document.getElementById(id);
-const uid=()=>Math.random().toString(36).slice(2,9);
-const mkCode=()=>Math.random().toString(36).slice(2,8).toUpperCase();
-const now=()=>new Date().toLocaleString('en-IN');
-const esc=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-const DB={
-  g:k=>{try{return JSON.parse(localStorage.getItem(k))}catch{return null}},
-  s:(k,v)=>localStorage.setItem(k,JSON.stringify(v)),
-  d:k=>localStorage.removeItem(k),
-  ks:p=>Object.keys(localStorage).filter(k=>k.startsWith(p))
-};
-const DEF_ROLES=['Manager','Employee','Distributor','Agent','Worker','Accountant','Delivery Boy'];
-const SUPER={u:'superadmin',p:'super@123'};
-let CU=null,CS=null,TAB='dashboard';
-
-// ═══ TOAST ═══
-let _tt;
-function toast(msg,t){const el=$('toast-msg');el.textContent=msg;el.style.color=t==='err'?'#ef4444':'#22c55e';el.classList.add('show');clearTimeout(_tt);_tt=setTimeout(()=>el.classList.remove('show'),2600)}
-
-// ═══ MODAL ═══
-function openMo(tl,html){$('modalTitle').textContent=tl;$('modalBody').innerHTML=html;$('modalBg').style.display='flex'}
-function closeMo(){$('modalBg').style.display='none'}
-$('modalBg').addEventListener('click',e=>{if(e.target===$('modalBg'))closeMo()});
-
-// ═══ URL REFERRAL ═══
-function getPageURL(){return window.location.origin+window.location.pathname}
-function getRefLinkFor(shop){return getPageURL()+'?ref='+shop.refCode}
-
-// Auto-fill referral from URL
-(function(){
-  const params=new URLSearchParams(window.location.search);
-  const ref=params.get('ref');
-  if(!ref)return;
-  // Show register tab
-  setTimeout(()=>{
-    showTab('reg');
-    const inp=$('RC');
-    if(inp){inp.value=ref.toUpperCase();checkRef()}
-  },100);
-})();
-
-function checkRef(){
-  const code=($('RC')||{}).value.trim().toUpperCase();
-  const info=$('RC_info');if(!info)return;
-  if(!code){info.textContent='';return}
-  const shops=DB.ks('shop:').map(k=>DB.g(k)).filter(Boolean);
-  const found=shops.find(s=>s.refCode===code);
-  info.textContent=found?'✅ Dukan mili: '+found.shopName+' ('+found.ownerName+')':'❌ Ye referral code sahi nahi hai';
-  info.style.color=found?'#22c55e':'#ef4444';
-  // Show banner
-  if(found){
-    const b=$('refBanner'),bn=$('refBannerName');
-    if(b&&bn){b.style.display='';bn.textContent=found.shopName+' — '+found.ownerName}
-  }
-}
-
-// ═══ AUTH ═══
-function showTab(t){
-  $('tL').className='tab-btn'+(t==='login'?' active':'');
-  $('tR').className='tab-btn'+(t==='reg'?' active':'');
-  $('loginForm').style.display=t==='login'?'':'none';
-  $('regForm').style.display=t==='reg'?'':'none';
-}
-
-function login(){
-  const u=$('LU').value.trim(),p=$('LP').value,err=$('LE');
-  if(!u||!p){err.innerHTML='<div class="alert-err">❌ Username aur password daalo!</div>';return}
-  if(u===SUPER.u&&p===SUPER.p){CU={role:'superadmin',username:u};err.innerHTML='';startApp();return}
-  for(const k of DB.ks('shop:')){
-    const s=DB.g(k);if(!s)continue;
-    if(s.username===u&&s.password===p){CU={...s,role:'owner'};CS=s;err.innerHTML='';startApp();return}
-    const m=(s.staff||[]).find(x=>x.username===u&&x.password===p);
-    if(m){CU={...m,shopId:s.id,role:'staff'};CS=s;err.innerHTML='';startApp();return}
-  }
-  err.innerHTML='<div class="alert-err">❌ Galat username ya password!</div>';
-}
-
-function register(){
-  const sn=$('RS').value.trim(),on=$('RO').value.trim(),un=$('RU').value.trim(),pw=$('RP').value,pw2=$('RP2').value,err=$('RE');
-  if(!sn||!on||!un||!pw){err.innerHTML='<div class="alert-err">❌ Zaroori (*) fields bharo!</div>';return}
-  if(pw!==pw2){err.innerHTML='<div class="alert-err">❌ Password match nahi hua!</div>';return}
-  if(pw.length<6){err.innerHTML='<div class="alert-err">❌ Password 6+ characters!</div>';return}
-  for(const k of DB.ks('shop:')){const s=DB.g(k);if(s&&s.username===un){err.innerHTML='<div class="alert-err">❌ Username pehle se hai!</div>';return}}
-  const rc=($('RC')||{}).value.trim().toUpperCase();
-  let parentId=null,level=1;
-  if(rc){
-    const shops=DB.ks('shop:').map(k=>DB.g(k)).filter(Boolean);
-    const parent=shops.find(s=>s.refCode===rc);
-    if(!parent){err.innerHTML='<div class="alert-err">❌ Referral code sahi nahi!</div>';return}
-    parentId=parent.id;level=(parent.level||1)+1;
-  }
-  const shop={id:uid(),shopName:sn,ownerName:on,phone:$('RPH').value,email:$('REM').value,username:un,password:pw,address:$('RAD').value,category:$('RCAT').value,role:'owner',createdAt:now(),status:'active',parentId:parentId,refCode:mkCode(),level:level,staff:[],products:[],orders:[],roles:[...DEF_ROLES],settings:{currency:'₹',gst:'18',invoicePrefix:'INV'}};
-  DB.s('shop:'+shop.id,shop);
-  CU={...shop,role:'owner'};CS=shop;err.innerHTML='';startApp();
-}
-
-function logout(){CU=null;CS=null;TAB='dashboard';$('appScreen').style.display='none';$('authScreen').style.display='flex';$('LU').value='';$('LP').value='';$('LE').innerHTML='';history.pushState({},'',window.location.pathname)}
-function startApp(){$('authScreen').style.display='none';$('appScreen').style.display='flex';rCS();buildHeader();buildNav();renderTab()}
-function rCS(){if(!CU)return;if(CU.role==='staff')CS=DB.g('shop:'+CU.shopId)||CS;else if(CU.role==='owner')CS=DB.g('shop:'+CU.id)||CS}
-
-function buildHeader(){
-  if(CU.role==='superadmin'){$('HN').textContent='ShopOS Control';$('HS').textContent='Super Admin';$('HB').textContent='👑 Super Admin';$('HB').style.cssText='background:#f0a50020;color:var(--gold);border:1px solid #f0a50040;padding:3px 10px;border-radiu
+    if(m){CU={...
